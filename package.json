@@ -1,0 +1,27 @@
+{
+  "name": "appurdex",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "dev:api": "node server/appurdex-server.mjs",
+    "start": "node server/appurdex-server.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "worker:sync": "node server/worker.mjs",
+    "discover:github": "node scripts/discover-github-tools.mjs --limit=750 --max-calls=60 --timeout-ms=15000 --write=src/data/discoveredGithubTools.js",
+    "logos:enrich": "node scripts/enrich-agent-logos.mjs",
+    "test": "node --test server/change-types.test.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "resend": "^6.17.1",
+    "stripe": "^22.3.0",
+    "typescript": "latest",
+    "vite": "latest"
+  }
+}
