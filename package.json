@@ -10,9 +10,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "worker:sync": "node server/worker.mjs",
+    "licensed:ingest": "node scripts/import-licensed-source.mjs",
     "discover:github": "node scripts/discover-github-tools.mjs --limit=750 --max-calls=60 --timeout-ms=15000 --write=src/data/discoveredGithubTools.js",
     "logos:enrich": "node scripts/enrich-agent-logos.mjs",
-    "test": "node --test server/change-types.test.mjs"
+    "test": "node --test server/change-types.test.mjs server/licensed-source-ingest.test.mjs server/use-case-taxonomy.test.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
@@ -25,3 +26,5 @@
     "vite": "latest"
   }
 }
+
+

@@ -1,4 +1,4 @@
-﻿const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
 const LOCAL_API_BASE = "http://127.0.0.1:8791";
 
 function navigationApiBase() {
@@ -39,6 +39,13 @@ export function getPublicAgents() {
   return request("/api/public/agents");
 }
 
+export function getUseCases(group = "all") {
+  return request(`/api/use-cases?group=${encodeURIComponent(group)}`);
+}
+
+export function getUseCase(slug, group = "all") {
+  return request(`/api/use-cases/${encodeURIComponent(slug)}?group=${encodeURIComponent(group)}`);
+}
 export function getAdminState() {
   return request("/api/admin/state");
 }
@@ -92,6 +99,14 @@ export function createPortalSession() {
 
 export function createCustomerApiKey(payload) {
   return request("/api/auth/api-keys", { method: "POST", body: JSON.stringify(payload) });
+}
+
+export function getAssistantConfig() {
+  return request("/api/appurdex-ai/config");
+}
+
+export function sendAssistantMessage(payload) {
+  return request("/api/appurdex-ai/chat", { method: "POST", body: JSON.stringify(payload) });
 }
 export function researchSearch(query) {
   return request("/api/search/research", { method: "POST", body: JSON.stringify({ query }) });

@@ -10,6 +10,21 @@ export type ApiEnvelope<T> = {
   [key: string]: unknown;
 };
 
+export type UseCaseGroup = "coding_specific" | "general_purpose" | "all";
+
+export type UseCaseSummary = {
+  slug: string;
+  label: string;
+  group: "coding_specific" | "general_purpose";
+  description: string;
+  count: number;
+  path: string;
+};
+
+export type UseCaseDetail = {
+  useCase: UseCaseSummary;
+  products: Array<Record<string, unknown>>;
+};
 export type ResearchSearchResult = {
   summary: string;
   parserSource: string;
@@ -72,6 +87,10 @@ export class AppurdexClient {
     return payload as T;
   }
 
+  useCases = {
+    list: (group: UseCaseGroup = "all") => this.request<ApiEnvelope<UseCaseSummary[]>>("/api/use-cases", { query: { group } }),
+    get: (slug: string, group: UseCaseGroup = "all") => this.request<ApiEnvelope<UseCaseDetail>>(`/api/use-cases/${encodeURIComponent(slug)}`, { query: { group } }),
+  };
   search = {
     research: (query: string) => this.request<ApiEnvelope<ResearchSearchResult>>("/api/search/research", { method: "POST", body: { query } }),
   };

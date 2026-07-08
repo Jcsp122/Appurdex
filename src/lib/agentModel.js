@@ -1,6 +1,8 @@
 import { modelPricingCatalog, modelPricingRefsForAgent, modelPricingSources } from '../data/modelPricing.js';
 import { fieldDataPolicies, freeDataSources } from '../data/sourceCatalog.js';
 import { vendorProductMap } from '../data/vendorCatalog.js';
+import { productUseCaseTags } from '../data/useCaseProductTags.js';
+import { normalizeUseCases } from '../data/useCaseTaxonomy.js';
 
 export const supportedLanguages = ['en', 'ja', 'ko', 'zh'];
 
@@ -64,12 +66,12 @@ export const apiPlans = [
     id: 'free',
     name: 'Free',
     priceMonthly: 0,
-    apiMonthlyLimit: 500,
+    apiMonthlyLimit: 0,
     compareLimit: 2,
-    apiAccess: true,
+    apiAccess: false,
     freshnessTier: 'Default freshness',
-    note: 'Public directory, limited compare, and 500 snapshot API requests per month for signed-in users.',
-    entitlements: ['Public listings', 'Limited compare', '500 snapshot API requests/month', 'Usage dashboard', 'Visible source and unknown-state labels'],
+    note: 'Public directory and limited compare. Subscriber API keys start on Starter.',
+    entitlements: ['Public listings', 'Limited compare', 'Usage dashboard', 'Visible source and unknown-state labels'],
   },
   {
     id: 'starter',
@@ -412,6 +414,10 @@ function searchKeywordsForTool(tool, slug) {
   ]);
 }
 
+function useCasesForTool(tool, slug) {
+  return normalizeUseCases(tool.use_cases?.length ? tool.use_cases : tool.useCases?.length ? tool.useCases : productUseCaseTags[slug]);
+}
+
 function useCaseWeightForTool(tool, slug) {
   if (tool.useCaseWeight && typeof tool.useCaseWeight === 'object') return tool.useCaseWeight;
   const text = [tool.name, tool.description, tool.category, tool.ecosystem, tool.githubRepo, ...searchKeywordsForTool(tool, slug)].join(' ').toLowerCase();
@@ -462,6 +468,7 @@ export function normalizeAgent(tool, sourceCheck, githubMetric) {
     slug,
     searchKeywords: searchKeywordsForTool(tool, slug),
     useCaseWeight: useCaseWeightForTool(tool, slug),
+    use_cases: useCasesForTool(tool, slug),
     ecosystem,
     publicPath: vendorSlug ? '/vendors/' + vendorSlug + '/' + slug : '/ai/' + slug,
     legacyPublicPath: '/agents/' + slug,
@@ -566,6 +573,7 @@ export function buildStaticState(trackedTools) {
     modelPricingSources,
   };
 }
+
 
 
 

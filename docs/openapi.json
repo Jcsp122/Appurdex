@@ -3,121 +3,651 @@
   "info": {
     "title": "Appurdex API",
     "version": "2026-07-07",
-    "description": "Source-backed Appurdex monetization API. Free customer API keys are limited to 500 snapshot requests/month by default."
+    "description": "Source-backed Appurdex monetization API. Customer API keys are paid-only for Starter, Pro, Enterprise, and admin accounts."
   },
-  "servers": [{ "url": "https://appurdex.com" }, { "url": "http://127.0.0.1:8791" }],
+  "servers": [
+    {
+      "url": "https://appurdex.com"
+    },
+    {
+      "url": "http://127.0.0.1:8791"
+    }
+  ],
   "components": {
     "securitySchemes": {
-      "AppurdexApiKey": { "type": "apiKey", "in": "header", "name": "x-appurdex-api-key" },
-      "BearerAuth": { "type": "http", "scheme": "bearer" }
+      "AppurdexApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-appurdex-api-key"
+      },
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
     },
     "schemas": {
       "ApiEnvelope": {
         "type": "object",
         "properties": {
-          "apiVersion": { "type": "string" },
+          "apiVersion": {
+            "type": "string"
+          },
           "data": {}
         },
-        "required": ["apiVersion", "data"]
+        "required": [
+          "apiVersion",
+          "data"
+        ]
       },
       "ResearchSearchRequest": {
         "type": "object",
-        "properties": { "query": { "type": "string", "minLength": 1 } },
-        "required": ["query"]
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "query"
+        ]
       },
       "WebhookEndpointInput": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "targetUrl": { "type": "string", "format": "uri" },
-          "events": { "type": "array", "items": { "type": "string" } }
+          "name": {
+            "type": "string"
+          },
+          "targetUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         },
-        "required": ["targetUrl"]
+        "required": [
+          "targetUrl"
+        ]
       },
       "WatchlistInput": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "agentSlugs": { "type": "array", "items": { "type": "string" } }
+          "name": {
+            "type": "string"
+          },
+          "agentSlugs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
       },
       "SavedComparisonInput": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "mode": { "type": "string", "enum": ["products", "vendors", "models"] },
-          "slugs": { "type": "array", "items": { "type": "string" } }
+          "name": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "products",
+              "vendors",
+              "models"
+            ]
+          },
+          "slugs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
+      },
+      "UseCaseSummary": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string",
+            "enum": [
+              "coding_specific",
+              "general_purpose"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "slug",
+          "label",
+          "group",
+          "description",
+          "count",
+          "path"
+        ]
+      },
+      "UseCaseDetail": {
+        "type": "object",
+        "properties": {
+          "useCase": {
+            "$ref": "#/components/schemas/UseCaseSummary"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "useCase",
+          "products"
+        ]
       }
     }
   },
-  "security": [{ "AppurdexApiKey": [] }, { "BearerAuth": [] }],
+  "security": [
+    {
+      "AppurdexApiKey": []
+    },
+    {
+      "BearerAuth": []
+    }
+  ],
   "paths": {
     "/api/search/research": {
       "post": {
         "summary": "Natural-language source-backed research search",
         "description": "Uses rule parsing and optional OpenAI Responses API structured fallback when OPENAI_API_KEY is configured. No API key required for the public search route.",
         "security": [],
-        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResearchSearchRequest" } } } },
-        "responses": { "200": { "description": "Research search results", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ApiEnvelope" } } } } }
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResearchSearchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Research search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/agents": {
-      "get": { "summary": "List snapshot agent records", "description": "Free snapshot endpoint. Includes API version and source/verification metadata where applicable.", "responses": { "200": { "description": "Agent list" }, "429": { "description": "Monthly quota exhausted" } } }
+      "get": {
+        "summary": "List snapshot agent records",
+        "description": "Starter and above snapshot endpoint. Includes API version and source/verification metadata where applicable.",
+        "responses": {
+          "200": {
+            "description": "Agent list"
+          },
+          "429": {
+            "description": "Monthly quota exhausted"
+          }
+        }
+      }
     },
     "/api/v1/agents/{slug}": {
-      "get": { "summary": "Get one snapshot agent record", "description": "Free snapshot endpoint.", "parameters": [{ "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "Agent record" }, "404": { "description": "Agent not found" } } }
+      "get": {
+        "summary": "Get one snapshot agent record",
+        "description": "Starter and above snapshot endpoint.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agent record"
+          },
+          "404": {
+            "description": "Agent not found"
+          }
+        }
+      }
     },
     "/api/v1/categories": {
-      "get": { "summary": "List catalog categories", "description": "Free snapshot endpoint.", "responses": { "200": { "description": "Category names" } } }
+      "get": {
+        "summary": "List catalog categories",
+        "description": "Starter and above snapshot endpoint.",
+        "responses": {
+          "200": {
+            "description": "Category names"
+          }
+        }
+      }
     },
     "/api/v1/pricing": {
-      "get": { "summary": "List reviewed pricing snapshots", "description": "Starter, Pro, and Enterprise only.", "responses": { "200": { "description": "Pricing rows" }, "403": { "description": "Upgrade required" } } }
+      "get": {
+        "summary": "List reviewed pricing snapshots",
+        "description": "Starter, Pro, and Enterprise only.",
+        "responses": {
+          "200": {
+            "description": "Pricing rows"
+          },
+          "403": {
+            "description": "Upgrade required"
+          }
+        }
+      }
     },
     "/api/v1/model-pricing": {
-      "get": { "summary": "List source-backed model pricing", "description": "Starter, Pro, and Enterprise only.", "responses": { "200": { "description": "Model pricing rows" } } }
+      "get": {
+        "summary": "List source-backed model pricing",
+        "description": "Starter, Pro, and Enterprise only.",
+        "responses": {
+          "200": {
+            "description": "Model pricing rows"
+          }
+        }
+      }
     },
     "/api/v1/source-catalog": {
-      "get": { "summary": "List source catalog policy records", "description": "Starter, Pro, and Enterprise only.", "responses": { "200": { "description": "Source catalog" } } }
+      "get": {
+        "summary": "List source catalog policy records",
+        "description": "Starter, Pro, and Enterprise only.",
+        "responses": {
+          "200": {
+            "description": "Source catalog"
+          }
+        }
+      }
     },
     "/api/v1/watchlists": {
-      "get": { "summary": "List watchlists", "description": "Starter, Pro, and Enterprise only.", "responses": { "200": { "description": "Watchlists" } } },
-      "post": { "summary": "Create watchlist", "description": "Starter, Pro, and Enterprise only.", "requestBody": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/WatchlistInput" } } } }, "responses": { "201": { "description": "Watchlist created" } } }
+      "get": {
+        "summary": "List watchlists",
+        "description": "Starter, Pro, and Enterprise only.",
+        "responses": {
+          "200": {
+            "description": "Watchlists"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create watchlist",
+        "description": "Starter, Pro, and Enterprise only.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WatchlistInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Watchlist created"
+          }
+        }
+      }
     },
     "/api/v1/watchlists/{id}": {
-      "delete": { "summary": "Delete watchlist", "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "Deleted" }, "404": { "description": "Not found" } } }
+      "delete": {
+        "summary": "Delete watchlist",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
     },
     "/api/v1/saved-comparisons": {
-      "get": { "summary": "List saved comparisons", "description": "Starter, Pro, and Enterprise only.", "responses": { "200": { "description": "Saved comparisons" } } },
-      "post": { "summary": "Create saved comparison", "requestBody": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SavedComparisonInput" } } } }, "responses": { "201": { "description": "Saved comparison created" } } }
+      "get": {
+        "summary": "List saved comparisons",
+        "description": "Starter, Pro, and Enterprise only.",
+        "responses": {
+          "200": {
+            "description": "Saved comparisons"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create saved comparison",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SavedComparisonInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Saved comparison created"
+          }
+        }
+      }
     },
     "/api/v1/saved-comparisons/{id}": {
-      "delete": { "summary": "Delete saved comparison", "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "Deleted" }, "404": { "description": "Not found" } } }
+      "delete": {
+        "summary": "Delete saved comparison",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
     },
     "/api/v1/history/{slug}": {
-      "get": { "summary": "Get source-derived history", "description": "Pro and Enterprise only. History is derived from stored snapshots and source checks.", "parameters": [{ "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "History" }, "403": { "description": "Upgrade required" } } }
+      "get": {
+        "summary": "Get source-derived history",
+        "description": "Pro and Enterprise only. History is derived from stored snapshots and source checks.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History"
+          },
+          "403": {
+            "description": "Upgrade required"
+          }
+        }
+      }
     },
     "/api/v1/appurscore/{slug}": {
-      "get": { "summary": "Get AppurScore", "description": "Pro and Enterprise only. AppurScore is derived from available source-backed signals.", "parameters": [{ "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "AppurScore" } } }
+      "get": {
+        "summary": "Get AppurScore",
+        "description": "Pro and Enterprise only. AppurScore is derived from available source-backed signals.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AppurScore"
+          }
+        }
+      }
     },
     "/api/v1/alerts": {
-      "get": { "summary": "List source-change alerts", "description": "Pro and Enterprise only. Alerts come from real review/source-check events.", "responses": { "200": { "description": "Alerts" } } }
+      "get": {
+        "summary": "List source-change alerts",
+        "description": "Pro and Enterprise only. Alerts come from real review/source-check events.",
+        "responses": {
+          "200": {
+            "description": "Alerts"
+          }
+        }
+      }
     },
     "/api/v1/webhooks": {
-      "get": { "summary": "List webhook endpoints", "description": "Pro and Enterprise only.", "responses": { "200": { "description": "Webhook endpoints" } } },
-      "post": { "summary": "Create webhook endpoint", "description": "Creates an HMAC-signed webhook endpoint for selected event types.", "requestBody": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/WebhookEndpointInput" } } } }, "responses": { "201": { "description": "Webhook endpoint created" } } }
+      "get": {
+        "summary": "List webhook endpoints",
+        "description": "Pro and Enterprise only.",
+        "responses": {
+          "200": {
+            "description": "Webhook endpoints"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create webhook endpoint",
+        "description": "Creates an HMAC-signed webhook endpoint for selected event types.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookEndpointInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Webhook endpoint created"
+          }
+        }
+      }
     },
     "/api/v1/webhooks/{id}": {
-      "delete": { "summary": "Delete webhook endpoint", "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "Deleted" } } }
+      "delete": {
+        "summary": "Delete webhook endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          }
+        }
+      }
     },
     "/api/v1/webhooks/{id}/test": {
-      "post": { "summary": "Send test webhook", "description": "Records and sends a signed test delivery attempt.", "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "Delivery attempt" } } }
+      "post": {
+        "summary": "Send test webhook",
+        "description": "Records and sends a signed test delivery attempt.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delivery attempt"
+          }
+        }
+      }
     },
     "/api/v1/webhooks/{id}/deliveries": {
-      "get": { "summary": "List webhook deliveries for endpoint", "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "Webhook deliveries" } } }
+      "get": {
+        "summary": "List webhook deliveries for endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Webhook deliveries"
+          }
+        }
+      }
     },
     "/api/v1/bulk/agents": {
-      "get": { "summary": "Bulk agent export", "description": "Enterprise only. Set query `format=csv` for CSV.", "parameters": [{ "name": "format", "in": "query", "required": false, "schema": { "type": "string", "enum": ["csv"] } }], "responses": { "200": { "description": "Bulk export" }, "403": { "description": "Enterprise required" } } }
+      "get": {
+        "summary": "Bulk agent export",
+        "description": "Enterprise only. Set query `format=csv` for CSV.",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "csv"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bulk export"
+          },
+          "403": {
+            "description": "Enterprise required"
+          }
+        }
+      }
+    },
+    "/api/use-cases": {
+      "get": {
+        "summary": "List populated use cases",
+        "description": "Public shared taxonomy endpoint. Returns only use cases with at least 3 tagged products. Appurdex uses group=coding_specific; AppurScope can use group=all.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "group",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "coding_specific",
+                "general_purpose",
+                "all"
+              ],
+              "default": "all"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Populated use cases",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid group"
+          }
+        }
+      }
+    },
+    "/api/use-cases/{slug}": {
+      "get": {
+        "summary": "Get products for one populated use case",
+        "description": "Public shared taxonomy endpoint. Invalid slugs, group-mismatched slugs, and use cases below the 3 product threshold return 404.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "group",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "coding_specific",
+                "general_purpose",
+                "all"
+              ],
+              "default": "all"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Use-case detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid group"
+          },
+          "404": {
+            "description": "Use case not found"
+          }
+        }
+      }
     }
   }
 }

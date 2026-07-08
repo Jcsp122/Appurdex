@@ -3,6 +3,7 @@ import {
   Activity,
   ArrowDown,
   Bell,
+  Bot,
   BookOpen,
   Bookmark,
   Building2,
@@ -15,20 +16,37 @@ import {
   Filter,
   Home,
   KeyRound,
+  Link2,
+  Languages,
+  LogOut,
   Mail,
+  MessageSquarePlus,
   Moon,
   Plug,
   Plus,
   RefreshCw,
+  RadioTower,
+  Settings,
   Search,
+  Send,
   SlidersHorizontal,
+  Sparkles,
   Sun,
+  Tags,
   UploadCloud,
   X,
 } from "lucide-react";
 import appurdexLogoUrl from "../logo/a-logo.png";
 import { trackedTools } from "./data/trackedTools";
 import { vendorCatalog, vendorProductMap } from "./data/vendorCatalog";
+import {
+  normalizeUseCases,
+  populatedUseCases,
+  productsForUseCase,
+  useCaseLabel,
+  useCasesForGroup,
+  useCaseSearchText as taxonomyUseCaseSearchText,
+} from "./data/useCaseTaxonomy";
 import {
   agentMatchesMonthlyBudget,
   apiPlans,
@@ -51,6 +69,7 @@ import {
   deleteSavedComparison,
   authNavigationUrl,
   getAdminState,
+  getAssistantConfig,
   getPublicAgents,
   getViewer,
   getAccountWatchlists,
@@ -58,6 +77,7 @@ import {
   logoutViewer,
   researchSearch,
   runWorkerNow,
+  sendAssistantMessage,
   startEmailSignIn,
   updateAgent,
   updateReviewItem,
@@ -67,16 +87,17 @@ import { initAnalytics, trackEvent, trackPageView, trackSearch } from "./lib/ana
 const configuredAiProvider = import.meta.env.VITE_AI_PROVIDER || "OpenAI";
 const configuredAiModel = import.meta.env.VITE_OPENAI_MODEL || import.meta.env.VITE_AI_MODEL || "";
 const configuredAiModelLabel = configuredAiModel ? `${configuredAiProvider} ${configuredAiModel}` : "Not configured";
+const APPURDEX_AI_EXPERIENCE_OPTIONS = ["Newcomer", "Regular", "Power user", "Founder", "Researcher"];
+const APPURDEX_AI_WRITING_STYLE_OPTIONS = ["Default", "Journalist", "Storytelling", "For vibe coders", "Concise"];
 
 const navItems = [
   { label: "Overview", icon: Home, path: "/" },
   { label: "Agents", icon: Code2, path: "/agents" },
-  { label: "Learn", icon: BookOpen, path: "/learn" },
-  { label: "Compare", icon: SlidersHorizontal, path: "/compare" },
-  { label: "Integrations", icon: Plug, path: "/integrations" },
+  { label: "Learn", icon: BookOpen, path: "/learn" },  { label: "Compare", icon: SlidersHorizontal, path: "/compare" },
+  { label: "Use Cases", icon: Tags, path: "/use-cases" },
+  { label: "Appurdex AI", icon: Bot, path: "/assistant" },
   { label: "Alerts", icon: Bell, path: "/alerts" },
   { label: "Watchlist", icon: Bookmark, path: "/saved" },
-  { label: "Feeds", icon: Activity, path: "/feeds" },
   { label: "API", icon: KeyRound, path: "/api" },
   { label: "Settings", icon: FileText, path: "/settings" },
 ];
@@ -87,7 +108,7 @@ const lowerNav = [
 
 const DEFAULT_DIRECTORY_PAGE_SIZE = 25;
 const DIRECTORY_PAGE_SIZE_OPTIONS = [25, 50, 100];
-const DIRECTORY_SORT_OPTIONS = ["Score", "Last updated", "Freshness", "Trend 7d", "Integrations", "Name", "Category", "Pricing", "Access", "Hosting", "Repo / Docs", "Popularity", "Stars"];
+const DIRECTORY_SORT_OPTIONS = ["Newest", "Oldest", "Score", "Last updated", "Freshness", "Trend 7d", "Name", "Category", "Pricing", "Access", "Hosting", "Repo / Docs", "Popularity", "Stars"];
 const DIRECTORY_SORT_COLUMNS = [
   { label: "Product", sort: "Name" },
   { label: "Category", sort: "Category" },
@@ -98,7 +119,6 @@ const DIRECTORY_SORT_COLUMNS = [
   { label: "Last updated", sort: "Last updated" },
   { label: "Freshness", sort: "Freshness" },
   { label: "Trend 7d", sort: "Trend 7d" },
-  { label: "Integrations", sort: "Integrations" },
 ];
 
 const categoryClass = {
@@ -109,24 +129,11 @@ const categoryClass = {
   "MCP server": "green",
 };
 
-const USE_CASE_RULES = [
-  { label: "Development", keywords: ["code", "coding", "developer", "ide", "cli", "software", "repo", "repository", "full-stack", "debug", "implement"] },
-  { label: "Data analysis", keywords: ["data", "analytics", "analysis", "sql", "database", "metrics", "chart", "insight", "warehouse", "notebook", "spreadsheet"] },
-  { label: "Research", keywords: ["research", "search", "browser", "web", "source", "cite", "citation", "paper", "benchmark", "retrieval", "knowledge"] },
-  { label: "Automation", keywords: ["automation", "automate", "workflow", "agentic", "autonomous", "task", "runbook", "orchestrate", "scheduled"] },
-  { label: "Code review", keywords: ["review", "pull request", "pr", "diff", "lint", "static analysis"] },
-  { label: "Testing / QA", keywords: ["test", "testing", "qa", "benchmark", "eval", "verification", "ci", "quality"] },
-  { label: "Documentation", keywords: ["docs", "documentation", "readme", "technical writing", "wiki", "guide"] },
-  { label: "Design / prototyping", keywords: ["design", "prototype", "ui", "ux", "figma", "frontend", "front-end", "mockup"] },
-  { label: "DevOps / deployment", keywords: ["deploy", "deployment", "devops", "ci/cd", "infrastructure", "cloud", "hosting", "container", "kubernetes"] },
-  { label: "Security / compliance", keywords: ["security", "vulnerability", "compliance", "privacy", "permission", "policy", "audit"] },
-  { label: "Customer / ops support", keywords: ["support", "customer", "ticket", "crm", "sales", "operations", "ops"] },
-  { label: "Agent infrastructure", keywords: ["mcp", "server", "sdk", "api", "tool", "integration", "framework", "orchestration", "memory", "runtime"] },
-];
+const APPURDEX_USE_CASE_GROUP = "coding_specific";
+const APPURDEX_USE_CASES = useCasesForGroup(APPURDEX_USE_CASE_GROUP);
+const USE_CASE_OPTIONS = APPURDEX_USE_CASES.map((useCase) => useCase.label);
 
-const USE_CASE_OPTIONS = USE_CASE_RULES.map((rule) => rule.label);
-
-const DEFAULT_FILTERS = { query: "", ecosystem: "All", category: "All", priceBudget: { min: "", max: "" }, access: "All", useCase: "All", modelFlex: "All", publicRepo: "All", sortBy: "Score" };
+const DEFAULT_FILTERS = { query: "", ecosystem: "All", category: "All", priceBudget: { min: "", max: "" }, access: "All", useCase: "All", modelFlex: "All", publicRepo: "All", sortBy: "Newest" };
 const WATCHLIST_ALERT_OPTIONS = [
   { id: "pricing", label: "Pricing", icon: CircleDollarSign },
   { id: "access", label: "Access/Availability", icon: KeyRound },
@@ -143,7 +150,7 @@ function alertTypeLabel(changeType) {
 function alertTypeIcon(changeType) {
   return ALERT_TYPE_UI[changeType]?.icon || Bell;
 }
-const appRoutePrefixes = new Set(["admin", "en", "ai", "agents", "vendors", "research", "compare", "request-form", "requests-form", "analytics", "learn", "integrations", "alerts", "saved", "feeds", "api", "settings"]);
+const appRoutePrefixes = new Set(["admin", "en", "ai", "agents", "vendors", "research", "compare", "use-cases", "assistant", "request-form", "requests-form", "analytics", "learn", "alerts", "saved", "api", "settings"]);
 
 const agentLogoDomains = {
   cursor: "cursor.com",
@@ -523,8 +530,9 @@ function getRoute(pathname) {
   }
   if (parts[0] === "research") return { section: "public", page: "research", language: "en", slug: null };
   if (parts[0] === "compare") return { section: "public", page: "compare", language: "en", slug: null };
+  if (parts[0] === "use-cases") return { section: "public", page: parts[1] ? "use-case-detail" : "use-cases", language: "en", slug: parts[1] || null };
   if (parts[0] === "request-form" || parts[0] === "requests-form") return { section: "public", page: "request-form", language: "en", slug: null };
-  if (["analytics", "learn", "integrations", "alerts", "saved", "feeds", "api", "settings"].includes(parts[0])) return { section: "public", page: parts[0], language: "en", slug: null };
+  if (["analytics", "learn", "assistant", "alerts", "saved", "api", "settings"].includes(parts[0])) return { section: "public", page: parts[0], language: "en", slug: null };
   if (parts[0]) return { section: "public", page: "agent-detail", language: "en", slug: parts[0] };
   return { section: "public", page: "overview", language: "en", slug: null };
 }
@@ -613,6 +621,30 @@ function AppleIcon() {
   );
 }
 
+function displayUsername(user) {
+  if (user?.username) return user.username;
+  const seed = String(user?.id || user?.email || "user").replace(/[^a-z0-9]/gi, "").toLowerCase().slice(0, 6) || "user";
+  return "appur-" + seed;
+}
+
+function AccountMark({ signedIn }) {
+  return (
+    <span className={signedIn ? "account-mark signed-in" : "account-mark signed-out"}>
+      {signedIn ? <img src={appurdexLogoUrl} alt="" /> : <KeyRound size={15} />}
+    </span>
+  );
+}
+
+function AccountTrigger({ user, onClick }) {
+  const signedIn = Boolean(user);
+  const label = signedIn ? "Open account" : "Sign in";
+  return (
+    <button className={signedIn ? "account-pill signed-in" : "account-pill signed-out"} type="button" aria-label={label} title={label} onClick={onClick}>
+      <span className="account-pill-lines" aria-hidden="true"><i /><i /><i /></span>
+      <AccountMark signedIn={signedIn} />
+    </button>
+  );
+}
 function AuthModal({ viewer, backendAvailable, reloadViewer, onClose, navigate }) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -623,6 +655,18 @@ function AuthModal({ viewer, backendAvailable, reloadViewer, onClose, navigate }
   const appleReady = false;
   const unavailableReason = backendAvailable ? "Not configured" : "Backend offline";
   const appleLockedReason = "Locked for now";
+  const username = displayUsername(user);
+  const [assistantVisible, setAssistantVisible] = useState(() => window.localStorage.getItem("appurdex-ai-assistant") !== "hidden");
+
+  function setAssistantPreference(visible) {
+    setAssistantVisible(visible);
+    window.localStorage.setItem("appurdex-ai-assistant", visible ? "shown" : "hidden");
+  }
+
+  function openAccountRoute(path) {
+    onClose();
+    navigate(path);
+  }
 
   async function handleEmailStart(event) {
     event.preventDefault();
@@ -648,27 +692,37 @@ function AuthModal({ viewer, backendAvailable, reloadViewer, onClose, navigate }
 
   if (user) {
     return (
-      <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" onMouseDown={(event) => {
+      <div className="account-popover-backdrop" role="presentation" onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}>
-        <section className="update-modal-card auth-modal-card">
-          <div className="request-head">
+        <section className="account-popover-card" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+          <div className="account-popover-profile">
+            <AccountMark signedIn />
             <div>
-              <h1 id="auth-modal-title">Account</h1>
+              <h1 id="auth-modal-title">Hi, {username}</h1>
               <p>{user.email}</p>
             </div>
-            <button className="icon-only close-button" type="button" aria-label="Close" onClick={onClose}><X size={17} /></button>
           </div>
-          <div className="request-actions auth-account-actions">
-            <button type="button" onClick={() => { onClose(); navigate("/api"); }}>Manage account</button>
-            <button type="button" onClick={handleLogout}>Sign out</button>
+          <div className="account-popover-menu">
+            <button type="button" onClick={() => openAccountRoute("/api")}><KeyRound size={16} />API Dashboard</button>
+            <button type="button" onClick={() => openAccountRoute("/settings")}><Languages size={16} />Language</button>
+            <button type="button" onClick={() => openAccountRoute("/api")}><CircleDollarSign size={16} />Appurdex AI Subscription</button>
+            <button type="button" onClick={() => openAccountRoute("/assistant")}><Bot size={16} />Open Appurdex AI</button>
+            <div className="account-menu-toggle-row">
+              <span>Appurdex AI Assistant</span>
+              <div>
+                <button className={assistantVisible ? "active" : ""} type="button" onClick={() => setAssistantPreference(true)}>Show</button>
+                <button className={!assistantVisible ? "active" : ""} type="button" onClick={() => setAssistantPreference(false)}>Hide</button>
+              </div>
+            </div>
+            <button type="button" onClick={() => openAccountRoute("/settings")}><Settings size={16} />Settings</button>
+            <button type="button" onClick={handleLogout}><LogOut size={16} />Logout</button>
           </div>
           {message ? <p className="api-message auth-message"><strong>Status</strong><span>{message}</span></p> : null}
         </section>
       </div>
     );
   }
-
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" onMouseDown={(event) => {
       if (event.target === event.currentTarget) onClose();
@@ -730,12 +784,13 @@ function Topbar({ agents, vendors = [], modelPricing = [], navigate, setFilters,
       const rank = Math.min(searchRank(model.model, normalized), searchRank(model.modelId, normalized), searchRank(modelSearchText(model), normalized) + 1);
       if (Number.isFinite(rank)) ranked.push({ type: "model", key: "model-" + model.id, model, rank, typeRank: 2 });
     });
-    USE_CASE_RULES.forEach((rule) => {
-      const rank = Math.min(searchRank(rule.label, normalized), searchRank(useCaseSearchText(rule), normalized) + 1);
-      if (Number.isFinite(rank)) ranked.push({ type: "useCase", key: "usecase-" + rule.label, rule, rank, typeRank: 3 });
+    const searchableUseCases = populatedUseCases(agents.filter(hasDirectoryData), APPURDEX_USE_CASE_GROUP, 3);
+    searchableUseCases.forEach((useCase) => {
+      const rank = Math.min(searchRank(useCase.label, normalized), searchRank(useCaseSearchText(useCase), normalized) + 1);
+      if (Number.isFinite(rank)) ranked.push({ type: "useCase", key: "usecase-" + useCase.slug, useCase, rank, typeRank: 3 });
     });
     return ranked
-      .sort((a, b) => a.rank - b.rank || a.typeRank - b.typeRank || compareText(a.vendor?.displayName || a.agent?.name || a.model?.model || a.rule?.label, b.vendor?.displayName || b.agent?.name || b.model?.model || b.rule?.label))
+      .sort((a, b) => a.rank - b.rank || a.typeRank - b.typeRank || compareText(a.vendor?.displayName || a.agent?.name || a.model?.model || a.useCase?.label, b.vendor?.displayName || b.agent?.name || b.model?.model || b.useCase?.label))
       .slice(0, 10);
   }, [agents, vendors, modelPricing, normalized]);
 
@@ -789,8 +844,8 @@ function Topbar({ agents, vendors = [], modelPricing = [], navigate, setFilters,
     if (result.type === "useCase") {
       setQuery("");
       setOpen(false);
-      setFilters({ ...DEFAULT_FILTERS, query: result.rule.label, useCase: result.rule.label });
-      navigate("/ai");
+      setFilters({ ...DEFAULT_FILTERS, useCase: result.useCase.label });
+      navigate("/use-cases/" + result.useCase.slug);
     }
   }
 
@@ -826,8 +881,8 @@ function Topbar({ agents, vendors = [], modelPricing = [], navigate, setFilters,
         <button type="button" key={result.key} onMouseDown={(event) => event.preventDefault()} onClick={() => chooseResult(result)}>
           <span className="model-provider-mark"><Search size={14} /></span>
           <span>
-            <strong>{result.rule.label}</strong>
-            <small>{result.rule.keywords.slice(0, 5).join(", ")}</small>
+            <strong>{result.useCase.label}</strong>
+            <small>{result.useCase.description}</small>
           </span>
           <span className="category-pill purple">Use case</span>
         </button>
@@ -889,7 +944,7 @@ function Topbar({ agents, vendors = [], modelPricing = [], navigate, setFilters,
         >
           {isDark ? <Sun size={17} /> : <Moon size={17} />}
         </button>
-        <button className="avatar account-button" type="button" aria-label={viewer?.user ? "Open account" : "Sign in"} title={viewer?.user ? "Open account" : "Sign in"} onClick={() => setAuthOpen(true)}>{viewer?.user?.email ? viewer.user.email.slice(0, 1).toUpperCase() : <KeyRound size={17} />}</button>
+        <AccountTrigger user={viewer?.user} onClick={() => setAuthOpen(true)} />
       </div>
     </header>
     {authOpen ? <AuthModal viewer={viewer} backendAvailable={backendAvailable} reloadViewer={reloadViewer} navigate={navigate} onClose={() => setAuthOpen(false)} /> : null}
@@ -1152,26 +1207,7 @@ function keywordMatches(text, keyword) {
 }
 
 function useCasesForAgent(agent) {
-  const providers = Array.isArray(agent.modelSupport?.providers) ? agent.modelSupport.providers.join(" ") : "";
-  const sources = Array.isArray(agent.sourceUrls) ? agent.sourceUrls.map((source) => source?.label || source?.kind || "").join(" ") : "";
-  const discoveryTopics = Array.isArray(agent.discovery?.topics) ? agent.discovery.topics.join(" ") : "";
-  const text = [
-    agent.name,
-    agent.description,
-    agent.ecosystem,
-    agent.displayCategory,
-    agent.category,
-    agent.price,
-    agent.access,
-    agent.githubRepo,
-    agent.modelSupport?.flexibility,
-    agent.modelSupport?.modelChoice,
-    providers,
-    sources,
-    agent.discovery?.sourceQuery,
-    discoveryTopics,
-  ].filter(Boolean).join(" ").toLowerCase();
-  return USE_CASE_RULES.filter((rule) => rule.keywords.some((keyword) => keywordMatches(text, keyword))).map((rule) => rule.label);
+  return normalizeUseCases(agent?.use_cases).map(useCaseLabel);
 }
 
 function textList(value) {
@@ -1209,6 +1245,7 @@ function searchableTextForAgent(agent, useCases = useCasesForAgent(agent)) {
     agent.discovery?.sourceQuery,
     textList(agent.discovery?.topics),
     sourceAvailability(agent),
+    textList(agent.use_cases),
     useCases.join(" "),
   ].filter(Boolean).join(" ");
 }
@@ -1228,11 +1265,17 @@ function searchableTextForVendor(vendor) {
 
 function useCaseForSearchQuery(query) {
   const normalizedQuery = query.trim().toLowerCase();
-  return USE_CASE_RULES.find((rule) => rule.label.toLowerCase() === normalizedQuery || rule.keywords.some((keyword) => keywordMatches(normalizedQuery, keyword)))?.label || "All";
+  if (!normalizedQuery) return "All";
+  const match = APPURDEX_USE_CASES.find((useCase) => {
+    const label = useCase.label.toLowerCase();
+    const slugText = useCase.slug.replace(/_/g, " ");
+    return label === normalizedQuery || useCase.slug === normalizedQuery || slugText === normalizedQuery || taxonomyUseCaseSearchText(useCase).includes(normalizedQuery);
+  });
+  return match?.label || "All";
 }
 
-function useCaseSearchText(rule) {
-  return [rule.label, ...(rule.keywords || [])].join(" ").toLowerCase();
+function useCaseSearchText(useCase) {
+  return taxonomyUseCaseSearchText(useCase);
 }
 
 function searchRank(text, query) {
@@ -1244,13 +1287,28 @@ function searchRank(text, query) {
   if (new RegExp("(^|[^a-z0-9])" + needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).test(haystack)) return 2;
   return 3;
 }
+function directoryTimestampValue(agent) {
+  const values = [
+    agent.lastSyncedAt,
+    agent.last_synced_at,
+    agent.verifiedAt,
+    agent.lastVerifiedAt,
+    agent.lastCuratedAt,
+    agent.discovery?.discoveredAt,
+    agent.createdAt,
+    agent.created_at,
+  ].map(dateValue).filter((value) => value > 0);
+  return values.length ? Math.max(...values) : 0;
+}
+
 function sortRows(rows, sort) {
   const sorted = [...rows];
+  if (sort === "Newest" || sort === "Last updated") return sorted.sort((a, b) => directoryTimestampValue(b) - directoryTimestampValue(a) || compareText(a.name, b.name));
+  if (sort === "Oldest") return sorted.sort((a, b) => directoryTimestampValue(a) - directoryTimestampValue(b) || compareText(a.name, b.name));
   if (sort === "Score") return sorted.sort((a, b) => (a.categoryRank || 999) - (b.categoryRank || 999));
   if (sort === "Popularity") return sorted.sort((a, b) => (b.ranking?.score || 0) - (a.ranking?.score || 0));
   if (sort === "Stars") return sorted.sort((a, b) => compareNumberDesc(a.githubMetric?.stars, b.githubMetric?.stars) || compareText(a.name, b.name));
   if (sort === "Trend 7d") return sorted.sort((a, b) => compareNumberDesc(a.githubMetric?.trend7dPct, b.githubMetric?.trend7dPct) || compareText(a.name, b.name));
-  if (sort === "Integrations") return sorted.sort((a, b) => compareNumberDesc(a.integrationCount || a.integrations?.length, b.integrationCount || b.integrations?.length, 0) || compareText(a.name, b.name));
   if (sort === "Category") return sorted.sort((a, b) => compareText(a.displayCategory || a.category, b.displayCategory || b.category) || compareText(a.name, b.name));
   if (sort === "Pricing") return sorted.sort((a, b) => {
     const aPrice = pricingSortParts(a);
@@ -1260,14 +1318,14 @@ function sortRows(rows, sort) {
   if (sort === "Access") return sorted.sort((a, b) => compareText(a.access, b.access) || compareText(a.name, b.name));
   if (sort === "Hosting") return sorted.sort((a, b) => compareText(a.hosting, b.hosting) || compareText(a.name, b.name));
   if (sort === "Repo / Docs") return sorted.sort((a, b) => compareText(a.githubRepo || websiteUrlFor(a), b.githubRepo || websiteUrlFor(b)) || compareText(a.name, b.name));
-  if (sort === "Freshness") return sorted.sort((a, b) => numberValue(b.freshnessScore ?? b.freshness_score, 0) - numberValue(a.freshnessScore ?? a.freshness_score, 0) || dateValue(b.lastSyncedAt || b.last_synced_at) - dateValue(a.lastSyncedAt || a.last_synced_at) || compareText(a.name, b.name));
+  if (sort === "Freshness") return sorted.sort((a, b) => numberValue(b.freshnessScore ?? b.freshness_score, 0) - numberValue(a.freshnessScore ?? a.freshness_score, 0) || directoryTimestampValue(b) - directoryTimestampValue(a) || compareText(a.name, b.name));
   if (sort === "Name") return sorted.sort((a, b) => compareText(a.name, b.name));
-  return sorted.sort((a, b) => dateValue(b.lastSyncedAt || b.last_synced_at || b.verifiedAt) - dateValue(a.lastSyncedAt || a.last_synced_at || a.verifiedAt) || compareText(a.name, b.name));
+  return sorted.sort((a, b) => directoryTimestampValue(b) - directoryTimestampValue(a) || compareText(a.name, b.name));
 }
 
 function DirectorySortHeader({ label, sort, currentSort, onSort }) {
   const active = currentSort === sort;
-  const descending = ["Last updated", "Freshness", "Trend 7d", "Integrations", "Popularity", "Stars"].includes(sort);
+  const descending = ["Newest", "Last updated", "Freshness", "Trend 7d", "Popularity", "Stars"].includes(sort);
   return (
     <th className={active ? "sort-column" : undefined} aria-sort={active ? (descending ? "descending" : "ascending") : "none"}>
       <button className={active ? "table-sort-header active" : "table-sort-header"} type="button" onClick={() => onSort(sort)} aria-label={"Sort by " + label}>
@@ -1285,7 +1343,7 @@ function paginationItems(currentPage, totalPages) {
   return [1, "ellipsis-start", currentPage - 1, currentPage, currentPage + 1, "ellipsis-end", totalPages];
 }
 
-function FilterRail({ agents, filters, setFilters, showEcosystem = true }) {
+function FilterRail({ agents, filters, setFilters, showEcosystem = true, sortOptions = DIRECTORY_SORT_OPTIONS }) {
   const [openFilter, setOpenFilter] = useState(null);
   const options = useMemo(() => ({
     ecosystem: uniqueValues(agents, (agent) => agent.ecosystem),
@@ -1294,7 +1352,7 @@ function FilterRail({ agents, filters, setFilters, showEcosystem = true }) {
     useCase: USE_CASE_OPTIONS,
     modelFlex: ["Single-model", "Multi-model", "Provider-locked"],
     publicRepo: ["Yes", "No"],
-    sortBy: DIRECTORY_SORT_OPTIONS,}), [agents]);
+    sortBy: sortOptions,}), [agents, sortOptions]);
   function setFilter(key, value) { setFilters((current) => ({ ...current, [key]: value })); }
   function dropdownProps(key) { return { name: key, open: openFilter === key, onToggle: () => setOpenFilter((current) => current === key ? null : key), onClose: () => setOpenFilter(null) }; }
   function resetFilters() { setOpenFilter(null); setFilters(DEFAULT_FILTERS); }
@@ -1310,7 +1368,7 @@ function FilterRail({ agents, filters, setFilters, showEcosystem = true }) {
     filters.useCase !== "All",
     filters.modelFlex !== "All",
     filters.publicRepo !== "All",
-    filters.sortBy !== "Score",
+    filters.sortBy !== DEFAULT_FILTERS.sortBy,
   ].filter(Boolean).length;
   return (
     <div className={showEcosystem ? "filter-rail" : "filter-rail compact"}>
@@ -1321,7 +1379,7 @@ function FilterRail({ agents, filters, setFilters, showEcosystem = true }) {
       <FilterSelect label="Use case" value={filters.useCase} options={options.useCase} onChange={(value) => setFilter("useCase", value)} {...dropdownProps("useCase")} />
       <FilterSelect label="Model flexibility" value={filters.modelFlex} options={options.modelFlex} onChange={(value) => setFilter("modelFlex", value)} {...dropdownProps("modelFlex")} />
       <FilterSelect label="Has public repo" value={filters.publicRepo} options={options.publicRepo} onChange={(value) => setFilter("publicRepo", value)} {...dropdownProps("publicRepo")} />
-      <FilterSelect label="Sort by" value={filters.sortBy} options={options.sortBy.filter((option) => option !== "Score")} onChange={(value) => setFilter("sortBy", value)} {...dropdownProps("sortBy")} />
+      <FilterSelect label="Sort by" value={filters.sortBy} options={options.sortBy} onChange={(value) => setFilter("sortBy", value)} {...dropdownProps("sortBy")} />
       <button className={activeFilterCount ? "filter-button has-active-filters" : "filter-button"} type="button" onClick={resetFilters} disabled={!activeFilterCount} title={activeFilterCount ? "Clear active filters" : "No active filters"}>
         <Filter size={16} />{activeFilterCount ? `Clear ${activeFilterCount}` : "Clear"}
       </button>
@@ -1358,7 +1416,7 @@ function VendorCell({ agent, navigate }) {
   return <button className="vendor-link" type="button" onClick={() => navigate('/vendors/' + vendor.id)}>{vendor.displayName || vendor.name}</button>;
 }
 
-function AgentRow({ agent, navigate, showIntegrations = true, showVendor = false }) {
+function AgentRow({ agent, navigate, showTrend = true, showVendor = false }) {
   const fresh = { label: agent.syncAgeLabel ? "Last updated " + agent.syncAgeLabel : "Last updated: not synced", tone: agent.syncAgeTone || "unknown" };
   const websiteUrl = websiteUrlFor(agent);
   return (
@@ -1370,8 +1428,7 @@ function AgentRow({ agent, navigate, showIntegrations = true, showVendor = false
       <td>{agent.access}</td><td>{agent.hosting}</td>
       <td><div className="repo-docs source-actions">{websiteUrl ? <a href={websiteUrl} target="_blank" rel="noreferrer" aria-label={agent.name + " website"} title="Website"><ExternalLink size={15} /><span>Website</span></a> : null}{agent.githubRepo ? <a href={"https://github.com/" + agent.githubRepo} target="_blank" rel="noreferrer" aria-label={agent.name + " repository"} title="Repository"><Code2 size={15} /><span>Repo</span></a> : null}{!websiteUrl && !agent.githubRepo ? <span className="metric-na">Unknown</span> : null}</div></td><td className={fresh.tone === "muted" ? "danger-time" : ""}><span className={"fresh-pill sync-badge " + fresh.tone}>{fresh.label}</span></td>
       <td>{typeof agent.freshnessScore === "number" ? agent.freshnessScore.toFixed(1) : <span className="metric-na">N/A</span>}</td>
-      <td>{agent.hasPublicRepo ? <MiniTrend value={agent.githubMetric?.trend7dPct} /> : <span className="metric-na">N/A</span>}</td>
-      {showIntegrations ? <td>{formatNumber(agent.integrationCount || agent.integrations?.length || 0)}</td> : null}
+      {showTrend ? <td>{agent.hasPublicRepo ? <MiniTrend value={agent.githubMetric?.trend7dPct} /> : <span className="metric-na">N/A</span>}</td> : null}
     </tr>
   );
 }
@@ -1385,6 +1442,11 @@ function DirectoryPage({ agents, filters, setFilters, navigate, backendAvailable
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(DEFAULT_DIRECTORY_PAGE_SIZE);
   const normalized = filters.query.trim().toLowerCase();
+  const isOverview = title === "Overview";
+  const showTrendColumn = !isOverview;
+  const showVendorColumn = isOverview;
+  const sortOptions = useMemo(() => DIRECTORY_SORT_OPTIONS.filter((option) => showTrendColumn || option !== "Trend 7d"), [showTrendColumn]);
+  const currentSortBy = sortOptions.includes(filters.sortBy) ? filters.sortBy : DEFAULT_FILTERS.sortBy;
   const scopedAgents = useMemo(() => scopeEcosystem ? agents.filter((agent) => agent.ecosystem === scopeEcosystem) : agents, [agents, scopeEcosystem]);
   const directoryAgents = useMemo(() => withCategoryRanks(scopedAgents.filter(hasDirectoryData)), [scopedAgents]);
   const rows = useMemo(() => sortRows(directoryAgents.filter((agent) => {
@@ -1394,7 +1456,7 @@ function DirectoryPage({ agents, filters, setFilters, navigate, backendAvailable
     const haystack = searchableTextForAgent(agent, useCases).toLowerCase();
     const publicRepoMatches = filters.publicRepo === "All" || (filters.publicRepo === "Yes" ? agent.hasPublicRepo : !agent.hasPublicRepo);
     return (!normalized || haystack.includes(normalized)) && (scopeEcosystem || filters.ecosystem === "All" || agent.ecosystem === filters.ecosystem) && (filters.category === "All" || agent.displayCategory === filters.category) && agentMatchesMonthlyBudget(agent, filters.priceBudget) && (filters.access === "All" || agent.access === filters.access) && (filters.useCase === "All" || useCases.includes(filters.useCase)) && (filters.modelFlex === "All" || modelFlex === filters.modelFlex) && publicRepoMatches;
-  }), filters.sortBy || "Score"), [directoryAgents, filters, normalized, scopeEcosystem]);
+  }), currentSortBy), [currentSortBy, directoryAgents, filters, normalized, scopeEcosystem]);
   const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
   const safePage = Math.min(page, totalPages);
   const visibleRows = rows.slice((safePage - 1) * pageSize, safePage * pageSize);
@@ -1404,26 +1466,72 @@ function DirectoryPage({ agents, filters, setFilters, navigate, backendAvailable
 
   useEffect(() => { setPage(1); }, [filters, normalized, scopeEcosystem, directoryAgents.length]);
   useEffect(() => { if (page > totalPages) setPage(totalPages); }, [page, totalPages]);
-  const isOverview = title === "Overview";
-  const showIntegrationsColumn = !isOverview;
-  const showVendorColumn = isOverview;
-  const emptyColumnCount = 9 + (showIntegrationsColumn ? 1 : 0) + (showVendorColumn ? 1 : 0);
-  const visibleSortColumns = showIntegrationsColumn ? DIRECTORY_SORT_COLUMNS : DIRECTORY_SORT_COLUMNS.filter((column) => column.sort !== "Integrations");
+  useEffect(() => {
+    if (filters.sortBy !== currentSortBy) setFilters((current) => ({ ...current, sortBy: currentSortBy }));
+  }, [currentSortBy, filters.sortBy, setFilters]);
+  const visibleSortColumns = DIRECTORY_SORT_COLUMNS.filter((column) => showTrendColumn || column.sort !== "Trend 7d");
   const headerColumns = showVendorColumn ? [...visibleSortColumns.slice(0, 2), { label: "Vendor", sort: null }, ...visibleSortColumns.slice(2)] : visibleSortColumns;
+  const emptyColumnCount = headerColumns.length;
   function setSort(sortBy) {
     setFilters((current) => ({ ...current, sortBy }));
   }
 
   return (
     <main className="content"><div className="page-head directory-head"><div><h1>{title}</h1><p>{description} <a href="/learn">Learn more</a></p></div><div className="page-head-meta" aria-label="Directory status"><span><CheckCircle2 size={14} />{directoryAgents.length} source-backed</span><span>{rows.length} matching</span><span className={backendAvailable ? "online" : "muted"}>{backendAvailable ? "API online" : "Static fallback"}</span></div></div>
-      <section className="table-card"><FilterRail agents={directoryAgents} filters={filters} setFilters={setFilters} showEcosystem={!scopeEcosystem} />
-        {directoryAgents.length ? <div className="agent-table-wrap"><table className={isOverview ? "agent-table directory-table overview-directory-table" : "agent-table directory-table"}><thead><tr>{headerColumns.map((column) => column.sort ? <DirectorySortHeader key={column.sort} label={column.label} sort={column.sort} currentSort={filters.sortBy || "Score"} onSort={setSort} /> : <th key={column.label}>{column.label}</th>)}</tr></thead><tbody>{visibleRows.map((agent) => <AgentRow agent={agent} key={agent.slug} navigate={navigate} showIntegrations={showIntegrationsColumn} showVendor={showVendorColumn} />)}{rows.length === 0 ? <tr><td colSpan={emptyColumnCount}>No source-backed listings match the selected filters.</td></tr> : null}</tbody></table></div> : <EmptyLiveState backendAvailable={backendAvailable} />}
+      <section className="table-card"><FilterRail agents={directoryAgents} filters={filters} setFilters={setFilters} showEcosystem={!scopeEcosystem} sortOptions={sortOptions} />
+        {directoryAgents.length ? <div className="agent-table-wrap"><table className={isOverview ? "agent-table directory-table overview-directory-table" : "agent-table directory-table"}><thead><tr>{headerColumns.map((column) => column.sort ? <DirectorySortHeader key={column.sort} label={column.label} sort={column.sort} currentSort={currentSortBy} onSort={setSort} /> : <th key={column.label}>{column.label}</th>)}</tr></thead><tbody>{visibleRows.map((agent) => <AgentRow agent={agent} key={agent.slug} navigate={navigate} showTrend={showTrendColumn} showVendor={showVendorColumn} />)}{rows.length === 0 ? <tr><td colSpan={emptyColumnCount}>No source-backed listings match the selected filters.</td></tr> : null}</tbody></table></div> : <EmptyLiveState backendAvailable={backendAvailable} />}
         {directoryAgents.length ? <div className="table-pagination"><span className="pagination-summary">Showing {pageStart} to {pageEnd} of {rows.length} results</span><nav className="pagination-pages" aria-label="Directory pagination"><button className="pagination-arrow" type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={safePage <= 1} aria-label="Previous page">&lsaquo;</button>{pageItems.map((item) => typeof item === "number" ? <button className={item === safePage ? "pagination-page active" : "pagination-page"} type="button" key={item} onClick={() => setPage(item)} aria-current={item === safePage ? "page" : undefined}>{item}</button> : <span className="pagination-ellipsis" key={item}>...</span>)}<button className="pagination-arrow" type="button" onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={safePage >= totalPages} aria-label="Next page">&rsaquo;</button></nav><label className="pagination-size"><span>Rows</span><select value={pageSize} onChange={(event) => { setPageSize(Number(event.target.value)); setPage(1); }}>{DIRECTORY_PAGE_SIZE_OPTIONS.map((size) => <option value={size} key={size}>{size}</option>)}</select></label></div> : null}
       </section></main>
   );
 }
 
+function UseCaseProductCard({ agent, navigate }) {
+  const websiteUrl = websiteUrlFor(agent);
+  return (
+    <article className="use-case-product-card">
+      <div>
+        <h2>{agent.name}</h2>
+        <p>{agent.description}</p>
+      </div>
+      <div className="use-case-product-meta">
+        <span className={"category-pill " + (categoryClass[agent.category] || "blue")}>{agent.displayCategory || agent.category}</span>
+        <PricingCell agent={agent} />
+      </div>
+      <div className="use-case-product-actions">
+        <button type="button" onClick={() => navigate(agent.publicPath || "/ai/" + agent.slug)}>View details</button>
+        {websiteUrl ? <a href={websiteUrl} target="_blank" rel="noreferrer"><ExternalLink size={15} />Website</a> : null}
+      </div>
+    </article>
+  );
+}
 
+function UseCasesIndexPage({ agents, navigate }) {
+  const sourceBackedAgents = useMemo(() => agents.filter(hasDirectoryData), [agents]);
+  const useCases = useMemo(() => populatedUseCases(sourceBackedAgents, APPURDEX_USE_CASE_GROUP, 3), [sourceBackedAgents]);
+  return (
+    <main className="content"><div className="page-head directory-head"><div><h1>Use Cases</h1><p>Browse source-backed AI coding products by the job they support.</p></div><div className="page-head-meta"><span>{useCases.length} populated</span><span>{sourceBackedAgents.length} products tagged</span></div></div>
+      <section className="table-card use-case-index-card">
+        <div className="use-case-index-grid">
+          {useCases.map((useCase) => <button type="button" className="use-case-pill-card" key={useCase.slug} onClick={() => navigate("/use-cases/" + useCase.slug)}><strong>{useCase.label}</strong><span>{useCase.description}</span><small>{useCase.count} products</small></button>)}
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function UseCaseDetailPage({ agents, navigate, slug }) {
+  const sourceBackedAgents = useMemo(() => agents.filter(hasDirectoryData), [agents]);
+  const result = useMemo(() => productsForUseCase(sourceBackedAgents, slug, APPURDEX_USE_CASE_GROUP, 3), [sourceBackedAgents, slug]);
+  if (!result.useCase) return <PlaceholderPage title="Use case not found" navigate={navigate}>This use case is not published because it is invalid, outside Appurdex coding scope, or has fewer than 3 tagged products.</PlaceholderPage>;
+  const products = sortRows(result.products, "Newest");
+  return (
+    <main className="content"><div className="page-head directory-head"><div><h1>{result.useCase.label}</h1><p>{result.useCase.description}</p></div><div className="page-head-meta"><span>{products.length} matching products</span><span>Coding-specific</span></div></div>
+      <section className="use-case-product-grid">
+        {products.map((agent) => <UseCaseProductCard key={agent.slug || agent.id || agent.name} agent={agent} navigate={navigate} />)}
+      </section>
+    </main>
+  );
+}
 function mergeAgentCatalog(seedAgents, apiAgents = []) {
   const apiByKey = new Map(apiAgents.map((agent) => [agent.slug || agent.id || slugify(agent.name), agent]));
   const seen = new Set();
@@ -2233,6 +2341,120 @@ function AgentPerformanceAnalyticsPage({ agents, state, backendAvailable, naviga
   );
 }
 
+function appurdexAiStorage(key, fallback) {
+  try {
+    const raw = window.localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function appurdexAiId() {
+  return globalThis.crypto?.randomUUID?.() || `chat-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function AppurdexAiPage({ backendAvailable, viewer }) {
+  const [experience, setExperience] = useState(() => window.localStorage.getItem("appurdex-ai-experience") || "Regular");
+  const [writingStyle, setWritingStyle] = useState(() => window.localStorage.getItem("appurdex-ai-writing-style") || "Default");
+  const [sessions, setSessions] = useState(() => appurdexAiStorage("appurdex-ai-sessions", []));
+  const [activeId, setActiveId] = useState(() => window.localStorage.getItem("appurdex-ai-active-chat") || "");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("");
+  const [config, setConfig] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const activeSession = sessions.find((item) => item.id === activeId) || sessions[0] || null;
+  const telegram = config?.data?.telegram || config?.telegram || null;
+  const aiEnabled = Boolean(config?.data?.enabled ?? config?.enabled);
+  const model = config?.data?.model || config?.model || configuredAiModelLabel;
+
+  useEffect(() => { window.localStorage.setItem("appurdex-ai-experience", experience); }, [experience]);
+  useEffect(() => { window.localStorage.setItem("appurdex-ai-writing-style", writingStyle); }, [writingStyle]);
+  useEffect(() => { window.localStorage.setItem("appurdex-ai-sessions", JSON.stringify(sessions.slice(0, 12))); }, [sessions]);
+  useEffect(() => { if (activeId) window.localStorage.setItem("appurdex-ai-active-chat", activeId); }, [activeId]);
+  useEffect(() => {
+    let active = true;
+    getAssistantConfig()
+      .then((nextConfig) => { if (active) setConfig(nextConfig); })
+      .catch((error) => { if (active) setStatus(error.message); });
+    return () => { active = false; };
+  }, []);
+
+  function createChat() {
+    const chat = { id: appurdexAiId(), title: "New Chat", createdAt: new Date().toISOString(), messages: [] };
+    setSessions((current) => [chat, ...current].slice(0, 12));
+    setActiveId(chat.id);
+    setStatus("");
+  }
+
+  async function submitMessage(event) {
+    event.preventDefault();
+    const text = message.trim();
+    if (!text || loading) return;
+    const chat = activeSession || { id: appurdexAiId(), title: text.slice(0, 42), createdAt: new Date().toISOString(), messages: [] };
+    const userMessage = { id: appurdexAiId(), role: "user", content: text, createdAt: new Date().toISOString() };
+    setMessage("");
+    setLoading(true);
+    setStatus("");
+    setActiveId(chat.id);
+    setSessions((current) => {
+      const others = current.filter((item) => item.id !== chat.id);
+      return [{ ...chat, title: chat.messages.length ? chat.title : text.slice(0, 42), messages: [...chat.messages, userMessage] }, ...others].slice(0, 12);
+    });
+    try {
+      const result = await sendAssistantMessage({ message: text, experience, writingStyle, history: chat.messages.slice(-8) });
+      const reply = result.data || result;
+      const assistantMessage = { id: appurdexAiId(), role: "assistant", content: reply.message || "No response text returned.", createdAt: reply.createdAt || new Date().toISOString(), model: reply.model };
+      setSessions((current) => current.map((item) => item.id === chat.id ? { ...item, messages: [...item.messages, assistantMessage] } : item));
+    } catch (error) {
+      setStatus(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <main className="content appurdex-ai-content">
+      <div className="page-head appurdex-ai-head">
+        <div><h1>Appurdex AI</h1><p>Chat with the source-backed Appurdex catalog. Missing facts stay unknown.</p></div>
+        <button type="button" onClick={createChat}><MessageSquarePlus size={16} />New Chat</button>
+      </div>
+      <section className="appurdex-ai-layout">
+        <aside className="table-card appurdex-ai-sidebar">
+          <div className="appurdex-ai-control-group">
+            <label>AI Experience<select value={experience} onChange={(event) => setExperience(event.target.value)}>{APPURDEX_AI_EXPERIENCE_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}</select></label>
+            <label>Writing Style<select value={writingStyle} onChange={(event) => setWritingStyle(event.target.value)}>{APPURDEX_AI_WRITING_STYLE_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}</select></label>
+          </div>
+          <div className="appurdex-ai-chat-list">
+            {sessions.length ? sessions.map((chat) => <button className={chat.id === activeSession?.id ? "active" : ""} type="button" key={chat.id} onClick={() => setActiveId(chat.id)}><strong>{chat.title || "New Chat"}</strong><span>{chat.messages.length} message{chat.messages.length === 1 ? "" : "s"}</span></button>) : <p>No chats yet.</p>}
+          </div>
+          <div className="appurdex-ai-telegram">
+            <div><RadioTower size={17} /><strong>Telegram</strong></div>
+            <p>{telegram?.configured ? "Telegram bot is configured for the API service." : "Telegram is not connected yet."}</p>
+            {telegram?.connectUrl ? <a href={telegram.connectUrl} target="_blank" rel="noreferrer"><Link2 size={15} />Open Telegram bot</a> : <button type="button" disabled><Link2 size={15} />Connect Telegram</button>}
+            {!telegram?.configured ? <small>Configure {telegram?.missingEnv?.join(", ") || "APPURDEX_TELEGRAM_BOT_USERNAME, APPURDEX_TELEGRAM_BOT_TOKEN, APPURDEX_TELEGRAM_WEBHOOK_SECRET"} on the API service.</small> : <small>Webhook path: {telegram.webhookPath}</small>}
+          </div>
+        </aside>
+        <section className="table-card appurdex-ai-panel">
+          <div className="appurdex-ai-status-row">
+            <span className={backendAvailable ? "fresh-pill fresh" : "fresh-pill muted"}>{backendAvailable ? "API online" : "Static fallback"}</span>
+            <span className={aiEnabled ? "fresh-pill fresh" : "fresh-pill unknown"}>{aiEnabled ? "AI configured" : "AI not configured"}</span>
+            <span className="fresh-pill muted">{model}</span>
+          </div>
+          <div className="appurdex-ai-messages" aria-live="polite">
+            {activeSession?.messages?.length ? activeSession.messages.map((item) => <article className={item.role === "assistant" ? "assistant" : "user"} key={item.id}><span>{item.role === "assistant" ? "Appurdex AI" : displayUsername(viewer?.user)}</span><p>{item.content}</p>{item.model ? <small>{item.model}</small> : null}</article>) : <div className="appurdex-ai-empty"><Sparkles size={28} /><h2>Start a catalog chat</h2><p>Ask for source-backed comparisons, pricing context, freshness notes, or which agents match a workflow.</p></div>}
+            {loading ? <article className="assistant pending"><span>Appurdex AI</span><p>Working from the current catalog context...</p></article> : null}
+          </div>
+          {status ? <p className="api-message auth-message"><strong>Status</strong><span>{status}</span></p> : null}
+          <form className="appurdex-ai-composer" onSubmit={submitMessage}>
+            <textarea value={message} onChange={(event) => setMessage(event.target.value)} placeholder="Ask Appurdex AI about agents, pricing, freshness, or market fit..." rows={3} />
+            <button type="submit" disabled={!message.trim() || loading}><Send size={16} />Send</button>
+          </form>
+        </section>
+      </section>
+    </main>
+  );
+}
 function LearnPage({ navigate }) {
   const categories = [
     ['IDE Assistant', 'Editor-attached tools for inline suggestions, codebase chat, and assisted edits.'],
@@ -2439,9 +2661,9 @@ function AlertsPage({ state, viewer, navigate }) {
 }
 const subscriberEndpoints = [
   ["POST /api/search/research", "Natural-language research search with rule parsing and optional OpenAI Responses API structured fallback."],
-  ["GET /api/v1/agents", "Free snapshot endpoint for source-backed agent records, source links, categories, and snapshot metrics."],
-  ["GET /api/v1/agents/:slug", "Free snapshot endpoint for one agent record by slug."],
-  ["GET /api/v1/categories", "Free category names from the tracked Appurdex catalog."],
+  ["GET /api/v1/agents", "Starter and above: snapshot endpoint for source-backed agent records, source links, categories, and snapshot metrics."],
+  ["GET /api/v1/agents/:slug", "Starter and above: snapshot endpoint for one agent record by slug."],
+  ["GET /api/v1/categories", "Starter and above: category names from the tracked Appurdex catalog."],
   ["GET /api/v1/pricing", "Starter and above: normalized product pricing plus reviewed model-pricing refs."],
   ["GET /api/v1/model-pricing", "Starter and above: source-backed token pricing rows and source freshness state."],
   ["GET /api/v1/source-catalog", "Starter and above: source categories, resale/use policy notes, and field-source policy metadata."],
@@ -2492,7 +2714,7 @@ function ApiPage({ state, backendAvailable, navigate, viewer, reloadViewer }) {
   const config = viewer?.config || {};
   const planId = user?.planId || viewer?.limits?.plan || "free";
   const canUseApi = Boolean(user && viewer?.access?.apiAccess);
-  const apiAccessCopy = user ? "Your signed-in account can create API keys. Free keys are limited to 500 snapshot requests/month." : "Sign in to create a Free API key for 500 snapshot requests/month.";
+  const apiAccessCopy = user ? (canUseApi ? "Your paid account can create subscriber API keys." : "Upgrade to Starter or above before creating API keys.") : "Sign in, then subscribe to Starter or above to create an API key.";
   const emailReady = Boolean(config.emailMagicLink);
   const googleReady = Boolean(config.google);
   const appleReady = false;
@@ -2620,7 +2842,7 @@ function ApiPage({ state, backendAvailable, navigate, viewer, reloadViewer }) {
                   </dl>
                   {plan.entitlements?.length ? <ul className="api-entitlement-list">{plan.entitlements.map((item) => <li key={plan.id + item}>{item}</li>)}</ul> : null}
                   {selfServe ? (
-                    user && billingReady ? <div className="api-plan-actions"><button type="button" onClick={() => handleCheckout(plan.id, "monthly")}>{plan.name} monthly</button><button type="button" onClick={() => handleCheckout(plan.id, "annual")}>{plan.name} annual</button></div> : <small>{user ? "Billing checkout is not enabled for this launch environment." : "Sign in before checkout is available."}</small>
+                    user && billingReady ? <div className="api-plan-actions"><button type="button" onClick={() => handleCheckout(plan.id, "monthly")}>{plan.name} monthly</button><button type="button" onClick={() => handleCheckout(plan.id, "annual")}>{plan.name} annual</button></div> : <small>{user ? "Billing checkout must be configured before paid API launch." : "Sign in before checkout is available."}</small>
                   ) : plan.id === "enterprise" ? <small>Custom contract, volume, support, SLA, and export terms.</small> : <small>Public browsing plan.</small>}
                 </section>
               );
@@ -2990,12 +3212,45 @@ function tokenPricingDateValue(row) {
   return Number.isFinite(time) ? time : 0;
 }
 
+function modelVersionParts(row) {
+  const raw = [row.modelId, row.model, row.id].filter(Boolean).join(" ").toLowerCase();
+  const normalized = raw.replace(/(\d)-(?=\d)/g, '$1.');
+  const familyMatch = normalized.match(/\b(?:gpt|claude|gemini|o|llama|mistral)[\w.-]*?(\d+(?:\.\d+)*)/i);
+  const fallbackMatch = normalized.match(/\b(\d+(?:\.\d+)*)\b/);
+  const version = familyMatch?.[1] || fallbackMatch?.[1] || "";
+  return version.split(".").map((part) => Number(part)).filter((part) => Number.isFinite(part));
+}
+
+function compareModelVersionDesc(a, b) {
+  const left = modelVersionParts(a);
+  const right = modelVersionParts(b);
+  if (left.length !== right.length && (!left.length || !right.length)) return left.length ? -1 : 1;
+  const maxLength = Math.max(left.length, right.length);
+  for (let index = 0; index < maxLength; index += 1) {
+    const diff = (right[index] || 0) - (left[index] || 0);
+    if (diff) return diff;
+  }
+  return compareText(a.model, b.model);
+}
+
+function compareModelVersionAsc(a, b) {
+  const left = modelVersionParts(a);
+  const right = modelVersionParts(b);
+  if (left.length !== right.length && (!left.length || !right.length)) return left.length ? -1 : 1;
+  const maxLength = Math.max(left.length, right.length);
+  for (let index = 0; index < maxLength; index += 1) {
+    const diff = (left[index] || 0) - (right[index] || 0);
+    if (diff) return diff;
+  }
+  return compareText(a.model, b.model);
+}
+
 function compareTokenPricingDatesAsc(a, b) {
   const left = tokenPricingDateValue(a);
   const right = tokenPricingDateValue(b);
   if (left && right && left !== right) return left - right;
   if (left !== right) return left ? -1 : 1;
-  return a.model.localeCompare(b.model);
+  return compareModelVersionAsc(a, b);
 }
 
 function compareTokenPricingDatesDesc(a, b) {
@@ -3003,7 +3258,7 @@ function compareTokenPricingDatesDesc(a, b) {
   const right = tokenPricingDateValue(b);
   if (left && right && left !== right) return right - left;
   if (left !== right) return left ? -1 : 1;
-  return a.model.localeCompare(b.model);
+  return compareModelVersionDesc(a, b);
 }
 
 function sortTokenPricingRows(rows, sortBy) {
@@ -3084,13 +3339,13 @@ function TokenPricingTable({ rows }) {
 
 function TokenUsagePricingTable({ rows }) {
   const [statusFilter, setStatusFilter] = useState('current');
-  const [sortBy, setSortBy] = useState('input-asc');
+  const [sortBy, setSortBy] = useState('newest');
   if (!rows.length) return null;
   const sourceRows = [...new Map(rows.map((row) => [row.sourceUrl || row.sourceId || row.id, row])).values()];
   const filteredRows = sortTokenPricingRows(filterTokenPricingRows(rows, statusFilter), sortBy);
   const deprecatedRows = sortTokenPricingRows(rows.filter(isDeprecatedModel), sortBy);
   const statusLabels = { current: 'Current', scheduled: 'Scheduled', deprecated: 'Deprecated/retired', all: 'All' };
-  const sortLabels = { 'input-asc': 'input price low-high', 'input-desc': 'input price high-low', newest: 'newest effective date', oldest: 'oldest effective date', scheduled: 'scheduled first', deprecated: 'deprecated first', status: 'status', model: 'model name' };
+  const sortLabels = { 'input-asc': 'input price low-high', 'input-desc': 'input price high-low', newest: 'newest source date/version', oldest: 'oldest source date/version', scheduled: 'scheduled first', deprecated: 'deprecated first', status: 'status', model: 'model name' };
   const showDeprecatedDisclosure = statusFilter === 'current' && deprecatedRows.length > 0;
   return (
     <div className="directory-pricing-tiers token-pricing-section">
@@ -3116,10 +3371,10 @@ function TokenUsagePricingTable({ rows }) {
           </label>
           <label htmlFor="token-sort-filter">Sort
             <select id="token-sort-filter" value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
-              <option value="input-asc">Input price low-high</option>
-              <option value="input-desc">Input price high-low</option>
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
+              <option value="input-asc">Input price low-high</option>
+              <option value="input-desc">Input price high-low</option>
               <option value="scheduled">Scheduled first</option>
               <option value="deprecated">Deprecated first</option>
               <option value="status">Status</option>
@@ -3844,14 +4099,12 @@ export default function App() {
           <LearnPage navigate={navigate} />
         ) : route.page === "analytics" ? (
           <AgentPerformanceAnalyticsPage agents={agents} state={state} backendAvailable={backendAvailable} navigate={navigate} />
-        ) : route.page === "integrations" ? (
-          <PlaceholderPage title="Integrations" navigate={navigate}>Public integrations are not available yet.</PlaceholderPage>
         ) : route.page === "alerts" ? (
           <AlertsPage state={state} viewer={viewer} navigate={navigate} />
         ) : route.page === "saved" ? (
           <SavedPage agents={agents} viewer={viewer} navigate={navigate} />
-        ) : route.page === "feeds" ? (
-          <PlaceholderPage title="Feeds" navigate={navigate}>No public feeds are available yet.</PlaceholderPage>
+        ) : route.page === "assistant" ? (
+          <AppurdexAiPage backendAvailable={backendAvailable} viewer={viewer} />
         ) : route.page === "api" ? (
           <ApiPage state={state} backendAvailable={backendAvailable} navigate={navigate} viewer={viewer} reloadViewer={reloadViewer} />
         ) : route.page === "settings" ? (
@@ -3860,6 +4113,10 @@ export default function App() {
           <VendorOverviewPage agents={agents} navigate={navigate} />
         ) : route.page === "vendor-detail" ? (
           <VendorEcosystemPage vendor={selectedVendor} navigate={navigate} />
+        ) : route.page === "use-cases" ? (
+          <UseCasesIndexPage agents={agents} navigate={navigate} />
+        ) : route.page === "use-case-detail" ? (
+          <UseCaseDetailPage agents={agents} navigate={navigate} slug={route.slug} />
         ) : route.page === "ai" ? (
           <DirectoryPage agents={agents} backendAvailable={backendAvailable} filters={filters} navigate={navigate} setFilters={setFilters} title="AI Directory" description="Source-backed AI products matched by agent, repo, category, and use-case search." />
         ) : route.slug ? (
@@ -3877,12 +4134,4 @@ export default function App() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
 

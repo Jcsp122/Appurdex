@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -6,16 +7,31 @@ import { trackedTools } from "../src/data/trackedTools.js";
 import { modelPricingCatalog, modelPricingRefsForAgent, modelPricingSources } from "../src/data/modelPricing.js";
 import { apiPlans, buildSourceUrls, logoUrlForTool, normalizePricing, slugify } from '../src/lib/agentModel.js';
 import { fieldDataPolicies, freeDataSources } from '../src/data/sourceCatalog.js';
+import { productUseCaseTags } from '../src/data/useCaseProductTags.js';
+import { assertValidUseCases, normalizeUseCases } from '../src/data/useCaseTaxonomy.js';
 import { applyFreshnessToAgent, applyFreshnessToDb, discoveredAtForAgent, inferSyncTier, syncAgeLabel, syncAgeTone } from "./freshness.mjs";
 import { changeTypeForReviewItem } from "./change-types.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
-const dataDir = path.join(rootDir, "data");
-const dbPath = path.join(dataDir, "appurdex-db.json");
+const defaultDataDir = path.join(rootDir, "data");
+
+function dataDir() {
+  return path.resolve(process.env.APPURDEX_DATA_DIR || defaultDataDir);
+}
+
+function dbPath() {
+  return path.resolve(process.env.APPURDEX_CATALOG_DB_PATH || path.join(dataDir(), "appurdex-db.json"));
+}
 
 function now() {
   return new Date().toISOString();
+}
+
+function useCasesForStoredAgent(agent) {
+  const slug = agent.slug || slugify(agent.id || agent.name);
+  const raw = Array.isArray(agent.use_cases) && agent.use_cases.length ? agent.use_cases : productUseCaseTags[slug];
+  return normalizeUseCases(raw);
 }
 
 function seedAgent(tool) {
@@ -24,6 +40,7 @@ function seedAgent(tool) {
     ...tool,
     slug,
     hasPublicRepo: tool.hasPublicRepo ?? Boolean(tool.githubRepo),
+    use_cases: useCasesForStoredAgent({ ...tool, slug }),
     sync_tier: inferSyncTier(tool),
     last_synced_at: tool.last_synced_at || tool.lastSyncedAt || tool.lastCuratedAt || tool.discovery?.discoveredAt || tool.discoveredAt || null,
     discovered_at: discoveredAtForAgent(tool),
@@ -93,6 +110,7 @@ function initialDb() {
     githubMetrics: {},
     githubMetricErrors: {},
     reviewQueue: [],
+    licensedSourceCandidates: [],
     metricSnapshots: [],
     suggestions: [],
     vendorClaims: [],
@@ -108,7 +126,7 @@ function initialDb() {
 }
 
 async function ensureDataDir() {
-  await fs.mkdir(dataDir, { recursive: true });
+  await fs.mkdir(dataDir(), { recursive: true });
 }
 
 function mergeSeedAgents(db) {
@@ -128,6 +146,7 @@ function mergeSeedAgents(db) {
     githubMetrics: db.githubMetrics || {},
     githubMetricErrors: db.githubMetricErrors || {},
     reviewQueue: db.reviewQueue || [],
+    licensedSourceCandidates: db.licensedSourceCandidates || [],
     metricSnapshots: db.metricSnapshots || [],
     suggestions: db.suggestions || [],
     vendorClaims: db.vendorClaims || [],
@@ -145,7 +164,7 @@ function mergeSeedAgents(db) {
 async function readStoredDb() {
   await ensureDataDir();
   try {
-    const raw = await fs.readFile(dbPath, "utf8");
+    const raw = await fs.readFile(dbPath(), "utf8");
     const db = JSON.parse(raw.charCodeAt(0) === 0xFEFF ? raw.slice(1) : raw);
     return mergeSeedAgents(db);
   } catch (error) {
@@ -165,12 +184,26 @@ export async function writeDb(db) {
   const agents = Array.isArray(db.agents)
     ? db.agents.map((agent) => {
       const { modelPricingSourceRefs, modelPricingCoverage, ...storedAgent } = agent;
-      return { ...storedAgent, logoUrl: storedAgent.logoUrl || logoUrlForTool(storedAgent) };
+      const explicitUseCases = Array.isArray(storedAgent.use_cases) && storedAgent.use_cases.length ? assertValidUseCases(storedAgent.use_cases) : useCasesForStoredAgent(storedAgent);
+      return { ...storedAgent, use_cases: explicitUseCases, logoUrl: storedAgent.logoUrl || logoUrlForTool(storedAgent) };
     })
     : [];
   const next = { ...db, agents, updatedAt: now() };
-  await fs.writeFile(dbPath, `${JSON.stringify(next, null, 2)}\n`, "utf8");
+  await fs.writeFile(dbPath(), `${JSON.stringify(next, null, 2)}\n`, "utf8");
   return next;
+}
+
+export function catalogStorageInfo() {
+  const resolvedDataDir = dataDir();
+  const resolvedDbPath = dbPath();
+  return {
+    dataDir: resolvedDataDir,
+    dataDirConfigured: Boolean(process.env.APPURDEX_DATA_DIR),
+    catalogDbPath: resolvedDbPath,
+    catalogDbPathConfigured: Boolean(process.env.APPURDEX_CATALOG_DB_PATH),
+    directoryExists: fsSync.existsSync(resolvedDataDir),
+    databaseFileExists: fsSync.existsSync(resolvedDbPath),
+  };
 }
 
 function textList(value) {
@@ -294,6 +327,7 @@ export function publicAgent(agent, db) {
     slug,
     searchKeywords: searchKeywordsForAgent(freshAgent),
     useCaseWeight: useCaseWeightForAgent(freshAgent),
+    use_cases: useCasesForStoredAgent(freshAgent),
     name: freshAgent.name,
     category: freshAgent.category,
     ecosystem: freshAgent.ecosystem,
@@ -409,6 +443,7 @@ export function findAgent(db, slugOrId) {
 }
 
 export function makeReviewItem(type, agentSlug, title, detail, sourceUrl, status = "pending", metadata = {}) {
+  const metadataEntries = Object.entries(metadata || {});
   return {
     id: crypto.randomUUID(),
     type,
@@ -421,6 +456,7 @@ export function makeReviewItem(type, agentSlug, title, detail, sourceUrl, status
     newValue: metadata.newValue ?? detail ?? title ?? null,
     detectedAt: metadata.detectedAt || now(),
     changeType: metadata.changeType || changeTypeForReviewItem({ type, field: metadata.field, title, detail }),
+    metadata: metadataEntries.length ? Object.fromEntries(metadataEntries) : undefined,
     status,
     createdAt: now(),
     updatedAt: now(),
@@ -459,5 +495,9 @@ export function requireApiKey(db, request) {
   record.lastUsedAt = now();
   return { ok: true, record };
 }
+
+
+
+
 
 

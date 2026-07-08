@@ -4,7 +4,7 @@ import fs from "node:fs/promises";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { createApiKeyRecord, findAgent, maskApiKey, publicAgent, publicModelPricingEntry, readDb, refreshFreshnessScores, requireApiKey, writeDb, makeReviewItem } from "./store.mjs";
+import { catalogStorageInfo, createApiKeyRecord, findAgent, maskApiKey, publicAgent, publicModelPricingEntry, readDb, refreshFreshnessScores, requireApiKey, writeDb, makeReviewItem } from "./store.mjs";
 import { authenticateCustomerApiKey, authConfig, handleAuthBillingRoute, requestSession } from "./auth-billing.mjs";
 import {
   activeWebhookEndpointsForEvent,
@@ -29,6 +29,7 @@ import {
   updateWebhookDelivery,
 } from "./customer-store.mjs";
 import { buildSourceUrls } from '../src/lib/agentModel.js';
+import { assertValidUseCases, populatedUseCases, productsForUseCase, useCaseLabel, useCaseSearchText, useCasesForGroup } from '../src/data/useCaseTaxonomy.js';
 import { changeTypeForReviewItem, eventTypeForChangeType, normalizeAlertTypes } from "./change-types.mjs";
 import { buildWeeklyDigest, sendWeeklyDigestEmail } from "./digest.mjs";
 import { runWorker } from "./worker.mjs";
@@ -222,7 +223,9 @@ async function githubDiagnostics() {
 }
 function healthState() {
   const config = authConfig();
-  const authDbPath = process.env.APPURDEX_DB_PATH || path.join(rootDir, "data", "appurdex-auth.sqlite");
+  const storageRoot = path.resolve(process.env.APPURDEX_DATA_DIR || path.join(rootDir, "data"));
+  const authDbPath = path.resolve(process.env.APPURDEX_DB_PATH || path.join(storageRoot, "appurdex-auth.sqlite"));
+  const catalogStorage = catalogStorageInfo();
   return {
     ok: true,
     service: "appurdex",
@@ -240,10 +243,15 @@ function healthState() {
       missingEnv: config.missingEnv.stripe,
     },
     storage: {
-      sqlite: true,
-      appurdexDbPathConfigured: Boolean(process.env.APPURDEX_DB_PATH),
-      directoryExists: fsSync.existsSync(path.dirname(authDbPath)),
-      databaseFileExists: fsSync.existsSync(authDbPath),
+      dataDir: storageRoot,
+      dataDirConfigured: Boolean(process.env.APPURDEX_DATA_DIR),
+      sqlite: {
+        path: authDbPath,
+        pathConfigured: Boolean(process.env.APPURDEX_DB_PATH),
+        directoryExists: fsSync.existsSync(path.dirname(authDbPath)),
+        databaseFileExists: fsSync.existsSync(authDbPath),
+      },
+      catalog: catalogStorage,
     },
   };
 }
@@ -306,18 +314,14 @@ function productHaystack(agent) {
     agent.githubRepo,
     textSearch(agent.searchKeywords),
     textSearch(agent.useCaseWeight),
+    textSearch(agent.use_cases),
+    textSearch((agent.use_cases || []).map(useCaseLabel)),
     textSearch(agent.integrations),
     textSearch(agent.modelSupport),
   ].filter(Boolean).join(" ").toLowerCase();
 }
 
-const searchUseCaseRules = [
-  ["Code generation", ["code", "coding", "developer", "repo", "pull request", "terminal", "ide"]],
-  ["App building", ["app builder", "prompt to app", "vibe", "prototype", "full-stack", "frontend"]],
-  ["Data analysis", ["data analysis", "analytics", "notebook", "research", "retrieval"]],
-  ["Automation", ["automation", "workflow", "agentic", "orchestration", "autonomous"]],
-  ["Agent infrastructure", ["mcp", "server", "sdk", "api", "tool", "integration", "runtime"]],
-];
+const searchUseCases = useCasesForGroup("all");
 
 function uniqueValues(items, selector) {
   return [...new Set(items.map(selector).filter(Boolean))];
@@ -348,8 +352,9 @@ function parseRuleSearch(query, agents) {
     vendor: vendors.find((value) => lower.includes(String(value).toLowerCase())) || null,
     compareNames: [],
   };
-  for (const [label, keywords] of searchUseCaseRules) {
-    if (keywords.some((keyword) => lower.includes(keyword))) filters.useCase = label;
+  for (const useCase of searchUseCases) {
+    const terms = useCaseSearchText(useCase).split(/\s+/).filter((term) => term.length > 2);
+    if (lower.includes(useCase.slug.replace(/_/g, " ")) || lower.includes(useCase.label.toLowerCase()) || terms.some((term) => lower.includes(term))) filters.useCase = useCase.slug;
   }
   if (filters.queryType === "comparison") {
     filters.compareNames = agents.filter((agent) => lower.includes(String(agent.name || "").toLowerCase())).map((agent) => agent.slug).slice(0, 5);
@@ -430,7 +435,7 @@ function groupSearchResults(results, filters) {
   const groupBy = filters.useCase ? "useCase" : "category";
   const groups = new Map();
   for (const item of results) {
-    const key = groupBy === "useCase" ? (filters.useCase || "Matched use case") : (item.category || item.displayCategory || "Uncategorized");
+    const key = groupBy === "useCase" ? (useCaseLabel(filters.useCase) || filters.useCase || "Matched use case") : (item.category || item.displayCategory || "Uncategorized");
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push({
       slug: item.slug,
@@ -483,6 +488,111 @@ async function buildResearchSearchResponse({ query, db, user }) {
   };
 }
 
+function assistantConfig() {
+  const telegramUsername = String(process.env.APPURDEX_TELEGRAM_BOT_USERNAME || "").replace(/^@/, "").trim();
+  const telegramToken = Boolean(process.env.APPURDEX_TELEGRAM_BOT_TOKEN);
+  const telegramSecret = Boolean(process.env.APPURDEX_TELEGRAM_WEBHOOK_SECRET);
+  return {
+    enabled: Boolean(process.env.OPENAI_API_KEY),
+    model: process.env.APPURDEX_AI_MODEL || process.env.APPURDEX_LLM_MODEL || "gpt-4o-mini",
+    telegram: {
+      configured: Boolean(telegramUsername && telegramToken && telegramSecret),
+      username: telegramUsername || null,
+      connectUrl: telegramUsername ? `https://t.me/${telegramUsername}` : null,
+      webhookPath: "/api/appurdex-ai/telegram/webhook",
+      missingEnv: [
+        telegramUsername ? null : "APPURDEX_TELEGRAM_BOT_USERNAME",
+        telegramToken ? null : "APPURDEX_TELEGRAM_BOT_TOKEN",
+        telegramSecret ? null : "APPURDEX_TELEGRAM_WEBHOOK_SECRET",
+      ].filter(Boolean),
+    },
+  };
+}
+
+function assistantCatalogContext(db) {
+  return db.agents
+    .map((agent) => publicAgent(agent, db))
+    .sort((a, b) => Number(b.finalRank || b.ranking?.score || 0) - Number(a.finalRank || a.ranking?.score || 0))
+    .slice(0, 40)
+    .map((agent) => ({
+      name: agent.name,
+      slug: agent.slug,
+      category: agent.displayCategory || agent.category,
+      ecosystem: agent.ecosystem,
+      pricing: agent.price,
+      access: agent.access,
+      hosting: agent.hosting,
+      freshnessScore: agent.freshnessScore ?? agent.freshness_score ?? null,
+      lastSyncedAt: agent.lastSyncedAt || agent.last_synced_at || null,
+      sourceUrl: agent.sourceUrl || agent.website || null,
+    }));
+}
+
+function normalizeAssistantHistory(history) {
+  return Array.isArray(history)
+    ? history.slice(-8).map((item) => ({ role: item.role === "assistant" ? "assistant" : "user", content: String(item.content || "").slice(0, 2000) })).filter((item) => item.content)
+    : [];
+}
+
+function assistantInput({ message, experience, writingStyle, history, catalogContext, channel }) {
+  const mode = String(experience || "Regular");
+  const style = String(writingStyle || "Default");
+  return [
+    { role: "system", content: [{ type: "input_text", text: `You are Appurdex AI, a product research assistant for the Appurdex AI agent directory. Use only the provided catalog context for product claims. If a fact is missing, say it is unknown. Keep the response useful for a ${mode} user, with ${style} writing style. Channel: ${channel || "web"}.` }] },
+    { role: "user", content: [{ type: "input_text", text: `Catalog context JSON:\n${JSON.stringify(catalogContext)}\n\nRecent chat:\n${JSON.stringify(normalizeAssistantHistory(history))}\n\nUser message: ${message}` }] },
+  ];
+}
+
+function assistantOutputText(body) {
+  return body.output_text || body.output?.flatMap((item) => item.content || []).find((item) => item.text)?.text || "";
+}
+
+async function buildAssistantReply({ message, experience, writingStyle, history, db, channel = "web" }) {
+  const text = String(message || "").trim();
+  if (!text) return { status: 400, body: { error: "Message is required." } };
+  const config = assistantConfig();
+  if (!config.enabled) return { status: 503, body: { error: "Appurdex AI is not configured.", missingEnv: ["OPENAI_API_KEY"] } };
+  const model = config.model;
+  const response = await fetch("https://api.openai.com/v1/responses", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
+    body: JSON.stringify({
+      model,
+      input: assistantInput({ message: text, experience, writingStyle, history, catalogContext: assistantCatalogContext(db), channel }),
+    }),
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) return { status: response.status, body: { error: body.error?.message || `OpenAI returned ${response.status}` } };
+  const reply = assistantOutputText(body).trim();
+  return { status: 200, body: apiEnvelope({ message: reply || "No response text returned.", model, createdAt: new Date().toISOString() }) };
+}
+
+async function sendTelegramMessage(chatId, text) {
+  const token = process.env.APPURDEX_TELEGRAM_BOT_TOKEN;
+  if (!token) return { ok: false, error: "APPURDEX_TELEGRAM_BOT_TOKEN is not configured." };
+  const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: chatId, text: String(text || "").slice(0, 3900), disable_web_page_preview: true }),
+  });
+  const body = await response.json().catch(() => ({}));
+  return response.ok ? { ok: true, body } : { ok: false, error: body.description || `Telegram returned ${response.status}` };
+}
+
+async function handleAssistantTelegramWebhook(request, response, db) {
+  const config = assistantConfig();
+  if (!config.telegram.configured) return json(response, 503, { error: "Telegram is not configured.", missingEnv: config.telegram.missingEnv });
+  const expectedSecret = process.env.APPURDEX_TELEGRAM_WEBHOOK_SECRET;
+  if (expectedSecret && request.headers["x-telegram-bot-api-secret-token"] !== expectedSecret) return json(response, 401, { error: "Invalid Telegram webhook secret." });
+  const update = await readJson(request);
+  const chatId = update.message?.chat?.id || update.edited_message?.chat?.id;
+  const text = update.message?.text || update.edited_message?.text || "";
+  if (!chatId || !text) return json(response, 200, { ok: true, ignored: true });
+  const reply = await buildAssistantReply({ message: text, experience: "Regular", writingStyle: "Concise", history: [], db, channel: "telegram" });
+  const answer = reply.status === 200 ? reply.body.data.message : reply.body.error;
+  const delivery = await sendTelegramMessage(chatId, answer);
+  return json(response, delivery.ok ? 200 : 502, { ok: delivery.ok, delivery, assistantStatus: reply.status });
+}
 function publicHistory(agent) {
   return agent.history || { pricingHistory: [], rankingHistory: [], repoStarHistory: [], freshnessHistory: [] };
 }
@@ -603,6 +713,63 @@ function appendAgentUpdateChangeItems(db, before, after) {
     ));
   }
 }
+const USE_CASE_MIN_PRODUCTS = 3;
+const VALID_USE_CASE_GROUPS = new Set(["coding_specific", "general_purpose", "all"]);
+
+function useCaseGroupFromUrl(url) {
+  const group = url.searchParams.get("group") || "all";
+  if (!VALID_USE_CASE_GROUPS.has(group)) return { error: `Invalid use case group: ${group}` };
+  return { group };
+}
+
+function publicUseCaseSummary(useCase) {
+  return {
+    slug: useCase.slug,
+    label: useCase.label,
+    group: useCase.group,
+    description: useCase.description,
+    count: useCase.count,
+    path: `/use-cases/${useCase.slug}`,
+  };
+}
+
+function publicUseCaseProduct(agent) {
+  return {
+    slug: agent.slug,
+    name: agent.name,
+    description: agent.description,
+    category: agent.category,
+    displayCategory: agent.displayCategory || agent.category,
+    pricingTier: agent.pricingTier,
+    pricingType: agent.pricingType,
+    pricingSummary: agent.pricingSummary || agent.price,
+    price: agent.price,
+    pricing: agent.pricing,
+    website: agent.website || agent.sourceUrl || null,
+    sourceUrl: agent.sourceUrl || null,
+    publicPath: agent.publicPath || `/ai/${agent.slug}`,
+    use_cases: agent.use_cases || [],
+  };
+}
+
+function publicUseCaseProducts(db) {
+  return db.agents.map((agent) => publicAgent(agent, db));
+}
+
+function publicUseCaseList(db, group) {
+  return populatedUseCases(publicUseCaseProducts(db), group, USE_CASE_MIN_PRODUCTS).map(publicUseCaseSummary);
+}
+
+function publicUseCaseDetail(db, slug, group) {
+  const result = productsForUseCase(publicUseCaseProducts(db), slug, group, USE_CASE_MIN_PRODUCTS);
+  if (!result.useCase) return null;
+  return {
+    useCase: publicUseCaseSummary(result.useCase),
+    products: result.products
+      .sort((a, b) => Number(b.finalRank || b.final_rank || 0) - Number(a.finalRank || a.final_rank || 0) || String(a.name || "").localeCompare(String(b.name || "")))
+      .map(publicUseCaseProduct),
+  };
+}
 async function handleApi(request, response, url) {
   const pathname = url.pathname;
   const handledCustomerRoute = await handleAuthBillingRoute(request, response, url, { json, readJson, readRawBody });
@@ -612,6 +779,28 @@ async function handleApi(request, response, url) {
 
   const db = await readDb();
 
+  if (request.method === "GET" && pathname === "/api/appurdex-ai/config") return json(response, 200, apiEnvelope(assistantConfig()));
+  if (request.method === "GET" && pathname === "/api/use-cases") {
+    const groupResult = useCaseGroupFromUrl(url);
+    if (groupResult.error) return json(response, 400, { error: groupResult.error });
+    return json(response, 200, apiEnvelope(publicUseCaseList(db, groupResult.group)));
+  }
+
+  if (request.method === "GET" && pathname.startsWith("/api/use-cases/")) {
+    const groupResult = useCaseGroupFromUrl(url);
+    if (groupResult.error) return json(response, 400, { error: groupResult.error });
+    const slug = decodeURIComponent(pathname.split("/").pop());
+    const detail = publicUseCaseDetail(db, slug, groupResult.group);
+    return detail ? json(response, 200, apiEnvelope(detail)) : json(response, 404, { error: "Use case not found." });
+  }
+
+  if (request.method === "POST" && pathname === "/api/appurdex-ai/chat") {
+    const body = await readJson(request);
+    const result = await buildAssistantReply({ message: body.message, experience: body.experience, writingStyle: body.writingStyle, history: body.history, db, channel: "web" });
+    return json(response, result.status, result.body);
+  }
+
+  if (request.method === "POST" && pathname === "/api/appurdex-ai/telegram/webhook") return handleAssistantTelegramWebhook(request, response, db);
   if (request.method === "POST" && pathname === "/api/search/research") {
     const body = await readJson(request);
     const query = String(body.query || "").trim();
@@ -699,8 +888,15 @@ async function handleApi(request, response, url) {
     const index = db.agents.findIndex((agent) => agent.slug === slug || agent.id === slug);
     if (index < 0) return json(response, 404, { error: "Agent not found." });
     const body = await readJson(request);
-    const allowed = ["category", "description", "access", "pricingTier", "website", "logoUrl", "sourceUrl", "sourceLabel", "sourceType", "pricingUrl", "pricingLabel", "statusPageUrl", "statusPageLabel", "benchmarkUrl", "benchmarkLabel", "statusNote", "hasPublicRepo", "licenseType", "vendorId", "vendorName", "vendorWebsite", "vendorSourceUrl", "vendorSourceLabel", "maintainerName", "companyName", "company", "foundedAt", "launchDate", "modelSupport", "fieldVerification", "socialLinks", "socials", "twitterUrl", "xUrl", "linkedinUrl", "youtubeUrl", "ytUrl", "instagramUrl", "pricingPlans", "benchmarks", "capabilityMetrics", "operationalMetrics", "ecosystemHealth", "adoptionMetrics", "packages", "packageEcosystem", "packageName", "packageVersion"];
+    const allowed = ["category", "description", "access", "pricingTier", "website", "logoUrl", "sourceUrl", "sourceLabel", "sourceType", "pricingUrl", "pricingLabel", "statusPageUrl", "statusPageLabel", "benchmarkUrl", "benchmarkLabel", "statusNote", "hasPublicRepo", "licenseType", "vendorId", "vendorName", "vendorWebsite", "vendorSourceUrl", "vendorSourceLabel", "maintainerName", "companyName", "company", "foundedAt", "launchDate", "modelSupport", "fieldVerification", "socialLinks", "socials", "twitterUrl", "xUrl", "linkedinUrl", "youtubeUrl", "ytUrl", "instagramUrl", "pricingPlans", "benchmarks", "capabilityMetrics", "operationalMetrics", "ecosystemHealth", "adoptionMetrics", "packages", "packageEcosystem", "packageName", "packageVersion", "use_cases"];
     const updates = Object.fromEntries(Object.entries(body).filter(([key]) => allowed.includes(key)));
+    if (Object.prototype.hasOwnProperty.call(body, "use_cases")) {
+      try {
+        updates.use_cases = assertValidUseCases(body.use_cases);
+      } catch (error) {
+        return json(response, 400, { error: error.message });
+      }
+    }
     const beforeAgent = { ...db.agents[index] };
     db.agents[index] = { ...db.agents[index], ...updates, updatedAt: new Date().toISOString() };
     db.agents[index].sourceUrls = buildSourceUrls(db.agents[index]);
@@ -1000,6 +1196,8 @@ server.listen(port, () => {
   console.log(`Appurdex backend listening on http://127.0.0.1:${port}`);
   startWorkerScheduler();
 });
+
+
 
 
 
