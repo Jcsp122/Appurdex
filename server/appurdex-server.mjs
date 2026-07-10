@@ -28,7 +28,7 @@ import {
   recordWebhookDelivery,
   updateWebhookDelivery,
 } from "./customer-store.mjs";
-import { buildSourceUrls } from '../src/lib/agentModel.js';
+import { assertValidAgentLifecycleStatus, assertValidAgentType, buildSourceUrls } from '../src/lib/agentModel.js';
 import { assertValidUseCases, populatedUseCases, productsForUseCase, useCaseLabel, useCaseSearchText, useCasesForGroup } from '../src/data/useCaseTaxonomy.js';
 import { changeTypeForReviewItem, eventTypeForChangeType, normalizeAlertTypes } from "./change-types.mjs";
 import { buildWeeklyDigest, sendWeeklyDigestEmail } from "./digest.mjs";
@@ -603,8 +603,8 @@ function csvEscape(value) {
 }
 
 function agentsCsv(agents) {
-  const headers = ["slug", "name", "category", "ecosystem", "pricing", "sourceUrl", "lastSyncedAt", "verificationStatus"];
-  const rows = agents.map((agent) => [agent.slug, agent.name, agent.category, agent.ecosystem, agent.price, agent.sourceUrl || agent.website || "", agent.lastSyncedAt || agent.last_synced_at || "", agent.verificationStatus || "unknown"]);
+  const headers = ["slug", "name", "agent_type", "lifecycle_status", "category", "ecosystem", "pricing", "sourceUrl", "lastSyncedAt", "verificationStatus"];
+  const rows = agents.map((agent) => [agent.slug, agent.name, agent.agent_type, agent.lifecycle_status, agent.category, agent.ecosystem, agent.price, agent.sourceUrl || agent.website || "", agent.lastSyncedAt || agent.last_synced_at || "", agent.verificationStatus || "unknown"]);
   return [headers, ...rows].map((row) => row.map(csvEscape).join(",")).join("\n");
 }
 
@@ -739,6 +739,8 @@ function publicUseCaseProduct(agent) {
     name: agent.name,
     description: agent.description,
     category: agent.category,
+    agent_type: agent.agent_type,
+    lifecycle_status: agent.lifecycle_status,
     displayCategory: agent.displayCategory || agent.category,
     pricingTier: agent.pricingTier,
     pricingType: agent.pricingType,
@@ -888,11 +890,25 @@ async function handleApi(request, response, url) {
     const index = db.agents.findIndex((agent) => agent.slug === slug || agent.id === slug);
     if (index < 0) return json(response, 404, { error: "Agent not found." });
     const body = await readJson(request);
-    const allowed = ["category", "description", "access", "pricingTier", "website", "logoUrl", "sourceUrl", "sourceLabel", "sourceType", "pricingUrl", "pricingLabel", "statusPageUrl", "statusPageLabel", "benchmarkUrl", "benchmarkLabel", "statusNote", "hasPublicRepo", "licenseType", "vendorId", "vendorName", "vendorWebsite", "vendorSourceUrl", "vendorSourceLabel", "maintainerName", "companyName", "company", "foundedAt", "launchDate", "modelSupport", "fieldVerification", "socialLinks", "socials", "twitterUrl", "xUrl", "linkedinUrl", "youtubeUrl", "ytUrl", "instagramUrl", "pricingPlans", "benchmarks", "capabilityMetrics", "operationalMetrics", "ecosystemHealth", "adoptionMetrics", "packages", "packageEcosystem", "packageName", "packageVersion", "use_cases"];
+    const allowed = ["agent_type", "lifecycle_status", "category", "description", "access", "pricingTier", "website", "logoUrl", "sourceUrl", "sourceLabel", "sourceType", "pricingUrl", "pricingLabel", "statusPageUrl", "statusPageLabel", "benchmarkUrl", "benchmarkLabel", "statusNote", "hasPublicRepo", "licenseType", "vendorId", "vendorName", "vendorWebsite", "vendorSourceUrl", "vendorSourceLabel", "maintainerName", "companyName", "company", "foundedAt", "launchDate", "modelSupport", "fieldVerification", "socialLinks", "socials", "twitterUrl", "xUrl", "linkedinUrl", "youtubeUrl", "ytUrl", "instagramUrl", "pricingPlans", "benchmarks", "capabilityMetrics", "operationalMetrics", "ecosystemHealth", "adoptionMetrics", "packages", "packageEcosystem", "packageName", "packageVersion", "use_cases"];
     const updates = Object.fromEntries(Object.entries(body).filter(([key]) => allowed.includes(key)));
     if (Object.prototype.hasOwnProperty.call(body, "use_cases")) {
       try {
         updates.use_cases = assertValidUseCases(body.use_cases);
+      } catch (error) {
+        return json(response, 400, { error: error.message });
+      }
+    }
+    if (Object.prototype.hasOwnProperty.call(body, "agent_type")) {
+      try {
+        updates.agent_type = assertValidAgentType(body.agent_type);
+      } catch (error) {
+        return json(response, 400, { error: error.message });
+      }
+    }
+    if (Object.prototype.hasOwnProperty.call(body, "lifecycle_status")) {
+      try {
+        updates.lifecycle_status = assertValidAgentLifecycleStatus(body.lifecycle_status);
       } catch (error) {
         return json(response, 400, { error: error.message });
       }

@@ -2,4252 +2,1552 @@
 export const productUseCaseTags = {
   "0x0funky-termhive": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "documentation",
-    "development",
-    "research",
-    "creativity"
+    "data_analytics"
   ],
   "0x4m4-hexstrike-ai": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "debugging",
     "testing_qa",
-    "development",
-    "research",
-    "automation",
+    "mcp_integrations",
     "security"
   ],
   "0xk3vin-megamemory": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
-  ],
-  "0xmassi-pocketdev": [
-    "development",
-    "research"
+    "database_query_tools"
   ],
   "0xmmo-codemancer": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "0xranx-agentbrief": [
-    "development",
-    "research"
+    "development"
   ],
   "0xsteph-pentest-ai-agents": [
-    "debugging",
     "testing_qa",
-    "development",
-    "research",
-    "automation",
-    "security",
-    "productivity"
+    "research"
   ],
   "0xtbug-zero-limit": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "1024xengineer-bytemind": [
-    "development",
-    "research"
+    "development"
   ],
   "1186258278-opencodechinesetranslation": [
-    "development",
-    "research"
-  ],
-  "1850298154-memory-agent-hub": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
-  ],
-  "1iry-multi-agent-architecture-advisor": [
-    "development",
-    "research"
+    "localization_i18n",
+    "translation_language"
   ],
   "1jehuang-jcode": [
-    "mcp_integrations",
     "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "21pounder-terminalagent": [
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "21st-dev-1code": [
-    "development",
-    "research"
+    "agent_infrastructure"
   ],
   "777genius-agent-teams-ai": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "productivity",
-    "communication"
+    "mcp_integrations"
   ],
   "9thlevelsoftware-legion": [
-    "code_review",
-    "development",
-    "research"
+    "code_review"
   ],
   "a-prs-qwenclaw": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "a1dancole-openai-code-review": [
     "code_review",
-    "devops_infra",
-    "development",
-    "research",
-    "communication"
-  ],
-  "aakashadesara-ctop": [
-    "development",
-    "research"
+    "devops_infra"
   ],
   "aaravshah1311-agent-2-beta": [
-    "agent_infrastructure",
-    "testing_qa",
     "development",
-    "research",
-    "automation",
-    "security",
-    "productivity"
+    "testing_qa"
   ],
   "addxai-enterprise-harness-engineering": [
-    "devops_infra",
     "development",
-    "research",
-    "security",
-    "communication"
-  ],
-  "aduermael-herm": [
-    "development",
-    "research"
+    "devops_infra"
   ],
   "affaan-m-agentshield": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "security"
+    "mcp_integrations"
   ],
   "affaan-m-ecc": [
-    "mcp_integrations",
     "agent_infrastructure",
-    "development",
-    "research",
-    "security",
+    "mcp_integrations",
+    "performance_optimization",
     "productivity"
-  ],
-  "agent-era-devteam": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "agent-field-swe-af": [
-    "testing_qa",
-    "development",
-    "research",
-    "automation"
-  ],
-  "agent-of-empires-agent-of-empires": [
-    "development",
-    "research"
   ],
   "agent-sh-agnix": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "productivity"
-  ],
-  "agentforce314-clawcodex": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "agentic-community-mcp-gateway-registry": [
+    "devops_infra",
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "database_query_tools"
   ],
   "agentorchestrator-agentbase": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "agents365-ai-pi-plugin-cc": [
-    "code_review",
-    "development",
-    "research"
+    "code_review"
   ],
   "agentscope-ai-agentscope": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "agentsmd-agents-md": [
-    "development",
-    "research"
-  ],
-  "agentsmesh-agentsmesh": [
-    "development",
-    "research"
+    "web_development"
   ],
   "agenttier-agenttier": [
     "devops_infra",
-    "development",
-    "research"
-  ],
-  "agentwrapper-agent-orchestrator": [
-    "development",
-    "research",
-    "automation"
+    "agent_infrastructure"
   ],
   "agoraio-skills": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "agricidaniel-claude-cybersecurity": [
     "code_review",
-    "development",
-    "research",
     "security"
   ],
   "aider": [
-    "development",
-    "data_analytics"
+    "development"
   ],
   "aidrivencoder-roo-cline": [
-    "development",
-    "research",
-    "automation",
-    "security"
+    "development"
   ],
   "aitytech-agentkits-memory": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations"
   ],
   "aizenvoltprime-damocles": [
-    "agent_infrastructure",
-    "development",
-    "research"
+    "agent_infrastructure"
   ],
   "aj47-100x-orchestrator": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "akarachen-aghub": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations"
   ],
   "aklofas-kicad-happy": [
     "code_review",
-    "development",
-    "research",
-    "security",
-    "creativity"
-  ],
-  "alaashamaa017-cell-omegacode-cli-uncensored-ai": [
-    "development",
-    "research",
-    "creativity",
-    "productivity"
-  ],
-  "alaeddinemessadi-opencode-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "productivity"
-  ],
-  "alchaincyf-fanbox": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "alchaincyf-huashu-design": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "aldefy-compose-skill": [
-    "development",
-    "research"
-  ],
-  "alejandroll10-idea-evaluation-pipeline": [
-    "devops_infra",
-    "development",
-    "research",
-    "productivity",
-    "finance"
-  ],
-  "aleksandrfurmenkovofficial-ai-code-review": [
-    "code_review",
-    "devops_infra",
-    "development",
-    "research"
-  ],
-  "alexanys-agent-first-dev": [
-    "development",
-    "research",
-    "automation",
-    "education_learning"
-  ],
-  "alexei-led-ccgram": [
-    "development",
-    "research"
-  ],
-  "alexzio00-sovereign-skills": [
-    "code_review",
-    "development",
-    "research",
+    "scientific_computing_research",
     "security"
   ],
-  "alfredolopez80-multi-agent-ralph-loop": [
-    "agent_infrastructure",
-    "testing_qa",
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "communication",
+  "alaashamaa017-cell-omegacode-cli-uncensored-ai": [
+    "development"
+  ],
+  "alaeddinemessadi-opencode-mcp": [
+    "mcp_integrations"
+  ],
+  "aldefy-compose-skill": [
+    "mobile_development"
+  ],
+  "alejandroll10-idea-evaluation-pipeline": [
+    "development"
+  ],
+  "aleksandrfurmenkovofficial-ai-code-review": [
+    "code_review"
+  ],
+  "alexanys-agent-first-dev": [
     "education_learning"
   ],
-  "allierays-agentic-loop": [
-    "development",
-    "research",
-    "automation"
+  "alexzio00-sovereign-skills": [
+    "code_review"
   ],
-  "allvegetable-acp-bridge": [
-    "development",
-    "research"
+  "alfredolopez80-multi-agent-ralph-loop": [
+    "testing_qa"
   ],
   "alonw0-llm-docs-optimizer": [
-    "documentation",
     "development",
-    "research",
-    "productivity"
+    "documentation"
   ],
   "alpacahq-alpaca-skills": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "alperhankendi-ctxo": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "health_wellness"
+    "mcp_integrations"
   ],
   "amazon-q-developer": [
-    "testing_qa",
-    "development",
-    "productivity",
-    "communication"
-  ],
-  "amoghreddy45-autonomous-workstream": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "development"
   ],
   "amrit110-oli": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "andersonby-codexy": [
-    "development",
-    "research"
+    "development"
   ],
   "andeya-ide-relay-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "code_review",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "andresharpe-dotbot": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "productivity",
-    "communication"
-  ],
-  "androidzzt-cc-statistics": [
-    "development",
-    "research"
-  ],
-  "andymik90-aperant": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "angristan-codex-wakatime": [
-    "development",
-    "research"
-  ],
-  "angristan-fast-resume": [
-    "development",
-    "research"
-  ],
-  "angristan-netclode": [
-    "development",
-    "research"
-  ],
-  "angristan-opencode-wakatime": [
-    "development",
-    "research"
-  ],
-  "anthroos-claude-code-review-skill": [
-    "code_review",
-    "development",
-    "research",
-    "security"
-  ],
-  "anthropics-claude-agent-sdk-demos": [
-    "development",
-    "research"
-  ],
-  "antonbabenko-deliberation": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "security"
-  ],
-  "anyiwang-opencovibe": [
-    "development",
-    "research"
-  ],
-  "appgram-agentnotch": [
-    "development",
-    "research",
     "data_analytics"
   ],
+  "androidzzt-cc-statistics": [
+    "mobile_development",
+    "data_analytics"
+  ],
+  "angristan-netclode": [
+    "mobile_development"
+  ],
+  "anthroos-claude-code-review-skill": [
+    "code_review"
+  ],
+  "antonbabenko-deliberation": [
+    "mcp_integrations"
+  ],
+  "anyiwang-opencovibe": [
+    "web_development"
+  ],
   "areibman-bottleneck": [
-    "code_review",
-    "development",
-    "research",
-    "communication"
+    "code_review"
   ],
   "areweai-tsgram-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "debugging",
-    "development",
-    "research",
-    "creativity"
+    "mcp_integrations"
   ],
   "ariso-ai-ivan": [
-    "code_review",
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "code_review"
   ],
   "arpitg1304-robotics-agent-skills": [
-    "testing_qa",
     "development",
-    "research",
-    "creativity",
-    "productivity"
+    "testing_qa",
+    "embedded_iot_development"
   ],
   "artemiimillier-bulletproof": [
-    "testing_qa",
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "testing_qa"
   ],
   "arthurdev44-paneflow": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "arthurpanhku-dvalincode": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "security",
-    "productivity",
-    "communication"
+    "security"
   ],
   "arunalabs-mode": [
-    "migration",
-    "development",
-    "research",
-    "automation",
-    "productivity",
-    "communication"
+    "development"
   ],
   "ascorbic-macrodata": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "scheduling_calendar"
   ],
   "asheshgoplani-agent-deck": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "productivity",
-    "communication"
+    "productivity"
   ],
   "askbudi-roundtable": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations"
   ],
   "asklear-klear-team-brain": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "documentation",
-    "development",
-    "research"
-  ],
-  "assafwoo-homebrew-pandafilter": [
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "augment-code": [
-    "development",
-    "research",
-    "data_analytics",
-    "productivity"
+    "development"
   ],
   "auto-code-rover": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "automazeio-vibeproxy": [
-    "development",
-    "research",
-    "creativity"
+    "development"
   ],
   "avante-nvim": [
-    "development",
-    "productivity"
+    "development"
   ],
   "avids2-memorix": [
-    "mcp_integrations",
     "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "avinshe-agentseed": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "avivl-cloud-sre-agent": [
-    "code_review",
-    "devops_infra",
-    "development",
-    "research",
-    "automation"
-  ],
-  "aws-samples-sample-autonomous-cloud-coding-agents": [
-    "code_review",
-    "development",
-    "research",
-    "automation"
-  ],
-  "awslabs-aidlc-workflows": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "devops_infra"
   ],
   "awslabs-iam-policy-autopilot": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "security",
-    "productivity"
+    "mcp_integrations"
   ],
   "awslabs-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "ayoubben18-ab-method": [
-    "testing_qa",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "ba-calderonmorales-terminal-jarvis": [
-    "development",
-    "research"
-  ],
-  "band-ai-codeband": [
-    "development",
-    "research"
-  ],
-  "benjaminshoemaker-vibecode-spec-generator": [
-    "development",
-    "research",
-    "creativity"
+    "mcp_integrations"
   ],
   "bhauman-clojure-mcp-light": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations"
   ],
   "binaryfroggy-hopet": [
-    "development",
-    "research",
-    "productivity"
+    "mobile_development"
   ],
   "binaryhb0916-isparto": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "code_review",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "blader-humanizer": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "bleeeet-termipet": [
-    "development",
-    "research",
-    "productivity",
-    "communication"
-  ],
-  "bloopai-vibe-kanban": [
-    "development",
-    "research",
-    "creativity"
+    "development"
   ],
   "bluebear-io-baloo-bear": [
-    "code_review",
-    "development",
-    "research"
+    "code_review"
   ],
   "bolt-new": [
-    "development",
-    "research"
+    "web_development",
+    "development"
   ],
   "bradthebeeble-coderabbitai-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "code_review",
-    "development",
-    "research"
-  ],
-  "bradwilson331-cmux-linux": [
-    "development",
-    "research"
-  ],
-  "breferrari-obsidian-mind": [
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "brennhill-kaboom-browser-ai-devtools-mcp": [
+    "development",
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "brightseth-proof-of-corn": [
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "education_learning"
-  ],
-  "browser-use-video-use": [
-    "development",
-    "research",
-    "entertainment"
-  ],
-  "builtbyv-ai-website-builder": [
-    "development",
-    "research",
-    "creativity",
-    "education_learning"
-  ],
-  "burakdede-aisw": [
-    "development",
-    "research"
+    "automation"
   ],
   "bytebase-dbhub": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "data_analytics"
+    "database_query_tools"
   ],
   "bytedance-trae-agent": [
-    "development",
-    "research"
+    "development"
   ],
   "c0tton-fluff-caido-mcp-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "security",
-    "productivity"
+    "mcp_integrations"
   ],
   "caioricciuti-glyphic": [
-    "development",
-    "research",
-    "creativity",
-    "productivity"
+    "development"
   ],
   "calesthio-openmontage": [
-    "development",
-    "research",
-    "automation",
-    "productivity",
-    "entertainment"
+    "development"
   ],
   "can1357-oh-my-pi": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "productivity"
-  ],
-  "carlos-algms-agentic-nvim": [
-    "development",
-    "research",
-    "automation",
-    "communication"
+    "mcp_integrations"
   ],
   "cayirtepeomer-gerrit-code-review-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "code_review",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "cesarandreslopez-sidekick-agent-hub": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "chaitin-monkeycode": [
-    "development",
-    "research",
-    "productivity",
-    "communication"
-  ],
-  "charannyk06-conductor-oss": [
-    "development",
-    "research"
-  ],
-  "chat2anyllm-code-agent-manager": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "chenhg5-cc-connect": [
-    "development",
-    "research",
-    "productivity",
-    "communication"
-  ],
-  "china-qijizhifeng-agentic-harness-engineering": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "chouzz-llm-interceptor": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "chromedevtools-chrome-devtools-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "debugging",
-    "development",
-    "research"
-  ],
-  "ciembor-agent-rules-books": [
-    "refactoring",
-    "development",
-    "research",
-    "creativity"
-  ],
-  "claude-code": [
-    "documentation",
-    "development",
-    "research",
-    "automation",
     "data_analytics"
   ],
+  "charannyk06-conductor-oss": [
+    "data_analytics"
+  ],
+  "chouzz-llm-interceptor": [
+    "development"
+  ],
+  "chromedevtools-chrome-devtools-mcp": [
+    "debugging",
+    "mcp_integrations"
+  ],
+  "ciembor-agent-rules-books": [
+    "refactoring"
+  ],
+  "claude-code": [
+    "development"
+  ],
   "claude-cowork": [
-    "testing_qa",
-    "research",
-    "automation"
+    "development"
   ],
   "claude-design": [
-    "testing_qa",
-    "development",
-    "creativity"
+    "development"
   ],
   "claude-for-chrome": [
-    "testing_qa",
-    "research"
+    "development"
   ],
   "claude-tag": [
-    "testing_qa",
-    "communication"
+    "development"
   ],
   "cline": [
-    "development",
-    "research",
-    "data_analytics",
-    "productivity"
+    "development"
   ],
   "closedloop-ai-claude-plugins": [
-    "code_review",
-    "development",
-    "research",
-    "automation",
-    "productivity",
-    "education_learning"
+    "code_review"
   ],
   "cocoindex-io-cocoindex-code": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "code-yeongyu-lazycodex": [
-    "agent_infrastructure",
-    "development",
-    "research"
+    "agent_infrastructure"
   ],
   "code-yeongyu-oh-my-openagent": [
-    "development",
-    "research"
+    "agent_infrastructure"
   ],
   "codeabra-iai-personal-memory-engine": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "data_analytics",
-    "productivity"
+    "mcp_integrations",
+    "database_query_tools"
   ],
   "codecompanion-nvim": [
-    "development",
-    "productivity",
-    "communication"
+    "development"
   ],
   "coderabbit": [
-    "code_review",
-    "testing_qa",
-    "development"
+    "code_review"
   ],
   "codergamester-mcp-unity": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "entertainment"
-  ],
-  "coderluii-holyclaude": [
-    "devops_infra",
-    "development",
-    "research",
-    "creativity"
-  ],
-  "coderluii-holycode": [
-    "devops_infra",
-    "development",
-    "research"
-  ],
-  "codesoda-discuss-cli": [
-    "code_review",
-    "development",
-    "research"
+    "game_development"
   ],
   "codexstar69-bug-hunter": [
-    "agent_infrastructure",
-    "debugging",
-    "devops_infra",
-    "development",
-    "research",
-    "security"
+    "debugging"
   ],
   "coding-by-feng-ai-agent-session-center": [
-    "development",
-    "research"
-  ],
-  "codingmoh-open-codex": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "colbymchenry-codegraph": [
-    "development",
-    "research"
-  ],
-  "coleam00-archon": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "data_analytics"
   ],
   "coleam00-codex-telegram-coding-assistant": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "coleam00-context-engineering-intro": [
-    "development",
-    "research",
-    "creativity",
-    "productivity"
-  ],
-  "coleam00-excalidraw-diagram-skill": [
-    "development",
-    "research"
+    "development"
   ],
   "coleam00-linear-coding-agent-harness": [
     "development",
-    "research",
-    "automation"
+    "agent_infrastructure"
   ],
   "coleam00-mcp-crawl4ai-rag": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "community-access-accessibility-agents": [
-    "development",
-    "research",
+    "accessibility_auditing",
     "security"
   ],
   "context-machine-lab-sleepless-agent": [
-    "development",
-    "research",
-    "automation",
-    "productivity",
-    "communication"
+    "database_query_tools"
   ],
   "continue": [
-    "documentation",
-    "development",
-    "research"
+    "development"
   ],
   "coolver-home-assistant-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "devops_infra",
-    "development",
-    "research",
-    "creativity",
-    "productivity"
+    "mcp_integrations"
   ],
   "coolver-home-assistant-vibecode-agent": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "debugging",
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "productivity"
+    "mcp_integrations"
   ],
   "copilotchat-nvim": [
-    "development",
-    "automation",
-    "productivity",
-    "communication"
+    "development"
   ],
   "copilotkit-copilotkit": [
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "productivity",
-    "communication"
-  ],
-  "cpoile-claudemacs": [
-    "development",
-    "research"
+    "web_development"
   ],
   "cranot-roam-code": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "refactoring",
-    "development",
-    "research",
-    "security"
+    "mcp_integrations",
+    "database_query_tools"
   ],
   "crisnahine-rails-ai-context": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "communication"
+    "mcp_integrations"
   ],
   "crisxuan-agent-workflow-kit": [
-    "documentation",
-    "development",
-    "research",
-    "automation",
-    "security",
-    "productivity"
+    "documentation"
   ],
   "crush": [
-    "development",
-    "productivity"
-  ],
-  "cruzyjapan-gemini-cli-ui": [
-    "development",
-    "research",
-    "creativity",
-    "productivity",
-    "communication"
+    "development"
   ],
   "cursor": [
-    "development",
-    "research",
-    "data_analytics"
+    "development"
   ],
   "czlonkowski-n8n-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "daintreehq-daintree": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "automation"
   ],
   "dallay-agentsync": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations"
   ],
   "daniakash-agent-terminal": [
-    "development",
-    "research",
-    "data_analytics",
+    "web_development",
     "productivity"
   ],
   "danyqe-codebase-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "automation",
-    "security",
-    "productivity"
+    "mcp_integrations",
+    "web_development",
+    "security"
   ],
   "databendlabs-snowtree": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "dcouple-pane": [
-    "development",
-    "research",
-    "automation"
+    "code_review"
   ],
   "deadwavewave-opencove": [
-    "development",
-    "research"
+    "web_development"
   ],
   "debugtheworldbot-ai-credit": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "decolua-9remote": [
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "productivity"
-  ],
-  "decolua-9router": [
-    "development",
-    "research"
+    "development"
   ],
   "deep-copilot-deepcopilot": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "mcp_integrations"
   ],
   "deepmyst-mysti": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "default-anton-pi-subdir-context": [
-    "development",
-    "research"
+    "creativity"
   ],
   "deivdev-nomacode": [
     "development",
-    "research",
-    "productivity"
-  ],
-  "dengshiyinga-harmonyos-ai-skill": [
-    "development",
-    "research",
-    "productivity"
+    "mobile_development"
   ],
   "deusdata-codebase-memory-mcp": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "devarshishimpi-codra": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "devcorexofficial-core-termux": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "devika": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "devin": [
-    "development",
-    "research",
+    "database_query_tools",
     "data_analytics"
   ],
+  "devarshishimpi-codra": [
+    "code_review"
+  ],
+  "devika": [
+    "development"
+  ],
+  "devin": [
+    "development"
+  ],
   "devin-desktop": [
-    "testing_qa",
     "development"
   ],
   "devlyai-agentcheck": [
     "code_review",
-    "development",
-    "research",
-    "automation",
     "productivity"
   ],
   "dianel555-dskills": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "dicklesworthstone-agentic-coding-flywheel-setup": [
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "development"
   ],
   "dicklesworthstone-mcp-agent-mail": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "database_query_tools"
   ],
   "dicklesworthstone-slb": [
-    "code_review",
-    "development",
-    "research"
+    "code_review"
   ],
   "diegosouzapw-omniroute": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "dmae97-open-multi-agent-kit": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "mcp_integrations"
   ],
   "dojocodinglabs-remotion-superpowers": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "code_review",
-    "development",
-    "research",
-    "entertainment"
+    "mcp_integrations"
   ],
   "driangle-taskmd": [
     "development",
-    "research",
     "productivity"
   ],
   "dyad": [
-    "development",
-    "research"
+    "web_development",
+    "development"
   ],
   "dynatrace-oss-dynatrace-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "earendil-works-pi": [
-    "development",
-    "research"
-  ],
-  "editor-code-assistant-eca": [
-    "development",
-    "research",
-    "productivity",
-    "communication"
-  ],
-  "edouard-claude-snip": [
-    "development",
-    "research"
-  ],
-  "egonex-ai-understand-anything": [
-    "agent_infrastructure",
-    "documentation",
-    "development",
-    "research",
-    "education_learning"
+    "mcp_integrations"
   ],
   "elara-labs-code-context-engine": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "eli-labz-godcoder": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "elirantutia-vibeyard": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "elixir-vibe-vibe": [
-    "agent_infrastructure",
-    "testing_qa",
-    "development",
-    "research",
-    "creativity"
-  ],
-  "emilsvennesson-opencode-websearch": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "enderfga-claw-orchestrator": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "communication"
+    "mcp_integrations"
   ],
   "endgame-labs-goated": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "endorlabs-gemini-extension": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "erans-lunaroute": [
-    "debugging",
     "development",
-    "research",
-    "productivity"
+    "debugging"
   ],
   "eresende-pitlane-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "escoffier-labs-brigade": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "code_review",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "eshaan-nair-arcrift": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
+    "database_query_tools",
     "productivity"
   ],
   "esinecan-skynet-agent": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "eugeniughelbur-obsidian-second-brain": [
-    "documentation",
-    "development",
-    "research",
-    "automation"
+    "research"
   ],
   "eversmile12-sharedcontext": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations",
+    "database_query_tools"
   ],
   "factory-software-factory": [
-    "testing_qa",
     "development"
   ],
   "farhanaliraza-claude-context-local": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "farion1231-cc-switch": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "creativity",
-    "productivity"
-  ],
-  "feiskyer-claude-code-settings": [
-    "development",
-    "research",
-    "automation",
-    "creativity"
+    "mcp_integrations"
   ],
   "feiskyer-koder": [
     "development",
-    "research",
-    "automation",
     "productivity"
   ],
   "felo-inc-memclaw": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "code_review",
-    "development",
-    "research",
-    "productivity"
-  ],
-  "ferdinandobons-awsbedrockagentcoreskill": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "ferroxlabs-ijfw": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "fiorastudio-buddy": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "code_review",
-    "development",
-    "research",
-    "productivity"
-  ],
-  "fireproof-storage-fireproof": [
-    "development",
-    "research",
-    "data_analytics",
-    "creativity"
-  ],
-  "fission-ai-openspec": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "floze-the-genius-opencode-multi-auth-codex": [
-    "development",
-    "research"
-  ],
-  "for-tr-code-bar": [
-    "development",
-    "research"
-  ],
-  "formulahendry-mcp-server-spec-driven-development": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "creativity"
-  ],
-  "fosowl-agenticseek": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "fr-e-d-gaai-framework": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
-  ],
-  "francize-agents-to-im": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "frankbria-ralph-claude-code": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "franklioxygen-agent-workflows": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "fredantb-spec-driven-development": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "freestylefly-wesight": [
-    "development",
-    "research"
-  ],
-  "freshtechbro-vibe-coder-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "creativity"
-  ],
-  "fujibee-agmsg": [
-    "development",
-    "research",
-    "automation",
-    "communication"
-  ],
-  "funny-vibes-agent-vibes": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "fy0-codekanban": [
-    "development",
-    "research"
-  ],
-  "gan-xing-codexbridge": [
-    "development",
-    "research",
-    "automation",
     "productivity",
-    "communication"
-  ],
-  "ganyuanran-aegis": [
-    "development",
-    "research"
-  ],
-  "garagon-nanostack": [
-    "testing_qa",
-    "development",
-    "research",
-    "automation",
-    "security",
-    "productivity"
-  ],
-  "gastownhall-beads": [
-    "agent_infrastructure",
-    "migration",
-    "development",
-    "research"
-  ],
-  "gbasin-hand-compute": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "gemini-cli": [
-    "development",
-    "research",
     "data_analytics"
   ],
+  "ferroxlabs-ijfw": [
+    "mcp_integrations"
+  ],
+  "fiorastudio-buddy": [
+    "code_review",
+    "mcp_integrations"
+  ],
+  "fireproof-storage-fireproof": [
+    "web_development"
+  ],
+  "fission-ai-openspec": [
+    "development"
+  ],
+  "for-tr-code-bar": [
+    "web_development"
+  ],
+  "formulahendry-mcp-server-spec-driven-development": [
+    "mcp_integrations"
+  ],
+  "freestylefly-wesight": [
+    "web_development"
+  ],
+  "freshtechbro-vibe-coder-mcp": [
+    "mcp_integrations"
+  ],
+  "fujibee-agmsg": [
+    "database_query_tools"
+  ],
+  "funny-vibes-agent-vibes": [
+    "translation_language"
+  ],
+  "gbasin-hand-compute": [
+    "code_review"
+  ],
+  "gemini-cli": [
+    "development"
+  ],
   "gensyn-ai-codeassist": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "gentleman-programming-engram": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "database_query_tools"
   ],
   "gentleman-programming-gentleman-guardian-angel": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "georgesalkhouri-nvim-aider": [
-    "development",
-    "research"
-  ],
-  "gergomiklos-smux": [
-    "development",
-    "research"
+    "code_review"
   ],
   "geronimodiclemente-raven-nest": [
-    "development",
-    "research"
-  ],
-  "get-vix-vix": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "getagentseal-codeburn": [
-    "development",
-    "research",
-    "creativity"
+    "web_development"
   ],
   "getpaseo-paseo": [
-    "development",
-    "research"
+    "mobile_development"
   ],
   "getsentry-sentry-for-ai": [
-    "debugging",
     "development",
-    "research",
-    "productivity",
-    "education_learning"
-  ],
-  "ghuntley-groundhog": [
-    "development",
-    "research",
-    "productivity",
-    "education_learning"
-  ],
-  "git-liu835-codex-cn-bridge": [
-    "development",
-    "research"
+    "debugging"
   ],
   "gitbito-codereviewagent": [
-    "code_review",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "githpriyanshu23-clawde-code": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "github-copilot-cli": [
-    "development",
-    "research"
+    "code_review"
   ],
   "github-copilot-cloud-agent": [
-    "documentation",
-    "development",
-    "automation",
-    "data_analytics",
-    "productivity"
+    "development"
   ],
   "github-copilotforxcode": [
     "development",
-    "research",
-    "productivity"
+    "mobile_development"
   ],
   "github-mcp-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "devops_infra",
-    "development",
-    "automation",
-    "data_analytics",
-    "security",
-    "productivity"
+    "mcp_integrations"
   ],
   "gkaria-vibe-learn": [
-    "development",
-    "research",
-    "creativity",
-    "productivity",
-    "education_learning"
+    "development"
   ],
   "glincker-claude-code-marketplace": [
     "code_review",
     "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "security",
+    "performance_optimization",
     "productivity"
   ],
   "glincker-stacklit": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "onboarding",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "glips-figma-context-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "creativity"
+    "mcp_integrations"
   ],
   "glowbom-glowby": [
-    "development",
-    "research"
-  ],
-  "gmickel-flow-next": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "gmickel-flow-next-opencode": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "web_development"
   ],
   "golutra-golutra": [
-    "development",
-    "research",
-    "automation",
     "productivity"
   ],
   "goose": [
-    "development",
-    "research"
-  ],
-  "gotalab-cc-sdd": [
-    "development",
-    "research",
-    "automation"
+    "development"
   ],
   "gpt-engineer": [
-    "development",
-    "research"
+    "development"
   ],
   "gpt-pilot": [
     "development"
   ],
   "grab-cursor-talk-to-figma-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "creativity"
-  ],
-  "graykode-abtop": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "greenpolo-cc-multi-cli-plugin": [
-    "debugging",
-    "development",
-    "research"
-  ],
-  "greensheep01201-claw-empire": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "debugging"
   ],
   "griddynamics-rosetta": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "productivity"
+    "mcp_integrations"
   ],
   "grik-ai-ricochet": [
-    "debugging",
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "grinev-opencode-telegram-bot": [
-    "development",
-    "research",
-    "automation"
+    "debugging"
   ],
   "guanyang-open-agent-hub": [
     "development",
-    "research",
-    "creativity",
-    "productivity"
+    "web_development"
   ],
   "gudastudio-codexmcp": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
     "productivity"
-  ],
-  "gug007-lpm": [
-    "development",
-    "research",
-    "automation"
   ],
   "guysoft-opencode-termux": [
     "development",
-    "research",
-    "productivity"
+    "mobile_development"
   ],
   "gwendall-superclaude": [
     "code_review",
     "documentation",
-    "development",
-    "research",
-    "automation",
     "productivity"
   ],
   "h-mmer-pentest-agents": [
-    "mcp_integrations",
     "agent_infrastructure",
-    "debugging",
-    "development",
-    "research",
-    "automation",
-    "security"
-  ],
-  "h0x91b-dev-3-0": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "haasonsaas-ocode": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "development"
   ],
   "hamedafarag-claudeck": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "communication"
+    "mcp_integrations"
   ],
   "hang-in-tunaflow": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "hanshuaikang-nezha": [
-    "development",
-    "research"
+    "code_review"
   ],
   "haodehaode378-text-encoding-guard": [
-    "devops_infra",
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "happenmass-cliclaw": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "mcp_integrations"
   ],
   "hashishark-context-editor-agent": [
     "development",
-    "research"
-  ],
-  "hcengineering-huly-coder": [
-    "development",
-    "research",
-    "automation",
-    "creativity"
-  ],
-  "he-yufeng-anycoder": [
-    "development",
-    "research"
-  ],
-  "he-yufeng-corecoder": [
-    "development",
-    "research"
-  ],
-  "heartyguy-apex2-terminal-bench-agent": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "helloianneo-ian-xiaohei-illustrations": [
-    "development",
-    "research"
+    "web_development",
+    "data_analytics"
   ],
   "heypandax-cc-pocket": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "hkuds-nanobot": [
-    "development",
-    "research"
+    "mobile_development"
   ],
   "hoangsonww-ai-agents-orchestrator": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "devops_infra",
     "development",
-    "research",
-    "automation",
-    "creativity",
-    "productivity",
-    "communication",
-    "marketing_sales"
+    "devops_infra",
+    "mcp_integrations",
+    "web_development",
+    "data_analytics"
   ],
   "holasoymalva-deepseek-cli": [
-    "development",
-    "research",
-    "productivity",
-    "communication",
-    "education_learning"
-  ],
-  "hotovo-aider-desk": [
-    "development",
-    "research"
+    "development"
   ],
   "houseofmvps-codesight": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "huanchong-99-solodawn": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "humanfia-oh-my-humanize": [
-    "development",
-    "research"
-  ],
-  "humanlayer-humanlayer": [
-    "development",
-    "research"
-  ],
-  "humanunsupervised-orchestra": [
-    "development",
-    "research"
-  ],
-  "iamfakeguru-agent-md": [
-    "development",
-    "research",
-    "automation"
+    "code_review"
   ],
   "iamrichardd-mcp-server-pinescript": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "code_review",
     "documentation",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "iamtouchskyer-memex": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "iamzhihuix-skills-manage": [
-    "development",
-    "research"
-  ],
-  "ianjwhite99-opencode-with-claude": [
-    "development",
-    "research"
-  ],
-  "iannuttall-claude-agents": [
-    "development",
-    "research"
+    "web_development"
   ],
   "icebear0828-clio": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "development"
   ],
   "idosal-git-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "ifuryst-open-codex-computer-use": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "ignatovv-vibepad": [
     "development",
-    "research",
-    "creativity",
     "productivity"
   ],
   "illegalstudio-lazyagent": [
-    "development",
-    "research"
+    "data_analytics"
   ],
   "im-hashim-automotive-claude-code-agents": [
     "development",
-    "research",
     "security"
   ],
-  "inercia-mitto": [
-    "development",
-    "research"
-  ],
-  "infinri-writ": [
-    "development",
-    "research"
-  ],
-  "infisical-agent-vault": [
-    "development",
-    "research"
-  ],
   "infracost-infracost": [
-    "devops_infra",
-    "development",
-    "research"
+    "devops_infra"
   ],
   "initmax-zabbix-mcp-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "devops_infra",
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "insforge-insforge": [
-    "development",
-    "research",
-    "automation",
-    "data_analytics"
-  ],
-  "intellectronica-ruler": [
-    "development",
-    "research"
-  ],
-  "iofficeai-aionui": [
-    "development",
-    "research",
-    "communication"
+    "web_development"
   ],
   "irinabuht12-oss-google-meta-ads-ga4-mcp": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "data_analytics",
     "marketing_sales"
   ],
-  "itmesneha-agentrocky": [
-    "development",
-    "research",
-    "communication"
-  ],
   "itswendell-palot": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "ivan-magda-swift-coding-agent": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "ivanwng97-pixtuoid": [
-    "development",
-    "research"
+    "web_development"
   ],
   "jackwener-ai-digest": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "jamesrochabrun-agenthub": [
-    "development",
-    "research"
+    "development"
   ],
   "jamesshi96-project-butler": [
-    "agent_infrastructure",
-    "documentation",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "jarrodwatts-claude-hud": [
-    "development",
-    "research"
+    "documentation"
   ],
   "jasonswett-llm-skills": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "jaycrl-mobilevc": [
     "development",
-    "research",
-    "productivity"
-  ],
-  "jazzenchen-vibearound": [
-    "development",
-    "research"
+    "mobile_development"
   ],
   "jcputney-agent-peer-review": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "jeffgreen311-eve-agent-v2-unleashed": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "code_review"
   ],
   "jeikeilim-tenet": [
-    "devops_infra",
-    "development",
-    "research",
-    "automation"
-  ],
-  "jeongwookie-wheremytokens": [
-    "development",
-    "research"
+    "agent_infrastructure"
   ],
   "jetbrains-junie": [
-    "devops_infra",
     "development",
-    "research"
+    "devops_infra"
   ],
   "jetroextension-jetro": [
-    "development",
-    "research"
-  ],
-  "jetxu-llm-codex-deepseek-bridge": [
-    "development",
-    "research"
+    "data_analytics"
   ],
   "jgravelle-jcodemunch-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "jigjoy-ai-baro": [
-    "code_review",
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "jiweiyeah-skills-manager": [
     "development",
-    "research",
-    "productivity"
-  ],
-  "jo-inc-pi-mem": [
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "jo-inc-pi-reflect": [
-    "development",
-    "research"
+    "web_development"
   ],
   "joewinke-jat": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "productivity"
-  ],
-  "johannesjo-parallel-code": [
-    "development",
-    "research"
-  ],
-  "johnkeating1997-spark-video": [
-    "code_review",
-    "development",
-    "research",
-    "entertainment"
-  ],
-  "jonwiggins-optio": [
-    "code_review",
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "jszmajda-lid": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "julesmons-recline": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "jumbocontext-jumbo-cli": [
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "junhoyeo-contrabass": [
-    "development",
-    "research"
-  ],
-  "justinlietz93-apex-codegenesis": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
-  ],
-  "kaithoughtarchitect-noderr": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "kbwo-ccmanager": [
-    "development",
-    "research"
-  ],
-  "kcchien-clawpilot": [
-    "development",
-    "research",
-    "security",
     "productivity",
-    "communication"
-  ],
-  "kdcokenny-opencode-worktree": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "keesan12-martin-loop": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "security",
-    "finance"
-  ],
-  "kelos-dev-kelos": [
-    "devops_infra",
-    "development",
-    "research",
-    "automation"
-  ],
-  "kenn-io-agentsview": [
-    "development",
-    "research",
     "data_analytics"
   ],
+  "johnkeating1997-spark-video": [
+    "code_review"
+  ],
+  "jonwiggins-optio": [
+    "devops_infra"
+  ],
+  "justinlietz93-apex-codegenesis": [
+    "development"
+  ],
+  "kaithoughtarchitect-noderr": [
+    "development"
+  ],
+  "kcchien-clawpilot": [
+    "development"
+  ],
+  "keesan12-martin-loop": [
+    "mcp_integrations"
+  ],
+  "kelos-dev-kelos": [
+    "devops_infra"
+  ],
   "kilo-code": [
-    "development",
-    "research"
+    "development"
   ],
   "kimyx0207-meta-kim": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "testing_qa",
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "mcp_integrations"
   ],
   "kincoy-cc9s": [
-    "development",
-    "research",
-    "creativity",
     "productivity"
-  ],
-  "kleneway-forq-cli": [
-    "development",
-    "research",
-    "education_learning"
   ],
   "krishnakanthb13-ai-cli-manager": [
     "development",
-    "research",
     "productivity"
-  ],
-  "kuberwastaken-claurst": [
-    "development",
-    "research",
-    "automation"
   ],
   "kuitos-opencode-claude-memory": [
-    "agent_infrastructure",
-    "migration",
-    "development",
-    "research"
+    "migration"
   ],
   "lainnet-42-polymarket-auto-trading-agent": [
-    "testing_qa",
-    "development",
-    "research",
-    "automation"
-  ],
-  "laliet-cc-switch-web": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "langchain-ai-open-swe": [
-    "development",
-    "research"
+    "testing_qa"
   ],
   "langcliteam-langcli": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "development"
   ],
   "lcbcfoo-heimdall-mcp-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity",
-    "communication"
-  ],
-  "leonardcser-smelt": [
-    "development",
-    "research"
-  ],
-  "leonxlnx-agentic-ai-prompt-research": [
-    "development",
-    "research",
-    "automation",
-    "security"
+    "mcp_integrations"
   ],
   "lerim-dev-lerim": [
-    "agent_infrastructure",
-    "development",
-    "research",
     "productivity"
-  ],
-  "letta-ai-letta-code": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "education_learning"
   ],
   "liaohch3-claude-tap": [
-    "debugging",
-    "development",
-    "research"
-  ],
-  "lich0821-ccnexus": [
-    "development",
-    "research"
+    "debugging"
   ],
   "lifedever-claude-rules": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "lingcoder-crab-code": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "lingyichen-ai-vibe-coding": [
-    "development",
-    "research",
-    "creativity",
-    "productivity"
+    "mcp_integrations"
   ],
   "liumengxuan04-minicode": [
-    "development",
-    "research",
-    "automation",
-    "productivity",
-    "education_learning"
-  ],
-  "liuyixin-louis-obsidian-vault-agent": [
-    "development",
-    "research"
+    "development"
   ],
   "lloydzhou-bash-agent": [
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "logancyang-obsidian-copilot": [
-    "development",
-    "research"
-  ],
-  "longbkit-clisbot": [
-    "development",
-    "research",
-    "automation",
-    "communication"
+    "agent_infrastructure"
   ],
   "loocor-codmate": [
     "code_review",
-    "development",
-    "research",
-    "creativity",
-    "productivity"
-  ],
-  "lorexxar-kunlun-m": [
-    "development",
-    "research"
+    "mobile_development"
   ],
   "lovable": [
-    "documentation",
-    "development",
-    "research",
-    "data_analytics"
+    "development"
   ],
   "lovstudio-any2pdf": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "lsdefine-genericagent": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "agent_infrastructure"
   ],
   "luoyuctl-agenttrace": [
-    "development",
-    "research",
-    "health_wellness"
+    "performance_optimization"
   ],
   "m0n0x41d-haft": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "maddada-agent-manager-x": [
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "mag123c-toktrack": [
-    "development",
-    "research"
-  ],
-  "mage0535-vibe-coding-universal": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "mainline-org-mainline": [
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "malaksedarous-context-optimizer-mcp-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
-  ],
-  "manaflow-ai-cmux": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "manojmallick-sigmap": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "maplibre-maplibre-agent-skills": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "mark-hingston-opencode-elf": [
-    "development",
-    "research",
-    "productivity",
-    "education_learning"
+    "development"
   ],
   "masurii-pi-tool-display": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "creativity"
-  ],
-  "matlab-matlab-mcp-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "matthewzmd-aidermacs": [
-    "development",
-    "research"
-  ],
-  "mavam-pi-web-providers": [
-    "development",
-    "research"
-  ],
-  "mco-org-mco": [
-    "development",
-    "research"
-  ],
-  "mcp-fetch-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development"
-  ],
-  "mcp-filesystem-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "mcp-git-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "mcp-memory-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "mcp-sequential-thinking-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development"
-  ],
-  "mcp-time-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development"
-  ],
-  "mehdihadeli-aiassist": [
-    "code_review",
-    "debugging",
-    "refactoring",
-    "development",
-    "research",
-    "creativity",
-    "productivity",
-    "communication"
-  ],
-  "memohai-memoh": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "productivity"
-  ],
-  "meodai-skill-color-expert": [
-    "development",
-    "research"
-  ],
-  "meysamhadeli-codai": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "michaelshimeles-ralphy": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "microsoftdocs-agent-skills": [
-    "devops_infra",
-    "documentation",
-    "development",
-    "research",
-    "automation",
     "data_analytics"
   ],
-  "mideco-tech-codex-tg": [
+  "matlab-matlab-mcp-server": [
+    "mcp_integrations"
+  ],
+  "mcp-fetch-server": [
+    "mcp_integrations"
+  ],
+  "mcp-filesystem-server": [
+    "mcp_integrations"
+  ],
+  "mcp-git-server": [
+    "mcp_integrations"
+  ],
+  "mcp-memory-server": [
+    "mcp_integrations"
+  ],
+  "mcp-sequential-thinking-server": [
+    "mcp_integrations"
+  ],
+  "mcp-time-server": [
+    "mcp_integrations"
+  ],
+  "mehdihadeli-aiassist": [
     "development",
-    "research",
-    "creativity",
-    "productivity"
+    "code_review",
+    "debugging",
+    "refactoring"
+  ],
+  "memohai-memoh": [
+    "agent_infrastructure"
+  ],
+  "meodai-skill-color-expert": [
+    "accessibility_auditing"
+  ],
+  "microsoftdocs-agent-skills": [
+    "devops_infra"
   ],
   "mikaelj-fuska": [
-    "agent_infrastructure",
-    "code_review",
-    "development",
-    "research",
-    "automation"
-  ],
-  "minmaxflow-mini-kode": [
-    "development",
-    "research"
+    "code_review"
   ],
   "minorole-gsx": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "miomioos-mioisland": [
-    "development",
-    "research",
+    "mobile_development",
     "productivity"
   ],
   "mits-pl-wove": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "mixpeek-amux": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "data_analytics"
   ],
   "mkreyman-mcp-memory-keeper": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations",
+    "database_query_tools"
   ],
   "mksglu-context-mode": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "mm7894215-tokentracker": [
-    "development",
-    "research",
-    "security"
-  ],
-  "mng-dev-ai-agentrove": [
-    "development",
-    "research"
-  ],
-  "moazbuilds-codemachine-cli": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "mobile-ar-xcode-assistant-copilot-server": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "mockapapella-tenex": [
-    "development",
-    "research"
+    "security",
+    "data_analytics"
   ],
   "monet-ai-editor-monet": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "entertainment"
+    "mcp_integrations"
   ],
   "moonrunnerkc-swarm-orchestrator": [
-    "code_review",
-    "testing_qa",
-    "development",
-    "research",
-    "security"
-  ],
-  "mr-karan-hodor": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "muhammadusmangm-code-stick": [
-    "development",
-    "research"
-  ],
-  "multivmlabs-ralph-starter": [
-    "development",
-    "research",
-    "automation",
-    "creativity"
-  ],
-  "mx-liu123-agentcommander": [
-    "development",
-    "research",
-    "automation",
-    "productivity",
-    "education_learning"
+    "testing_qa"
   ],
   "n-wn-prompt-manager": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "n24q02m-better-code-review-graph": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "nadinelipeiyu-jpg-ai-vibe-coding-notes-form-threads": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "narnia-sh-layrr": [
-    "development",
-    "research",
-    "creativity"
+    "mcp_integrations"
   ],
   "natfii-unrealclaude": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "documentation",
-    "development",
-    "research",
-    "productivity",
-    "entertainment"
-  ],
-  "navikt-cplt": [
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations",
+    "game_development"
   ],
   "neothecapt-redteamagent": [
-    "debugging",
     "testing_qa",
-    "development",
-    "research",
-    "automation",
-    "security",
-    "productivity"
+    "web_development",
+    "security"
   ],
   "netxeo-skill-file-security": [
-    "development",
-    "research",
-    "security",
-    "productivity"
-  ],
-  "nexting-ai-nexting": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "nexu-io-html-anything": [
-    "development",
-    "research",
-    "automation",
-    "creativity"
+    "development"
   ],
   "nexu-io-looper": [
-    "code_review",
-    "development",
-    "research",
-    "automation"
-  ],
-  "nexu-io-open-design": [
-    "development",
-    "research",
-    "creativity",
-    "entertainment"
-  ],
-  "nguyenphutrong-quotio": [
-    "development",
-    "research"
+    "code_review"
   ],
   "nicepkg-vsync": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
     "productivity"
   ],
   "nick-vi-type-inject": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "nirholas-cryptocurrency-cv": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "creativity"
-  ],
-  "nizos-probity": [
-    "development",
-    "research",
-    "automation",
-    "security"
-  ],
-  "nkmr-jp-prompt-line": [
-    "development",
-    "research"
+    "web_development",
+    "api_development",
+    "blockchain_smart_contracts"
   ],
   "no1msd-seance": [
-    "development",
-    "research",
     "productivity"
   ],
   "noi1r-powerpoint-skill": [
     "development",
-    "research",
-    "productivity"
-  ],
-  "norika1207-lab-code-duo": [
-    "development",
-    "research"
-  ],
-  "nousresearch-hermes-agent": [
-    "development",
-    "research"
-  ],
-  "noviaidrl-copilot-tunnel-proxy": [
-    "development",
-    "research",
-    "communication"
-  ],
-  "ntegrals-10x": [
-    "development",
-    "research",
-    "automation"
+    "presentation_building"
   ],
   "nth5693-gemini-kit": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "code_review",
     "testing_qa",
-    "development",
-    "research",
-    "security",
-    "productivity"
+    "mcp_integrations"
   ],
   "nuskey8-unityagentclient": [
-    "development",
-    "research"
-  ],
-  "nutlope-hallmark": [
-    "development",
-    "research",
-    "creativity"
+    "game_development"
   ],
   "nvidia-ai-iot-deepstream-coding-agent": [
     "development",
-    "research",
-    "automation",
-    "productivity"
+    "embedded_iot_development"
   ],
   "obra-coderabbit-review-helper": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "obviousworks-vibe-coding-ai-rules": [
-    "documentation",
-    "development",
-    "research",
-    "automation",
-    "creativity"
-  ],
-  "ochyai-co-vibe": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "octane0411-open-vibe-island": [
-    "development",
-    "research",
-    "creativity"
+    "code_review"
   ],
   "omega-memory-omega-memory": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "op7418-claude-to-im-skill": [
-    "development",
-    "research",
-    "communication"
-  ],
-  "opactorai-claudable": [
-    "devops_infra",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "open-interpreter": [
-    "development",
-    "automation"
+    "development"
   ],
   "openai-agents-sdk": [
     "agent_infrastructure",
-    "testing_qa",
-    "documentation",
-    "development",
-    "automation"
+    "development"
   ],
   "openai-codex": [
-    "development",
-    "data_analytics"
-  ],
-  "openai-symphony": [
-    "development",
-    "research",
-    "automation",
-    "communication"
+    "development"
   ],
   "openautocoder-live-swe-agent": [
-    "agent_infrastructure",
-    "development",
-    "research"
+    "development"
   ],
   "opencode": [
     "development"
   ],
   "openhands": [
-    "development",
-    "data_analytics"
-  ],
-  "openinterpreter-openinterpreter": [
-    "development",
-    "research"
-  ],
-  "openknots-code-editor": [
-    "development",
-    "research"
+    "development"
   ],
   "opensource03-harnss": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "creativity"
+    "data_analytics"
   ],
   "openwong2kim-wmux": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
     "automation"
-  ],
-  "opgginc-opencode-bar": [
-    "development",
-    "research"
   ],
   "oraios-serena": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "orionstarai-easycode": [
-    "testing_qa",
     "development",
-    "research",
-    "productivity"
-  ],
-  "othmanadi-planning-with-files": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "ouijit-ouijit": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "pacificwater2-water-code": [
-    "development",
-    "research"
-  ],
-  "panishandsome-ai-rules-sync": [
-    "development",
-    "research"
+    "testing_qa"
   ],
   "panniantong-agent-reach": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "devops_infra",
-    "development",
-    "research",
-    "automation"
-  ],
-  "patrickdappollonio-dux": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "paulpreibisch-agentvibes": [
-    "development",
-    "research",
-    "creativity"
+    "mcp_integrations"
   ],
   "pchalasani-claude-code-tools": [
-    "development",
-    "research",
     "productivity"
-  ],
-  "peonping-peon-ping": [
-    "development",
-    "research"
   ],
   "peterkrueck-mcp-gemini-assistant": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations"
   ],
   "phil65-agentpool": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "pivanov-ctx-wire": [
-    "development",
-    "research",
-    "automation",
     "productivity"
   ],
   "plandex": [
-    "development",
-    "research"
+    "development"
   ],
   "potatoqualitee-aitools": [
-    "migration",
     "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "potproject-code-agent": [
-    "code_review",
-    "devops_infra",
-    "development",
-    "research",
-    "automation"
+    "migration"
   ],
   "ppgranger-token-saver": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "pr-agent": [
     "code_review",
     "development"
   ],
   "pratiyush-llm-wiki": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "documentation",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "preset-io-agor": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "prevalentware-opencode-goal-plugin": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "priyankark-lighthouse-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "automation",
-    "data_analytics",
-    "security",
-    "productivity"
+    "mcp_integrations"
   ],
   "probelabs-probe": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations"
   ],
   "purocean-yn": [
-    "development",
-    "research",
-    "data_analytics"
-  ],
-  "quantaalpha-repomaster": [
-    "development",
-    "research",
-    "automation"
+    "web_development"
   ],
   "qwen-code": [
     "development"
   ],
   "raine-tmux-file-picker": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "rait-09-obsidian-agent-client": [
-    "development",
-    "research"
-  ],
-  "raizamartin-gemini-code": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "randallliuxin-godotmaker": [
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "entertainment"
+    "game_development"
   ],
   "raphaelregnier-vibe-annotations": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "creativity",
     "productivity"
-  ],
-  "raphaeltm-simple-agent-manager": [
-    "development",
-    "research"
   ],
   "rapiercraft-perplexity-comet-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
-  ],
-  "raroque-vibe-security-skill": [
-    "development",
-    "research",
-    "security",
-    "creativity"
+    "mcp_integrations"
   ],
   "razz19-exort": [
-    "development",
-    "research"
-  ],
-  "rcarmo-vibes": [
-    "development",
-    "research",
-    "communication"
+    "web_development"
   ],
   "rchgrav-claudebox": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "realjaymes-marketingagentskills": [
     "development",
-    "research",
-    "productivity",
     "marketing_sales"
   ],
   "refreshdotdev-web-eval-agent": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "debugging",
     "testing_qa",
-    "development",
-    "research"
-  ],
-  "regenrek-peky": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "regent-vcs-re-gent": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "replit-agent": [
-    "devops_infra",
-    "development",
-    "research",
-    "data_analytics"
-  ],
-  "rivet-dev-agentos": [
-    "development",
-    "research"
+    "development"
   ],
   "rizukirr-no-vibe": [
     "code_review",
-    "development",
-    "research",
-    "productivity",
     "education_learning"
-  ],
-  "rizwan3d-nanoagent": [
-    "development",
-    "research"
   ],
   "robdel12-orbitdock": [
     "code_review",
-    "development",
-    "research"
-  ],
-  "robinebers-openusage": [
-    "development",
-    "research"
+    "mobile_development"
   ],
   "roboticforce-sugar": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "database_query_tools"
   ],
   "robsonfelix-robsonfelix-hass-addons": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "robzilla1738-supergoal": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "development"
   ],
   "roderik-ai-rules": [
     "development",
-    "research",
-    "productivity"
-  ],
-  "rohitg00-agentmemory": [
-    "agent_infrastructure",
-    "development",
-    "research"
+    "blockchain_smart_contracts"
   ],
   "roo-code": [
-    "development",
-    "data_analytics"
+    "development"
   ],
   "roocodeinc-roo-code-docs": [
-    "documentation",
     "development",
-    "research",
-    "automation"
-  ],
-  "rsrohan99-tig": [
-    "development",
-    "research"
-  ],
-  "rullerzhou-afk-clawd-on-desk": [
-    "development",
-    "research"
+    "documentation"
   ],
   "russellcanfield-wingman-ai-vscode-extension": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "rynfar-meridian": [
-    "development",
-    "research",
-    "automation"
+    "development"
   ],
   "s2thend-cursor-history-mcp": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "productivity",
-    "communication"
-  ],
-  "saadnvd1-agent-os": [
-    "development",
-    "research",
-    "creativity"
+    "productivity"
   ],
   "safishamsi-graphify": [
-    "devops_infra",
-    "documentation",
     "development",
-    "research",
-    "data_analytics",
-    "productivity"
+    "database_query_tools"
   ],
   "sageox-ox": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "saharmor-simulatedev": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "sailresearch-ai-teammates-in-se3": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "saladday-cc-switch-cli": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "samarth777-claude-code-copilot": [
-    "development",
-    "research"
+    "development"
   ],
   "sammcj-agentic-coding": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
-  ],
-  "samuraigpt-llm-wiki-agent": [
-    "documentation",
-    "development",
-    "research",
-    "automation"
-  ],
-  "sanbuphy-learn-coding-agent": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "santanderai-ralph": [
-    "development",
-    "research",
-    "automation",
     "productivity"
   ],
   "santifer-career-ops": [
-    "development",
-    "research",
-    "automation"
+    "data_analytics"
   ],
   "satomic-gitlab-copilot-coding-agent": [
-    "devops_infra",
-    "development",
-    "research"
+    "devops_infra"
   ],
   "scaleapi-swe-bench-pro-os": [
-    "development",
-    "research"
+    "development"
   ],
   "scari-agentbar": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "sculptdotfun-viberank": [
-    "development",
-    "research"
+    "development"
   ],
   "sdsleon-lightcode": [
-    "development",
-    "research",
-    "communication"
-  ],
-  "seemseam-claude-codex-bridge": [
-    "development",
-    "research"
-  ],
-  "sendbird-cc-plugin-codex": [
-    "development",
-    "research"
-  ],
-  "severity1-custom-amazon-bedrock-agent-action": [
-    "code_review",
-    "development",
-    "research"
+    "web_development"
   ],
   "shahfarzane-opencode-mobile": [
-    "development",
-    "research"
+    "mobile_development",
+    "web_development"
   ],
   "shangyankeji-super-dev": [
-    "development",
-    "research",
-    "automation",
     "productivity"
-  ],
-  "shanraisshan-codex-cli-best-practice": [
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "productivity"
-  ],
-  "shanraisshan-gemini-cli-best-practice": [
-    "development",
-    "research",
-    "automation",
-    "creativity"
   ],
   "shayne-snap-waylog-cli": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "shellishack-vibebud": [
-    "development",
-    "research",
-    "creativity"
+    "development"
   ],
   "shirenchuang-agentbro": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "shrijayan-itwillsync": [
-    "development",
-    "research"
-  ],
-  "shunmeicho-cc-clip": [
-    "development",
-    "research"
+    "web_development"
   ],
   "shuyu-labs-webcode": [
-    "documentation",
     "development",
-    "research",
-    "productivity"
+    "communication"
   ],
   "simion-reviewd": [
-    "code_review",
-    "development",
-    "research",
-    "automation"
+    "code_review"
   ],
   "simonlin1212-global-stock-data": [
     "development",
-    "research",
-    "productivity"
+    "web_development"
   ],
   "simonlin1212-globalpercent": [
-    "devops_infra",
     "development",
-    "research",
-    "productivity"
+    "data_engineering"
   ],
   "sipyourdrink-ltd-bernstein": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
     "security"
   ],
   "sixhq-overture": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
-  ],
-  "skibidiskib-ai-codex": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "sleuth-io-sx": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "sma1lboy-kobe": [
-    "development",
-    "research"
-  ],
-  "smallmain-vscode-unify-chat-provider": [
-    "development",
-    "research",
-    "communication"
+    "development"
   ],
   "smirk-dev-codereview-ai-agent": [
-    "code_review",
-    "development",
-    "research"
+    "code_review"
   ],
   "smol-developer": [
-    "development",
-    "research"
-  ],
-  "smtg-ai-claude-squad": [
-    "development",
-    "research"
+    "development"
   ],
   "snarktank-ai-pr-review": [
-    "code_review",
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "code_review"
   ],
   "softdaddy-o-soft-ue-cli": [
-    "development",
-    "research",
-    "automation",
-    "entertainment"
+    "game_development"
   ],
   "softspark-ai-toolkit": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "sorendunn-agentless-lite": [
-    "development",
-    "research"
+    "development"
   ],
   "sourcegraph-cody": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "spacehendrix-clauder": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "development"
   ],
   "spielewoy-multi-cli": [
-    "development",
-    "research",
     "productivity"
-  ],
-  "spring-ai-community-agent-client": [
-    "development",
-    "research",
-    "automation"
   ],
   "squarewavesystems-squarebox": [
-    "devops_infra",
-    "development",
-    "research",
-    "productivity"
-  ],
-  "sstraus-tuicommander": [
-    "development",
-    "research"
-  ],
-  "stablyai-orca": [
-    "development",
-    "research"
-  ],
-  "stagewise-io-stagewise": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "startuphakk-openmonoagent-ai": [
-    "devops_infra",
-    "development",
-    "research"
-  ],
-  "steipete-agent-rules": [
-    "development",
-    "research"
-  ],
-  "stellarlinkco-myclaude": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "development"
   ],
   "stippi-code-assistant": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "automation",
-    "productivity"
+    "mcp_integrations"
   ],
   "strands-agents-mcp-server": [
-    "mcp_integrations",
-    "agent_infrastructure",
+    "development",
     "documentation",
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "productivity",
-    "education_learning"
-  ],
-  "stravu-crystal": [
-    "testing_qa",
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "strrl-shell-now": [
     "debugging",
-    "devops_infra",
-    "development",
-    "research",
-    "creativity"
-  ],
-  "subinium-agf": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "devops_infra"
   ],
   "sudo-tee-opencode-nvim": [
-    "development",
-    "research"
-  ],
-  "sudokar-openspec-plus": [
-    "testing_qa",
-    "development",
-    "research",
-    "automation",
-    "creativity"
-  ],
-  "sudoprivacy-sudocode": [
-    "development",
-    "research"
+    "web_development"
   ],
   "summerliuuu-no-no-debug": [
-    "debugging",
     "development",
-    "research",
-    "productivity"
-  ],
-  "sunrain520-spec-first": [
-    "development",
-    "research"
-  ],
-  "superagent-ai-vibekit": [
-    "development",
-    "research",
-    "creativity"
+    "debugging"
   ],
   "superset-sh-superset": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "suppierk-ccp": [
-    "development",
-    "research",
-    "automation",
     "productivity"
   ],
   "suren878-matrixclaw": [
-    "mcp_integrations",
     "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "mcp_integrations",
+    "database_query_tools"
   ],
   "sverklo-sverklo": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "swayyyyy-vibebridge": [
-    "development",
-    "research",
-    "creativity"
+    "mcp_integrations"
   ],
   "swe-agent": [
-    "development",
-    "data_analytics"
-  ],
-  "swe-agent-mini-swe-agent": [
-    "development",
-    "research",
-    "automation"
+    "development"
   ],
   "sweepai-sweep": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "syscalldev-llmcode": [
-    "development",
-    "research",
-    "automation"
+    "development"
   ],
   "tabby": [
-    "development",
-    "data_analytics",
-    "productivity"
+    "development"
   ],
   "tabnine": [
-    "testing_qa",
-    "development",
-    "automation",
-    "productivity",
-    "communication"
+    "development"
   ],
   "taewooopark-agent-blackbox": [
-    "development",
-    "research"
-  ],
-  "talkcody-talkcody": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "talsraviv-from-thinking-to-coding": [
-    "development",
-    "research",
-    "creativity"
+    "data_analytics"
   ],
   "tartarus-ai-tartarusai-cli": [
-    "development",
-    "research",
     "security"
   ],
   "tddworks-claudebar": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "tddworks-skillsmanager": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "termly-dev-termly-cli": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "the-creator-ai-the-creator-ai": [
-    "development",
-    "research",
-    "productivity",
-    "education_learning"
+    "development"
   ],
   "the-open-agent-openagent": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "the-open-engine-zeroshot": [
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "the-vibe-company-companion": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "theblixguy-xcode-copilot-server": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "thedotmack-claude-mem": [
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "thu-team-eureka-eurekagent": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "tiann-hapi": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "timkosters-agent-yolo-build": [
-    "development",
-    "research",
-    "automation"
+    "database_query_tools"
   ],
   "timvw-tmux-assistant-resurrect": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "timwuhaotian-the-pair": [
-    "development",
-    "research"
+    "web_development"
   ],
   "tjx666-vscode-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "tldrsec-vibe-hacking": [
-    "code_review",
-    "development",
-    "research",
-    "creativity"
-  ],
-  "tmdgusya-roach-code": [
-    "development",
-    "research"
+    "code_review"
   ],
   "tobilg-ai-observer": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "tokidoo-crawl4ai-rag-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations"
   ],
   "tom-doerr-vim-codex": [
-    "development",
-    "research",
     "productivity"
-  ],
-  "tony1223-better-agent-terminal": [
-    "development",
-    "research"
   ],
   "toriihq-claude-review-action": [
-    "code_review",
-    "devops_infra",
-    "development",
-    "research"
+    "code_review"
   ],
   "touwaeriol-claude-code-plus": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "tractorjuice-arc-kit": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "security",
-    "productivity"
+    "mcp_integrations",
+    "security"
   ],
   "truongnh1992-gemini-ai-code-reviewer": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "tt-a1i-hive": [
-    "development",
-    "research"
+    "code_review"
   ],
   "ttommyth-interactive-mcp": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "creativity"
+    "mcp_integrations"
   ],
   "twostraws-swiftui-agent-skill": [
-    "development",
-    "research"
-  ],
-  "ultraworkers-claw-code": [
-    "development",
-    "research"
-  ],
-  "umacloud-umadev": [
-    "development",
-    "research"
+    "mobile_development"
   ],
   "usagi-org-ai-code-review-helper": [
-    "code_review",
-    "development",
-    "research"
+    "code_review"
   ],
   "usecroft-laravel": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "usemozzie-mozzie": [
-    "code_review",
-    "development",
-    "research",
-    "automation",
-    "productivity"
+    "code_review"
   ],
   "v0": [
-    "development",
-    "research",
-    "data_analytics"
+    "development"
   ],
   "vasihemanth-tokentelemetry": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "vdaubry-bottega": [
-    "development",
-    "research",
-    "communication"
+    "data_analytics"
   ],
   "vfarcic-dot-agent-deck": [
-    "development",
-    "research"
-  ],
-  "vibe-cy-cycode": [
-    "development",
-    "research",
-    "communication"
-  ],
-  "vibe-motion-auto-motion": [
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "productivity"
+    "data_analytics"
   ],
   "vibe-with-me-tools-agent-reachout": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "creativity",
     "productivity"
   ],
   "vibedrift-vibedrift": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "creativity"
+    "mcp_integrations"
   ],
   "vibepod-vibepod-cli": [
-    "devops_infra",
-    "development",
-    "research",
-    "data_analytics",
-    "creativity"
-  ],
-  "video-db-pair-programmer": [
-    "development",
-    "research",
-    "entertainment"
+    "data_analytics"
   ],
   "villesau-ai-codereviewer": [
-    "code_review",
-    "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "productivity"
-  ],
-  "virtengine-bosun": [
-    "development",
-    "research",
-    "automation",
-    "productivity",
-    "education_learning"
+    "code_review"
   ],
   "vobc-oh-my-coder": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "void": [
-    "development",
-    "research",
-    "automation"
+    "development"
   ],
   "w31r4-codex-mcp-go": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
-  ],
-  "w4n9h-mangopi-cli": [
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "weiesky-cc-viewer": [
-    "debugging",
-    "development",
-    "research",
-    "creativity"
+    "debugging"
   ],
   "wellingfeng-ultragamestudio": [
-    "development",
-    "research",
-    "productivity",
-    "entertainment"
-  ],
-  "wesm-vibepulse": [
-    "development",
-    "research",
-    "creativity"
-  ],
-  "winfunc-opcode": [
-    "development",
-    "research"
+    "game_development"
   ],
   "wintermeyer-heinzel": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "woodx9-build-your-claude-code-from-scratch": [
-    "development",
-    "research"
-  ],
-  "wrongstack-wrongstack": [
-    "development",
-    "research",
-    "automation",
-    "security",
-    "creativity"
+    "development"
   ],
   "wshobson-agents": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "x-plug-mobileagent": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "xcodinglab-xcoding": [
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "productivity"
-  ],
-  "xichan96-dinotty": [
-    "development",
-    "research"
-  ],
-  "xintaofei-codeg": [
-    "development",
-    "research"
-  ],
-  "xxnuo-vibego": [
-    "development",
-    "research",
-    "creativity"
+    "mobile_development"
   ],
   "xxxxxccc-devops-bot": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "code_review",
     "devops_infra",
-    "development",
-    "research",
-    "automation",
-    "communication"
-  ],
-  "y49-tlive": [
-    "development",
-    "research",
-    "productivity",
-    "communication"
+    "mcp_integrations"
   ],
   "yagil-chatide": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "yangshun-teenycode": [
-    "development",
-    "research"
+    "development"
   ],
   "yapie0-carboncode": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mcp_integrations"
   ],
   "yctimlin-mcp-excalidraw": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
-  ],
-  "yeachan-heo-oh-my-claudecode": [
-    "development",
-    "research",
-    "automation",
-    "communication"
-  ],
-  "yeachan-heo-oh-my-codex": [
-    "development",
-    "research",
-    "communication"
+    "mcp_integrations"
   ],
   "yetidevworks-ygrep": [
-    "development",
-    "research",
-    "productivity"
+    "development"
   ],
   "yishentu-claudian": [
-    "development",
-    "research",
     "productivity"
   ],
   "yogirk-agent-council": [
-    "code_review",
-    "development",
-    "research"
-  ],
-  "yohey-w-multi-agent-shogun": [
-    "development",
-    "research",
-    "automation"
-  ],
-  "yologdev-yoyo-evolve": [
-    "development",
-    "research"
+    "code_review"
   ],
   "youssefvdel-opengate": [
-    "development",
-    "research",
-    "communication"
+    "data_analytics"
   ],
   "yungookim-oh-my-pr": [
     "code_review",
-    "development",
-    "research",
-    "automation"
-  ],
-  "yushui2022-easy-coding-agents": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "web_development"
   ],
   "yusifeng-formax": [
     "development",
-    "research",
-    "productivity"
-  ],
-  "yzfly-tokencode": [
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation"
+    "web_development"
   ],
   "z-m-huang-claude-codex": [
-    "code_review",
-    "development",
-    "research",
-    "security"
-  ],
-  "zai-org-glm-5": [
-    "development",
-    "research",
-    "automation",
-    "creativity"
-  ],
-  "zarazhangrui-lark-coding-agent-bridge": [
-    "development",
-    "research",
-    "communication"
+    "code_review"
   ],
   "zaxbyhub-opencode-swarm": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "testing_qa",
     "development",
-    "research",
-    "automation"
+    "mcp_integrations"
   ],
   "zed-ai": [
-    "testing_qa",
     "development"
   ],
   "zeljkoavramovic-agentic-design-patterns": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "creativity",
-    "productivity"
+    "mcp_integrations"
   ],
   "zhangliang605-carrycode": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "debugging",
     "refactoring",
-    "development",
-    "research",
-    "creativity"
+    "mcp_integrations"
   ],
   "zhangqi444-open-forge": [
-    "devops_infra",
-    "development",
-    "research"
+    "devops_infra"
   ],
   "zhaoxuya520-reverse-skill": [
-    "testing_qa",
-    "development",
-    "research",
-    "security"
+    "testing_qa"
   ],
   "zhitongblog-solomd": [
     "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research"
+    "mobile_development",
+    "web_development"
   ],
   "zhulinsen-miniagent": [
-    "mcp_integrations",
-    "agent_infrastructure",
     "development",
-    "research",
-    "productivity"
+    "mcp_integrations"
   ],
   "zilliztech-claude-context": [
-    "mcp_integrations",
-    "agent_infrastructure",
-    "development",
-    "research",
-    "automation",
-    "data_analytics"
+    "mcp_integrations"
   ],
   "zixingtangmouren-mr-agent": [
-    "code_review",
-    "development",
-    "research",
-    "communication"
+    "code_review"
   ],
   "zot-humble-master": [
-    "development",
-    "research",
-    "productivity"
-  ],
-  "zubair-trabzada-geo-seo-claude": [
-    "development",
-    "research"
+    "development"
   ]
 };

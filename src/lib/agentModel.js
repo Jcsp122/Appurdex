@@ -124,6 +124,31 @@ const categoryLabels = {
   'MCP server': 'MCP Server',
 };
 
+export const AGENT_TYPES = ['build', 'review'];
+export const AGENT_LIFECYCLE_STATUSES = ['active', 'legacy', 'deprecated', 'retired'];
+
+export function normalizeAgentType(value) {
+  const normalized = String(value || 'build').trim().toLowerCase();
+  return AGENT_TYPES.includes(normalized) ? normalized : 'build';
+}
+
+export function assertValidAgentType(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (!AGENT_TYPES.includes(normalized)) throw new Error('Invalid agent_type: expected build or review.');
+  return normalized;
+}
+
+export function normalizeAgentLifecycleStatus(value) {
+  const normalized = String(value || 'active').trim().toLowerCase();
+  return AGENT_LIFECYCLE_STATUSES.includes(normalized) ? normalized : 'active';
+}
+
+export function assertValidAgentLifecycleStatus(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (!AGENT_LIFECYCLE_STATUSES.includes(normalized)) throw new Error('Invalid lifecycle_status: expected active, legacy, deprecated, or retired.');
+  return normalized;
+}
+
 function sourceLabelFromUrl(url, fallback = 'Official source') {
   if (!url) return fallback;
   try {
@@ -469,6 +494,8 @@ export function normalizeAgent(tool, sourceCheck, githubMetric) {
     searchKeywords: searchKeywordsForTool(tool, slug),
     useCaseWeight: useCaseWeightForTool(tool, slug),
     use_cases: useCasesForTool(tool, slug),
+    agent_type: normalizeAgentType(tool.agent_type || tool.agentType),
+    lifecycle_status: normalizeAgentLifecycleStatus(tool.lifecycle_status || tool.lifecycleStatus),
     ecosystem,
     publicPath: vendorSlug ? '/vendors/' + vendorSlug + '/' + slug : '/ai/' + slug,
     legacyPublicPath: '/agents/' + slug,

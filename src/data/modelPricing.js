@@ -33,6 +33,14 @@ export const modelPricingSources = [
     cadence: "24h",
     trackedFields: ["subscription_pricing", "premium_requests"],
   },
+  {
+    id: "livebench-2026-06-25",
+    provider: "LiveBench",
+    sourceUrl: "https://livebench.ai/table_2026_06_25.csv",
+    sourceLabel: "LiveBench 2026-06-25 leaderboard",
+    cadence: "release",
+    trackedFields: ["coding", "reasoning", "mathematics", "data_analysis", "language", "instruction_following"],
+  },
 ];
 
 const sourceByProvider = {
@@ -60,7 +68,7 @@ function usagePlan(id, name, pricesUsdPerMillion, extra = {}) {
   };
 }
 
-function modelEntry({ provider, model, modelId, modelFamily, status = "current", availabilityNote = null, effectiveFrom = null, effectiveUntil = null, pricingPlans = [] }) {
+function modelEntry({ provider, model, modelId, modelFamily, status = "current", availabilityNote = null, effectiveFrom = null, effectiveUntil = null, pricingPlans = [], benchmarkScores = null, contextWindowTokens = null, contextSourceUrl = null, contextSourceLabel = null, contextVerifiedAt = null }) {
   const source = sourceByProvider[provider];
   const firstPlan = pricingPlans[0] || null;
   return {
@@ -77,6 +85,11 @@ function modelEntry({ provider, model, modelId, modelFamily, status = "current",
     pricingPlans,
     effectiveFrom,
     effectiveUntil,
+    benchmarkScores,
+    contextWindowTokens,
+    contextSourceUrl,
+    contextSourceLabel,
+    contextVerifiedAt,
     sourceId: source.id,
     sourceUrl: source.sourceUrl,
     sourceLabel: source.sourceLabel,
@@ -133,7 +146,27 @@ export const modelPricingCatalog = [
   modelEntry({ provider: "Anthropic", model: "Claude Haiku 4.5", modelFamily: "Claude Haiku", pricingPlans: claudePlans(1, 5) }),
   modelEntry({ provider: "Anthropic", model: "Claude Haiku 3.5", modelFamily: "Claude Haiku", status: "retired_except_cloud", availabilityNote: "Retired except on Bedrock and Google Cloud.", pricingPlans: claudePlans(0.8, 4) }),
 
-  modelEntry({ provider: "OpenAI", model: "gpt-5.5", modelFamily: "GPT-5", pricingPlans: [openAiPlan("standard", "Standard", { input: 5, cachedInput: 0.5, output: 30 }, { input: 10, cachedInput: 1, output: 45 }), openAiPlan("batch", "Batch", { input: 2.5, cachedInput: 0.25, output: 15 }, { input: 5, cachedInput: 0.5, output: 22.5 }), openAiPlan("flex", "Flex", { input: 2.5, cachedInput: 0.25, output: 15 }, { input: 5, cachedInput: 0.5, output: 22.5 }), openAiPlan("priority", "Priority", { input: 12.5, cachedInput: 1.25, output: 75 })] }),
+  modelEntry({
+    provider: "OpenAI",
+    model: "gpt-5.5",
+    modelFamily: "GPT-5",
+    contextWindowTokens: 1_050_000,
+    contextSourceUrl: "https://developers.openai.com/api/docs/models/gpt-5.5",
+    contextSourceLabel: "OpenAI GPT-5.5 model documentation",
+    contextVerifiedAt: "2026-07-10",
+    benchmarkScores: {
+      sourceId: "livebench-2026-06-25",
+      sourceUrl: "https://livebench.ai/table_2026_06_25.csv",
+      sourceLabel: "LiveBench 2026-06-25 leaderboard",
+      release: "2026-06-25",
+      benchmarkModelId: "gpt-5.5",
+      verifiedAt: "2026-06-25",
+      comparisonPoolSize: 36,
+      coding: { raw: 78.628, percentile: 59.72 },
+      general: { raw: 77.068, percentile: 40.28 },
+    },
+    pricingPlans: [openAiPlan("standard", "Standard", { input: 5, cachedInput: 0.5, output: 30 }, { input: 10, cachedInput: 1, output: 45 }), openAiPlan("batch", "Batch", { input: 2.5, cachedInput: 0.25, output: 15 }, { input: 5, cachedInput: 0.5, output: 22.5 }), openAiPlan("flex", "Flex", { input: 2.5, cachedInput: 0.25, output: 15 }, { input: 5, cachedInput: 0.5, output: 22.5 }), openAiPlan("priority", "Priority", { input: 12.5, cachedInput: 1.25, output: 75 })],
+  }),
   modelEntry({ provider: "OpenAI", model: "gpt-5.5-pro", modelFamily: "GPT-5", pricingPlans: [openAiPlan("standard", "Standard", { input: 30, output: 180 }, { input: 60, output: 270 }), openAiPlan("batch", "Batch", { input: 15, output: 90 }), openAiPlan("flex", "Flex", { input: 15, output: 90 })] }),
   modelEntry({ provider: "OpenAI", model: "gpt-5.4", modelFamily: "GPT-5", pricingPlans: [openAiPlan("standard", "Standard", { input: 2.5, cachedInput: 0.25, output: 15 }, { input: 5, cachedInput: 0.5, output: 22.5 }), openAiPlan("batch", "Batch", { input: 1.25, cachedInput: 0.13, output: 7.5 }, { input: 2.5, cachedInput: 0.25, output: 11.25 }), openAiPlan("flex", "Flex", { input: 1.25, cachedInput: 0.13, output: 7.5 }, { input: 2.5, cachedInput: 0.25, output: 11.25 }), openAiPlan("priority", "Priority", { input: 5, cachedInput: 0.5, output: 30 })] }),
   modelEntry({ provider: "OpenAI", model: "gpt-5.4-mini", modelFamily: "GPT-5", pricingPlans: [openAiPlan("standard", "Standard", { input: 0.75, cachedInput: 0.075, output: 4.5 }), openAiPlan("batch", "Batch", { input: 0.375, cachedInput: 0.0375, output: 2.25 }), openAiPlan("flex", "Flex", { input: 0.375, cachedInput: 0.0375, output: 2.25 }), openAiPlan("priority", "Priority", { input: 1.5, cachedInput: 0.15, output: 9 })] }),

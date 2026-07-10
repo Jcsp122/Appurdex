@@ -1,10 +1,11 @@
 # Appurdex
 
-Appurdex tracks AI coding agents with source-backed verification, public language routes, an admin backend surface, and API subscription endpoints.
+Appurdex tracks AI coding agents with source-backed verification, Overview rankings for companies, build agents, and exact-match LLMs, public language routes, an admin backend surface, and API subscription endpoints.
 
 ## Routes
 
-- Public directory: `/`
+- Public rankings overview: `/?view=companies|agents|llms`
+- Legacy agents index redirect: `/agents` redirects to `/?view=agents`
 - Vendor overview: `/vendors`
 - Public AI product page: `/vendors/:vendorSlug/:agentSlug`, for example `/vendors/openai/openai-codex`
 - Use-case browsing: `/use-cases` and `/use-cases/:slug`
@@ -39,7 +40,11 @@ Each agent keeps:
 - GitHub metrics when a public repo exists
 - provenance and resale policy notes
 - vendor-claim eligibility
+- `agent_type`, a fixed `build` or `review` ranking axis independent of category sub-tags
+- `lifecycle_status`, one of `active`, `legacy`, `deprecated`, or `retired`; this is an agent-directory lifecycle filter and does not replace model-pricing status
 - `use_cases`, a stored array of fixed taxonomy slugs separate from `category`
+
+Overview ranks source-backed companies and individual Build Agents. Review Agent records remain stored for directory and admin use but are not ranked in Overview. The LLM view ranks exact model-ID matches only and leaves incomplete records visibly unranked.
 
 ## Backend Surfaces
 
@@ -84,7 +89,7 @@ Subscriber endpoints require `x-appurdex-api-key`. Customer API keys are paid-on
 
 OpenAPI is in `docs/openapi.json`. The TypeScript client is in `sdk/js`.
 
-Shared use-case taxonomy endpoints are public and return only populated use cases with at least 3 tagged products. Appurdex consumes them with `group=coding_specific`; AppurScope should consume the same contract with `group=all` from its separate repo. Unknown tags are rejected on writes/imports rather than inferred at request time.
+Shared use-case taxonomy endpoints are public and return only populated use cases with at least 3 tagged products. The fixed taxonomy contains 26 coding-specific and 27 general-purpose values. docs/use-case-tagging-report.json records the before/after product count for every value after each tagging pass. Appurdex consumes them with `group=all` so its index can render populated coding-specific and general-purpose sections; AppurScope should consume the same shared contract from its separate repo. Unknown tags are rejected on writes/imports rather than inferred at request time.
 Internal sync endpoint:
 
 - `/api/cron/hourly-sync`

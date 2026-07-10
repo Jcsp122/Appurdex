@@ -19,6 +19,11 @@ Example: OpenAI Codex public page is `/vendors/openai/openai-codex`; its admin e
 4. Community suggestions after review.
 5. Licensed third-party providers only when resale rights are explicit.
 
+
+## Licensed Source Ingestion
+
+Use `npm run licensed:ingest -- <licensed-source.json>` to dry-run a licensed catalog feed and `npm run licensed:ingest -- <licensed-source.json> --apply` to create pending review candidates. The input must include `source.name`, `source.licenseName`, and `source.resaleAllowed=true`. Ingestion preserves source license and provenance metadata, but it does not add public verified listings or pricing claims without admin review.
+
 ## Worker Policy
 
 The Appurdex worker may automatically update objective, source-backed fields:

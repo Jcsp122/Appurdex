@@ -1,4 +1,4 @@
-import crypto from "node:crypto";
+﻿import crypto from "node:crypto";
 import Stripe from "stripe";
 import { Resend } from "resend";
 import {
@@ -93,6 +93,7 @@ function serializeUser(user) {
   return {
     id: user.id,
     email: user.email,
+    username: user.username,
     role: user.role,
     subscriptionStatus: user.subscription_status,
     planId: effectivePlan(user),
@@ -534,6 +535,7 @@ export async function handleAuthBillingRoute(request, response, url, helpers) {
 
   return false;
 }
+
 
 
 

@@ -1,4 +1,4 @@
-import crypto from "node:crypto";
+﻿import crypto from "node:crypto";
 import fsSync from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -7,8 +7,15 @@ import { ALERT_CHANGE_TYPES, normalizeAlertTypes } from "./change-types.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
-const dataDir = path.join(rootDir, "data");
-const defaultDbPath = path.join(dataDir, "appurdex-auth.sqlite");
+const defaultDataDir = path.join(rootDir, "data");
+
+function dataDir() {
+  return path.resolve(process.env.APPURDEX_DATA_DIR || defaultDataDir);
+}
+
+function defaultDbPath() {
+  return path.join(dataDir(), "appurdex-auth.sqlite");
+}
 
 let database = null;
 
@@ -28,7 +35,7 @@ function apiUsageWindow(reference = new Date()) {
 }
 
 function dbPath() {
-  return process.env.APPURDEX_DB_PATH || defaultDbPath;
+  return process.env.APPURDEX_DB_PATH || defaultDbPath();
 }
 
 function openDb() {
@@ -46,6 +53,7 @@ function migrate(db) {
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
       email TEXT NOT NULL UNIQUE,
+      username TEXT NOT NULL UNIQUE,
       role TEXT NOT NULL DEFAULT 'free',
       stripe_customer_id TEXT,
       stripe_subscription_id TEXT,
@@ -195,6 +203,42 @@ function migrate(db) {
   if (!watchlistColumns.has("alert_types_json")) {
     db.exec("ALTER TABLE watchlists ADD COLUMN alert_types_json TEXT NOT NULL DEFAULT '{}'");
   }
+  ensureColumn(db, "users", "username", "TEXT");
+  backfillUsernames(db);
+}
+
+function tableColumns(db, tableName) {
+  return db.prepare("PRAGMA table_info(" + tableName + ")").all().map((row) => row.name);
+}
+
+function ensureColumn(db, tableName, columnName, definition) {
+  if (tableColumns(db, tableName).includes(columnName)) return;
+  db.exec("ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " " + definition);
+}
+
+function usernameExists(db, username, exceptUserId = null) {
+  const row = exceptUserId
+    ? db.prepare("SELECT id FROM users WHERE username = ? AND id != ?").get(username, exceptUserId)
+    : db.prepare("SELECT id FROM users WHERE username = ?").get(username);
+  return Boolean(row);
+}
+
+function randomUsername(db, exceptUserId = null) {
+  for (let index = 0; index < 12; index += 1) {
+    const username = "appur-" + crypto.randomBytes(3).toString("hex");
+    if (!usernameExists(db, username, exceptUserId)) return username;
+  }
+  return "appur-" + crypto.randomUUID().slice(0, 8);
+}
+
+function backfillUsernames(db) {
+  const rows = db.prepare("SELECT id, username FROM users").all();
+  const update = db.prepare("UPDATE users SET username = ?, updated_at = ? WHERE id = ?");
+  rows.forEach((row) => {
+    if (row.username) return;
+    update.run(randomUsername(db, row.id), now(), row.id);
+  });
+  db.exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username)");
 }
 
 function normalizeEmail(email) {
@@ -229,7 +273,7 @@ export function hasAccess(user, featureFlag) {
     priorityFreshness: [],
     historicalTrends: ["pro", "enterprise"],
     csvExport: ["pro", "enterprise"],
-    apiAccess: ["free", "starter", "pro", "enterprise"],
+    apiAccess: ["starter", "pro", "enterprise"],
     alerts: ["pro", "enterprise"],
     watchlists: ["starter", "pro", "enterprise"],
     savedComparisons: ["starter", "pro", "enterprise"],
@@ -248,7 +292,7 @@ export function getPlanLimits(user) {
   if (plan === "enterprise") return { plan, apiMonthlyLimit: process.env.APPURDEX_ENTERPRISE_API_MONTHLY_LIMIT ? numberEnv("APPURDEX_ENTERPRISE_API_MONTHLY_LIMIT", null) : null, compareLimit: null, apiLimitConfigured: Boolean(process.env.APPURDEX_ENTERPRISE_API_MONTHLY_LIMIT), freshnessTier: "default", exportTier: "commercial" };
   if (plan === "pro") return { plan, apiMonthlyLimit: numberEnv("APPURDEX_PRO_API_MONTHLY_LIMIT", 50000), compareLimit: null, apiLimitConfigured: true, freshnessTier: "default", exportTier: "csv" };
   if (plan === "starter") return { plan, apiMonthlyLimit: numberEnv("APPURDEX_STARTER_API_MONTHLY_LIMIT", 5000), compareLimit: null, apiLimitConfigured: true, freshnessTier: "default", exportTier: "none" };
-  return { plan: "free", apiMonthlyLimit: numberEnv("APPURDEX_FREE_API_MONTHLY_LIMIT", 500), compareLimit: 2, apiLimitConfigured: true, freshnessTier: "default", exportTier: "none" };
+  return { plan: "free", apiMonthlyLimit: 0, compareLimit: 2, apiLimitConfigured: false, freshnessTier: "default", exportTier: "none" };
 }
 
 export function getApiUsageSummary(user) {
@@ -287,6 +331,7 @@ export function upsertUserByEmail(email, fields = {}) {
     const user = {
       id: crypto.randomUUID(),
       email: normalizedEmail,
+      username: fields.username || randomUsername(db),
       role: fields.role || "free",
       stripe_customer_id: fields.stripe_customer_id || null,
       stripe_subscription_id: fields.stripe_subscription_id || null,
@@ -296,9 +341,9 @@ export function upsertUserByEmail(email, fields = {}) {
       updated_at: timestamp,
     };
     db.prepare(`
-      INSERT INTO users (id, email, role, stripe_customer_id, stripe_subscription_id, subscription_status, plan_id, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(user.id, user.email, user.role, user.stripe_customer_id, user.stripe_subscription_id, user.subscription_status, user.plan_id, user.created_at, user.updated_at);
+      INSERT INTO users (id, email, username, role, stripe_customer_id, stripe_subscription_id, subscription_status, plan_id, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(user.id, user.email, user.username, user.role, user.stripe_customer_id, user.stripe_subscription_id, user.subscription_status, user.plan_id, user.created_at, user.updated_at);
     return user;
   }
 
@@ -309,9 +354,9 @@ export function upsertUserByEmail(email, fields = {}) {
   };
   db.prepare(`
     UPDATE users
-    SET role = ?, stripe_customer_id = ?, stripe_subscription_id = ?, subscription_status = ?, plan_id = ?, updated_at = ?
+    SET username = ?, role = ?, stripe_customer_id = ?, stripe_subscription_id = ?, subscription_status = ?, plan_id = ?, updated_at = ?
     WHERE id = ?
-  `).run(next.role, next.stripe_customer_id, next.stripe_subscription_id, next.subscription_status, next.plan_id, next.updated_at, next.id);
+  `).run(next.username || randomUsername(db, next.id), next.role, next.stripe_customer_id, next.stripe_subscription_id, next.subscription_status, next.plan_id, next.updated_at, next.id);
   return getUserById(existing.id);
 }
 
@@ -322,9 +367,9 @@ export function updateUserStripeFields(userId, fields) {
   const next = { ...existing, ...fields, updated_at: now() };
   db.prepare(`
     UPDATE users
-    SET role = ?, stripe_customer_id = ?, stripe_subscription_id = ?, subscription_status = ?, plan_id = ?, updated_at = ?
+    SET username = ?, role = ?, stripe_customer_id = ?, stripe_subscription_id = ?, subscription_status = ?, plan_id = ?, updated_at = ?
     WHERE id = ?
-  `).run(next.role, next.stripe_customer_id, next.stripe_subscription_id, next.subscription_status, next.plan_id, next.updated_at, userId);
+  `).run(next.username || randomUsername(db, userId), next.role, next.stripe_customer_id, next.stripe_subscription_id, next.subscription_status, next.plan_id, next.updated_at, userId);
   return getUserById(userId);
 }
 
@@ -356,6 +401,7 @@ export function getSession(sessionId) {
     user: {
       id: row.id,
       email: row.email,
+      username: row.username,
       role: row.role,
       stripe_customer_id: row.stripe_customer_id,
       stripe_subscription_id: row.stripe_subscription_id,
@@ -448,7 +494,7 @@ export function createCustomerApiKey({ userId, name = "Appurdex API key" }) {
 export function findCustomerApiKey(token) {
   const db = openDb();
   const row = db.prepare(`
-    SELECT api_keys.*, users.email, users.role, users.subscription_status, users.plan_id
+    SELECT api_keys.*, users.email, users.username, users.role, users.subscription_status, users.plan_id
     FROM api_keys
     JOIN users ON users.id = api_keys.user_id
     WHERE api_keys.token_hash = ? AND api_keys.status = 'active'
@@ -459,6 +505,7 @@ export function findCustomerApiKey(token) {
     user: {
       id: row.user_id,
       email: row.email,
+      username: row.username,
       role: row.role,
       subscription_status: row.subscription_status,
       plan_id: row.plan_id,
@@ -783,6 +830,12 @@ export function listDigestUsers() {
     plan_id: row.plan_id,
   }));
 }
+
+
+
+
+
+
 
 
 

@@ -1,7 +1,2116 @@
 {
-  "generatedAt": "2026-07-08T03:53:00.145Z",
+  "generatedAt": "2026-07-10T07:40:40.242Z",
   "totalProducts": 757,
-  "taggedProducts": 757,
-  "untaggedProducts": 0,
-  "untagged": []
+  "taggedProducts": 459,
+  "untaggedProducts": 298,
+  "useCaseCounts": [
+    {
+      "slug": "development",
+      "before": 752,
+      "after": 177,
+      "delta": -575
+    },
+    {
+      "slug": "code_review",
+      "before": 67,
+      "after": 57,
+      "delta": -10
+    },
+    {
+      "slug": "debugging",
+      "before": 19,
+      "after": 15,
+      "delta": -4
+    },
+    {
+      "slug": "refactoring",
+      "before": 4,
+      "after": 4,
+      "delta": 0
+    },
+    {
+      "slug": "testing_qa",
+      "before": 32,
+      "after": 14,
+      "delta": -18
+    },
+    {
+      "slug": "devops_infra",
+      "before": 45,
+      "after": 17,
+      "delta": -28
+    },
+    {
+      "slug": "documentation",
+      "before": 23,
+      "after": 8,
+      "delta": -15
+    },
+    {
+      "slug": "migration",
+      "before": 4,
+      "after": 2,
+      "delta": -2
+    },
+    {
+      "slug": "onboarding",
+      "before": 1,
+      "after": 1,
+      "delta": 0
+    },
+    {
+      "slug": "agent_infrastructure",
+      "before": 192,
+      "after": 16,
+      "delta": -176
+    },
+    {
+      "slug": "mcp_integrations",
+      "before": 158,
+      "after": 158,
+      "delta": 0
+    },
+    {
+      "slug": "scientific_computing_research",
+      "before": 0,
+      "after": 1,
+      "delta": 1
+    },
+    {
+      "slug": "fintech_development",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "game_development",
+      "before": 0,
+      "after": 6,
+      "delta": 6
+    },
+    {
+      "slug": "mobile_development",
+      "before": 0,
+      "after": 17,
+      "delta": 17
+    },
+    {
+      "slug": "web_development",
+      "before": 0,
+      "after": 33,
+      "delta": 33
+    },
+    {
+      "slug": "data_engineering",
+      "before": 0,
+      "after": 1,
+      "delta": 1
+    },
+    {
+      "slug": "database_query_tools",
+      "before": 0,
+      "after": 17,
+      "delta": 17
+    },
+    {
+      "slug": "api_development",
+      "before": 0,
+      "after": 1,
+      "delta": 1
+    },
+    {
+      "slug": "performance_optimization",
+      "before": 0,
+      "after": 3,
+      "delta": 3
+    },
+    {
+      "slug": "accessibility_auditing",
+      "before": 0,
+      "after": 2,
+      "delta": 2
+    },
+    {
+      "slug": "localization_i18n",
+      "before": 0,
+      "after": 1,
+      "delta": 1
+    },
+    {
+      "slug": "package_dependency_management",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "prompt_engineering_llm_tooling",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "embedded_iot_development",
+      "before": 0,
+      "after": 2,
+      "delta": 2
+    },
+    {
+      "slug": "blockchain_smart_contracts",
+      "before": 0,
+      "after": 2,
+      "delta": 2
+    },
+    {
+      "slug": "productivity",
+      "before": 250,
+      "after": 31,
+      "delta": -219
+    },
+    {
+      "slug": "creativity",
+      "before": 92,
+      "after": 1,
+      "delta": -91
+    },
+    {
+      "slug": "research",
+      "before": 726,
+      "after": 2,
+      "delta": -724
+    },
+    {
+      "slug": "automation",
+      "before": 213,
+      "after": 3,
+      "delta": -210
+    },
+    {
+      "slug": "security",
+      "before": 42,
+      "after": 12,
+      "delta": -30
+    },
+    {
+      "slug": "data_analytics",
+      "before": 31,
+      "after": 23,
+      "delta": -8
+    },
+    {
+      "slug": "communication",
+      "before": 51,
+      "after": 1,
+      "delta": -50
+    },
+    {
+      "slug": "marketing_sales",
+      "before": 3,
+      "after": 2,
+      "delta": -1
+    },
+    {
+      "slug": "customer_support",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "entertainment",
+      "before": 12,
+      "after": 0,
+      "delta": -12
+    },
+    {
+      "slug": "education_learning",
+      "before": 19,
+      "after": 2,
+      "delta": -17
+    },
+    {
+      "slug": "finance",
+      "before": 2,
+      "after": 0,
+      "delta": -2
+    },
+    {
+      "slug": "health_wellness",
+      "before": 2,
+      "after": 0,
+      "delta": -2
+    },
+    {
+      "slug": "legal",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "hr_recruiting",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "real_estate",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "ecommerce",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "journalism_media",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "translation_language",
+      "before": 0,
+      "after": 2,
+      "delta": 2
+    },
+    {
+      "slug": "personal_assistant",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "scheduling_calendar",
+      "before": 0,
+      "after": 1,
+      "delta": 1
+    },
+    {
+      "slug": "travel_planning",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "writing_content_generation",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "video_audio_editing",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "image_generation_design",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    },
+    {
+      "slug": "presentation_building",
+      "before": 0,
+      "after": 1,
+      "delta": 1
+    },
+    {
+      "slug": "spreadsheet_data_entry",
+      "before": 0,
+      "after": 0,
+      "delta": 0
+    }
+  ],
+  "untagged": [
+    {
+      "slug": "0xmassi-pocketdev",
+      "name": "pocketdev",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/0xMassi/pocketdev"
+    },
+    {
+      "slug": "0xranx-agentbrief",
+      "name": "agentbrief",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/0xranx/agentbrief"
+    },
+    {
+      "slug": "1850298154-memory-agent-hub",
+      "name": "memory_agent_hub",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/1850298154/memory_agent_hub"
+    },
+    {
+      "slug": "1iry-multi-agent-architecture-advisor",
+      "name": "multi-agent-architecture-advisor",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/1iry/multi-agent-architecture-advisor"
+    },
+    {
+      "slug": "21st-dev-1code",
+      "name": "1code",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/21st-dev/1code"
+    },
+    {
+      "slug": "aakashadesara-ctop",
+      "name": "ctop",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/aakashadesara/ctop"
+    },
+    {
+      "slug": "aduermael-herm",
+      "name": "herm",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/aduermael/herm"
+    },
+    {
+      "slug": "agent-era-devteam",
+      "name": "devteam",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/agent-era/devteam"
+    },
+    {
+      "slug": "agent-field-swe-af",
+      "name": "SWE-AF",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Agent-Field/SWE-AF"
+    },
+    {
+      "slug": "agent-of-empires-agent-of-empires",
+      "name": "agent-of-empires",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/agent-of-empires/agent-of-empires"
+    },
+    {
+      "slug": "agentforce314-clawcodex",
+      "name": "clawcodex",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/agentforce314/clawcodex"
+    },
+    {
+      "slug": "agentsmd-agents-md",
+      "name": "agents.md",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/agentsmd/agents.md"
+    },
+    {
+      "slug": "agentsmesh-agentsmesh",
+      "name": "AgentsMesh",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/AgentsMesh/AgentsMesh"
+    },
+    {
+      "slug": "agentwrapper-agent-orchestrator",
+      "name": "agent-orchestrator",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/AgentWrapper/agent-orchestrator"
+    },
+    {
+      "slug": "alchaincyf-fanbox",
+      "name": "fanbox",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/alchaincyf/fanbox"
+    },
+    {
+      "slug": "alchaincyf-huashu-design",
+      "name": "huashu-design",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/alchaincyf/huashu-design"
+    },
+    {
+      "slug": "alexei-led-ccgram",
+      "name": "ccgram",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/alexei-led/ccgram"
+    },
+    {
+      "slug": "allierays-agentic-loop",
+      "name": "agentic-loop",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/allierays/agentic-loop"
+    },
+    {
+      "slug": "allvegetable-acp-bridge",
+      "name": "acp-bridge",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/allvegetable/acp-bridge"
+    },
+    {
+      "slug": "amoghreddy45-autonomous-workstream",
+      "name": "autonomous-workstream",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/AmoghReddy45/autonomous-workstream"
+    },
+    {
+      "slug": "andersonby-codexy",
+      "name": "codexy",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/AndersonBY/codexy"
+    },
+    {
+      "slug": "andymik90-aperant",
+      "name": "Aperant",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/AndyMik90/Aperant"
+    },
+    {
+      "slug": "angristan-codex-wakatime",
+      "name": "codex-wakatime",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/angristan/codex-wakatime"
+    },
+    {
+      "slug": "angristan-fast-resume",
+      "name": "fast-resume",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/angristan/fast-resume"
+    },
+    {
+      "slug": "angristan-opencode-wakatime",
+      "name": "opencode-wakatime",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/angristan/opencode-wakatime"
+    },
+    {
+      "slug": "anthropics-claude-agent-sdk-demos",
+      "name": "claude-agent-sdk-demos",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/anthropics/claude-agent-sdk-demos"
+    },
+    {
+      "slug": "appgram-agentnotch",
+      "name": "agentnotch",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/AppGram/agentnotch"
+    },
+    {
+      "slug": "assafwoo-homebrew-pandafilter",
+      "name": "homebrew-pandafilter",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/AssafWoo/homebrew-pandafilter"
+    },
+    {
+      "slug": "automazeio-vibeproxy",
+      "name": "vibeproxy",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/automazeio/vibeproxy"
+    },
+    {
+      "slug": "avinshe-agentseed",
+      "name": "agentseed",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/avinshe/agentseed"
+    },
+    {
+      "slug": "aws-samples-sample-autonomous-cloud-coding-agents",
+      "name": "sample-autonomous-cloud-coding-agents",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/aws-samples/sample-autonomous-cloud-coding-agents"
+    },
+    {
+      "slug": "awslabs-aidlc-workflows",
+      "name": "aidlc-workflows",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/awslabs/aidlc-workflows"
+    },
+    {
+      "slug": "ayoubben18-ab-method",
+      "name": "ab-method",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/ayoubben18/ab-method"
+    },
+    {
+      "slug": "ba-calderonmorales-terminal-jarvis",
+      "name": "terminal-jarvis",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/BA-CalderonMorales/terminal-jarvis"
+    },
+    {
+      "slug": "band-ai-codeband",
+      "name": "codeband",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/band-ai/codeband"
+    },
+    {
+      "slug": "benjaminshoemaker-vibecode-spec-generator",
+      "name": "vibecode_spec_generator",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/benjaminshoemaker/vibecode_spec_generator"
+    },
+    {
+      "slug": "blader-humanizer",
+      "name": "humanizer",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/blader/humanizer"
+    },
+    {
+      "slug": "bloopai-vibe-kanban",
+      "name": "vibe-kanban",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/BloopAI/vibe-kanban"
+    },
+    {
+      "slug": "bradwilson331-cmux-linux",
+      "name": "cmux-linux",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/bradwilson331/cmux-linux"
+    },
+    {
+      "slug": "breferrari-obsidian-mind",
+      "name": "obsidian-mind",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/breferrari/obsidian-mind"
+    },
+    {
+      "slug": "brightseth-proof-of-corn",
+      "name": "proof-of-corn",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/brightseth/proof-of-corn"
+    },
+    {
+      "slug": "browser-use-video-use",
+      "name": "video-use",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/browser-use/video-use"
+    },
+    {
+      "slug": "builtbyv-ai-website-builder",
+      "name": "ai-website-builder",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/builtbyV/ai-website-builder"
+    },
+    {
+      "slug": "burakdede-aisw",
+      "name": "aisw",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/burakdede/aisw"
+    },
+    {
+      "slug": "carlos-algms-agentic-nvim",
+      "name": "agentic.nvim",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/carlos-algms/agentic.nvim"
+    },
+    {
+      "slug": "chaitin-monkeycode",
+      "name": "MonkeyCode",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/chaitin/MonkeyCode"
+    },
+    {
+      "slug": "chat2anyllm-code-agent-manager",
+      "name": "code-agent-manager",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Chat2AnyLLM/code-agent-manager"
+    },
+    {
+      "slug": "chenhg5-cc-connect",
+      "name": "cc-connect",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/chenhg5/cc-connect"
+    },
+    {
+      "slug": "china-qijizhifeng-agentic-harness-engineering",
+      "name": "agentic-harness-engineering",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/china-qijizhifeng/agentic-harness-engineering"
+    },
+    {
+      "slug": "coderluii-holyclaude",
+      "name": "HolyClaude",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/CoderLuii/HolyClaude"
+    },
+    {
+      "slug": "coderluii-holycode",
+      "name": "HolyCode",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/CoderLuii/HolyCode"
+    },
+    {
+      "slug": "codesoda-discuss-cli",
+      "name": "discuss-cli",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/codesoda/discuss-cli"
+    },
+    {
+      "slug": "codingmoh-open-codex",
+      "name": "open-codex",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/codingmoh/open-codex"
+    },
+    {
+      "slug": "colbymchenry-codegraph",
+      "name": "codegraph",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/colbymchenry/codegraph"
+    },
+    {
+      "slug": "coleam00-archon",
+      "name": "Archon",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/coleam00/Archon"
+    },
+    {
+      "slug": "coleam00-excalidraw-diagram-skill",
+      "name": "excalidraw-diagram-skill",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/coleam00/excalidraw-diagram-skill"
+    },
+    {
+      "slug": "cpoile-claudemacs",
+      "name": "claudemacs",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/cpoile/claudemacs"
+    },
+    {
+      "slug": "cruzyjapan-gemini-cli-ui",
+      "name": "Gemini-CLI-UI",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/cruzyjapan/Gemini-CLI-UI"
+    },
+    {
+      "slug": "dcouple-pane",
+      "name": "Pane",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/dcouple/Pane"
+    },
+    {
+      "slug": "decolua-9remote",
+      "name": "9remote",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/decolua/9remote"
+    },
+    {
+      "slug": "decolua-9router",
+      "name": "9router",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/decolua/9router"
+    },
+    {
+      "slug": "default-anton-pi-subdir-context",
+      "name": "pi-subdir-context",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/default-anton/pi-subdir-context"
+    },
+    {
+      "slug": "dengshiyinga-harmonyos-ai-skill",
+      "name": "harmonyos-ai-skill",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/DengShiyingA/harmonyos-ai-skill"
+    },
+    {
+      "slug": "devcorexofficial-core-termux",
+      "name": "core-termux",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/DevCoreXOfficial/core-termux"
+    },
+    {
+      "slug": "dicklesworthstone-agentic-coding-flywheel-setup",
+      "name": "agentic_coding_flywheel_setup",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Dicklesworthstone/agentic_coding_flywheel_setup"
+    },
+    {
+      "slug": "earendil-works-pi",
+      "name": "pi",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/earendil-works/pi"
+    },
+    {
+      "slug": "editor-code-assistant-eca",
+      "name": "eca",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/editor-code-assistant/eca"
+    },
+    {
+      "slug": "edouard-claude-snip",
+      "name": "snip",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/edouard-claude/snip"
+    },
+    {
+      "slug": "egonex-ai-understand-anything",
+      "name": "Understand-Anything",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Egonex-AI/Understand-Anything"
+    },
+    {
+      "slug": "elirantutia-vibeyard",
+      "name": "vibeyard",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/elirantutia/vibeyard"
+    },
+    {
+      "slug": "elixir-vibe-vibe",
+      "name": "vibe",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/elixir-vibe/vibe"
+    },
+    {
+      "slug": "emilsvennesson-opencode-websearch",
+      "name": "opencode-websearch",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/emilsvennesson/opencode-websearch"
+    },
+    {
+      "slug": "endorlabs-gemini-extension",
+      "name": "gemini-extension",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/endorlabs/gemini-extension"
+    },
+    {
+      "slug": "feiskyer-claude-code-settings",
+      "name": "claude-code-settings",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/feiskyer/claude-code-settings"
+    },
+    {
+      "slug": "ferdinandobons-awsbedrockagentcoreskill",
+      "name": "AWSBedrockAgentCoreSkill",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/ferdinandobons/AWSBedrockAgentCoreSkill"
+    },
+    {
+      "slug": "floze-the-genius-opencode-multi-auth-codex",
+      "name": "opencode-multi-auth-codex",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/floze-the-genius/opencode-multi-auth-codex"
+    },
+    {
+      "slug": "fosowl-agenticseek",
+      "name": "agenticSeek",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/Fosowl/agenticSeek"
+    },
+    {
+      "slug": "fr-e-d-gaai-framework",
+      "name": "GAAI-framework",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Fr-e-d/GAAI-framework"
+    },
+    {
+      "slug": "francize-agents-to-im",
+      "name": "agents-to-im",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/francize/agents-to-im"
+    },
+    {
+      "slug": "frankbria-ralph-claude-code",
+      "name": "ralph-claude-code",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/frankbria/ralph-claude-code"
+    },
+    {
+      "slug": "franklioxygen-agent-workflows",
+      "name": "agent-workflows",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/franklioxygen/agent-workflows"
+    },
+    {
+      "slug": "fredantb-spec-driven-development",
+      "name": "Spec-Driven-Development",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/FredAntB/Spec-Driven-Development"
+    },
+    {
+      "slug": "fy0-codekanban",
+      "name": "CodeKanban",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/fy0/CodeKanban"
+    },
+    {
+      "slug": "gan-xing-codexbridge",
+      "name": "CodexBridge",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Gan-Xing/CodexBridge"
+    },
+    {
+      "slug": "ganyuanran-aegis",
+      "name": "Aegis",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/GanyuanRan/Aegis"
+    },
+    {
+      "slug": "garagon-nanostack",
+      "name": "nanostack",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/garagon/nanostack"
+    },
+    {
+      "slug": "gastownhall-beads",
+      "name": "beads",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/gastownhall/beads"
+    },
+    {
+      "slug": "georgesalkhouri-nvim-aider",
+      "name": "nvim-aider",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/GeorgesAlkhouri/nvim-aider"
+    },
+    {
+      "slug": "gergomiklos-smux",
+      "name": "smux",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/gergomiklos/smux"
+    },
+    {
+      "slug": "get-vix-vix",
+      "name": "vix",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/get-vix/vix"
+    },
+    {
+      "slug": "getagentseal-codeburn",
+      "name": "codeburn",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/getagentseal/codeburn"
+    },
+    {
+      "slug": "ghuntley-groundhog",
+      "name": "groundhog",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/ghuntley/groundhog"
+    },
+    {
+      "slug": "git-liu835-codex-cn-bridge",
+      "name": "codex-cn-bridge",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/git-liu835/codex-cn-bridge"
+    },
+    {
+      "slug": "githpriyanshu23-clawde-code",
+      "name": "Clawde_Code",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/GitHpriyanshu23/Clawde_Code"
+    },
+    {
+      "slug": "github-copilot-cli",
+      "name": "copilot-cli",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/github/copilot-cli"
+    },
+    {
+      "slug": "gmickel-flow-next",
+      "name": "flow-next",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/gmickel/flow-next"
+    },
+    {
+      "slug": "gmickel-flow-next-opencode",
+      "name": "flow-next-opencode",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/gmickel/flow-next-opencode"
+    },
+    {
+      "slug": "gotalab-cc-sdd",
+      "name": "cc-sdd",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/gotalab/cc-sdd"
+    },
+    {
+      "slug": "graykode-abtop",
+      "name": "abtop",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/graykode/abtop"
+    },
+    {
+      "slug": "greensheep01201-claw-empire",
+      "name": "claw-empire",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/GreenSheep01201/claw-empire"
+    },
+    {
+      "slug": "grinev-opencode-telegram-bot",
+      "name": "opencode-telegram-bot",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/grinev/opencode-telegram-bot"
+    },
+    {
+      "slug": "gug007-lpm",
+      "name": "lpm",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/gug007/lpm"
+    },
+    {
+      "slug": "h0x91b-dev-3-0",
+      "name": "dev-3.0",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/h0x91b/dev-3.0"
+    },
+    {
+      "slug": "hanshuaikang-nezha",
+      "name": "nezha",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/hanshuaikang/nezha"
+    },
+    {
+      "slug": "hcengineering-huly-coder",
+      "name": "huly-coder",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/hcengineering/huly-coder"
+    },
+    {
+      "slug": "he-yufeng-anycoder",
+      "name": "AnyCoder",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/he-yufeng/AnyCoder"
+    },
+    {
+      "slug": "he-yufeng-corecoder",
+      "name": "CoreCoder",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/he-yufeng/CoreCoder"
+    },
+    {
+      "slug": "heartyguy-apex2-terminal-bench-agent",
+      "name": "Apex2-Terminal-Bench-Agent",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/heartyguy/Apex2-Terminal-Bench-Agent"
+    },
+    {
+      "slug": "helloianneo-ian-xiaohei-illustrations",
+      "name": "ian-xiaohei-illustrations",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/helloianneo/ian-xiaohei-illustrations"
+    },
+    {
+      "slug": "hkuds-nanobot",
+      "name": "nanobot",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/HKUDS/nanobot"
+    },
+    {
+      "slug": "hotovo-aider-desk",
+      "name": "aider-desk",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/hotovo/aider-desk"
+    },
+    {
+      "slug": "humanfia-oh-my-humanize",
+      "name": "oh-my-humanize",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/humanfia/oh-my-humanize"
+    },
+    {
+      "slug": "humanlayer-humanlayer",
+      "name": "humanlayer",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/humanlayer/humanlayer"
+    },
+    {
+      "slug": "humanunsupervised-orchestra",
+      "name": "orchestra",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/humanunsupervised/orchestra"
+    },
+    {
+      "slug": "iamfakeguru-agent-md",
+      "name": "agent-md",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/iamfakeguru/agent-md"
+    },
+    {
+      "slug": "ianjwhite99-opencode-with-claude",
+      "name": "opencode-with-claude",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/ianjwhite99/opencode-with-claude"
+    },
+    {
+      "slug": "iannuttall-claude-agents",
+      "name": "claude-agents",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/iannuttall/claude-agents"
+    },
+    {
+      "slug": "inercia-mitto",
+      "name": "mitto",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/inercia/mitto"
+    },
+    {
+      "slug": "infinri-writ",
+      "name": "Writ",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/infinri/Writ"
+    },
+    {
+      "slug": "infisical-agent-vault",
+      "name": "agent-vault",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Infisical/agent-vault"
+    },
+    {
+      "slug": "intellectronica-ruler",
+      "name": "ruler",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/intellectronica/ruler"
+    },
+    {
+      "slug": "iofficeai-aionui",
+      "name": "AionUi",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/iOfficeAI/AionUi"
+    },
+    {
+      "slug": "itmesneha-agentrocky",
+      "name": "agentrocky",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/itmesneha/agentrocky"
+    },
+    {
+      "slug": "ivan-magda-swift-coding-agent",
+      "name": "swift-coding-agent",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/ivan-magda/swift-coding-agent"
+    },
+    {
+      "slug": "ivanwng97-pixtuoid",
+      "name": "pixtuoid",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/IvanWng97/pixtuoid"
+    },
+    {
+      "slug": "jamesrochabrun-agenthub",
+      "name": "AgentHub",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/jamesrochabrun/AgentHub"
+    },
+    {
+      "slug": "jarrodwatts-claude-hud",
+      "name": "claude-hud",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/jarrodwatts/claude-hud"
+    },
+    {
+      "slug": "jazzenchen-vibearound",
+      "name": "VibeAround",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/jazzenchen/VibeAround"
+    },
+    {
+      "slug": "jeffgreen311-eve-agent-v2-unleashed",
+      "name": "eve-agent-v2-unleashed",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/JeffGreen311/eve-agent-v2-unleashed"
+    },
+    {
+      "slug": "jeongwookie-wheremytokens",
+      "name": "WhereMyTokens",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/jeongwookie/WhereMyTokens"
+    },
+    {
+      "slug": "jetxu-llm-codex-deepseek-bridge",
+      "name": "codex-deepseek-bridge",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/JetXu-LLM/codex-deepseek-bridge"
+    },
+    {
+      "slug": "jigjoy-ai-baro",
+      "name": "baro",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/jigjoy-ai/baro"
+    },
+    {
+      "slug": "jo-inc-pi-mem",
+      "name": "pi-mem",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/jo-inc/pi-mem"
+    },
+    {
+      "slug": "jo-inc-pi-reflect",
+      "name": "pi-reflect",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/jo-inc/pi-reflect"
+    },
+    {
+      "slug": "johannesjo-parallel-code",
+      "name": "parallel-code",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/johannesjo/parallel-code"
+    },
+    {
+      "slug": "jszmajda-lid",
+      "name": "lid",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/jszmajda/lid"
+    },
+    {
+      "slug": "julesmons-recline",
+      "name": "recline",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/julesmons/recline"
+    },
+    {
+      "slug": "jumbocontext-jumbo-cli",
+      "name": "jumbo.cli",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/jumbocontext/jumbo.cli"
+    },
+    {
+      "slug": "junhoyeo-contrabass",
+      "name": "contrabass",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/junhoyeo/contrabass"
+    },
+    {
+      "slug": "kbwo-ccmanager",
+      "name": "ccmanager",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/kbwo/ccmanager"
+    },
+    {
+      "slug": "kdcokenny-opencode-worktree",
+      "name": "opencode-worktree",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/kdcokenny/opencode-worktree"
+    },
+    {
+      "slug": "kenn-io-agentsview",
+      "name": "agentsview",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/kenn-io/agentsview"
+    },
+    {
+      "slug": "kleneway-forq-cli",
+      "name": "forq-cli",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/kleneway/forq-cli"
+    },
+    {
+      "slug": "kuberwastaken-claurst",
+      "name": "claurst",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Kuberwastaken/claurst"
+    },
+    {
+      "slug": "laliet-cc-switch-web",
+      "name": "cc-switch-web",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Laliet/cc-switch-web"
+    },
+    {
+      "slug": "langchain-ai-open-swe",
+      "name": "open-swe",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/langchain-ai/open-swe"
+    },
+    {
+      "slug": "leonardcser-smelt",
+      "name": "smelt",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/leonardcser/smelt"
+    },
+    {
+      "slug": "leonxlnx-agentic-ai-prompt-research",
+      "name": "agentic-ai-prompt-research",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Leonxlnx/agentic-ai-prompt-research"
+    },
+    {
+      "slug": "letta-ai-letta-code",
+      "name": "letta-code",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/letta-ai/letta-code"
+    },
+    {
+      "slug": "lich0821-ccnexus",
+      "name": "ccNexus",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/lich0821/ccNexus"
+    },
+    {
+      "slug": "lingyichen-ai-vibe-coding",
+      "name": "vibe-coding",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/LingyiChen-AI/vibe-coding"
+    },
+    {
+      "slug": "liuyixin-louis-obsidian-vault-agent",
+      "name": "obsidian-vault-agent",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/liuyixin-louis/obsidian-vault-agent"
+    },
+    {
+      "slug": "logancyang-obsidian-copilot",
+      "name": "obsidian-copilot",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/logancyang/obsidian-copilot"
+    },
+    {
+      "slug": "longbkit-clisbot",
+      "name": "clisbot",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/longbkit/clisbot"
+    },
+    {
+      "slug": "lorexxar-kunlun-m",
+      "name": "Kunlun-M",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/LoRexxar/Kunlun-M"
+    },
+    {
+      "slug": "maddada-agent-manager-x",
+      "name": "agent-manager-x",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/maddada/agent-manager-x"
+    },
+    {
+      "slug": "mag123c-toktrack",
+      "name": "toktrack",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/mag123c/toktrack"
+    },
+    {
+      "slug": "mage0535-vibe-coding-universal",
+      "name": "vibe-coding-universal",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/mage0535/vibe-coding-universal"
+    },
+    {
+      "slug": "mainline-org-mainline",
+      "name": "mainline",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/mainline-org/mainline"
+    },
+    {
+      "slug": "manaflow-ai-cmux",
+      "name": "cmux",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux"
+    },
+    {
+      "slug": "matthewzmd-aidermacs",
+      "name": "aidermacs",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/MatthewZMD/aidermacs"
+    },
+    {
+      "slug": "mavam-pi-web-providers",
+      "name": "pi-web-providers",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/mavam/pi-web-providers"
+    },
+    {
+      "slug": "mco-org-mco",
+      "name": "mco",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/mco-org/mco"
+    },
+    {
+      "slug": "meysamhadeli-codai",
+      "name": "codai",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/meysamhadeli/codai"
+    },
+    {
+      "slug": "michaelshimeles-ralphy",
+      "name": "ralphy",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/michaelshimeles/ralphy"
+    },
+    {
+      "slug": "mideco-tech-codex-tg",
+      "name": "codex-tg",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/mideco-tech/codex-tg"
+    },
+    {
+      "slug": "minmaxflow-mini-kode",
+      "name": "mini-kode",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/minmaxflow/mini-kode"
+    },
+    {
+      "slug": "mng-dev-ai-agentrove",
+      "name": "agentrove",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Mng-dev-ai/agentrove"
+    },
+    {
+      "slug": "moazbuilds-codemachine-cli",
+      "name": "CodeMachine-CLI",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/moazbuilds/CodeMachine-CLI"
+    },
+    {
+      "slug": "mobile-ar-xcode-assistant-copilot-server",
+      "name": "xcode-assistant-copilot-server",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/mobile-ar/xcode-assistant-copilot-server"
+    },
+    {
+      "slug": "mockapapella-tenex",
+      "name": "tenex",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Mockapapella/tenex"
+    },
+    {
+      "slug": "mr-karan-hodor",
+      "name": "hodor",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/mr-karan/hodor"
+    },
+    {
+      "slug": "muhammadusmangm-code-stick",
+      "name": "code-stick",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/MuhammadUsmanGM/code-stick"
+    },
+    {
+      "slug": "multivmlabs-ralph-starter",
+      "name": "ralph-starter",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/multivmlabs/ralph-starter"
+    },
+    {
+      "slug": "mx-liu123-agentcommander",
+      "name": "AgentCommander",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/mx-Liu123/AgentCommander"
+    },
+    {
+      "slug": "nadinelipeiyu-jpg-ai-vibe-coding-notes-form-threads",
+      "name": "ai-vibe-coding-notes-form-threads",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/nadinelipeiyu-jpg/ai-vibe-coding-notes-form-threads"
+    },
+    {
+      "slug": "narnia-sh-layrr",
+      "name": "layrr",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/narnia-sh/layrr"
+    },
+    {
+      "slug": "navikt-cplt",
+      "name": "cplt",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/navikt/cplt"
+    },
+    {
+      "slug": "nexting-ai-nexting",
+      "name": "nexting",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Nexting-ai/nexting"
+    },
+    {
+      "slug": "nexu-io-html-anything",
+      "name": "html-anything",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/nexu-io/html-anything"
+    },
+    {
+      "slug": "nexu-io-open-design",
+      "name": "open-design",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/nexu-io/open-design"
+    },
+    {
+      "slug": "nguyenphutrong-quotio",
+      "name": "quotio",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/nguyenphutrong/quotio"
+    },
+    {
+      "slug": "nizos-probity",
+      "name": "probity",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/nizos/probity"
+    },
+    {
+      "slug": "nkmr-jp-prompt-line",
+      "name": "prompt-line",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/nkmr-jp/prompt-line"
+    },
+    {
+      "slug": "norika1207-lab-code-duo",
+      "name": "Code-Duo",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/norika1207-lab/Code-Duo"
+    },
+    {
+      "slug": "nousresearch-hermes-agent",
+      "name": "hermes-agent",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/NousResearch/hermes-agent"
+    },
+    {
+      "slug": "noviaidrl-copilot-tunnel-proxy",
+      "name": "copilot-tunnel-proxy",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/noviaidrl/copilot-tunnel-proxy"
+    },
+    {
+      "slug": "ntegrals-10x",
+      "name": "10x",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/ntegrals/10x"
+    },
+    {
+      "slug": "nutlope-hallmark",
+      "name": "hallmark",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Nutlope/hallmark"
+    },
+    {
+      "slug": "obviousworks-vibe-coding-ai-rules",
+      "name": "vibe-coding-ai-rules",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/obviousworks/vibe-coding-ai-rules"
+    },
+    {
+      "slug": "ochyai-co-vibe",
+      "name": "co-vibe",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/ochyai/co-vibe"
+    },
+    {
+      "slug": "octane0411-open-vibe-island",
+      "name": "open-vibe-island",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Octane0411/open-vibe-island"
+    },
+    {
+      "slug": "op7418-claude-to-im-skill",
+      "name": "Claude-to-IM-skill",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/op7418/Claude-to-IM-skill"
+    },
+    {
+      "slug": "opactorai-claudable",
+      "name": "Claudable",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/opactorai/Claudable"
+    },
+    {
+      "slug": "openai-symphony",
+      "name": "symphony",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/openai/symphony"
+    },
+    {
+      "slug": "openinterpreter-openinterpreter",
+      "name": "openinterpreter",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/openinterpreter/openinterpreter"
+    },
+    {
+      "slug": "openknots-code-editor",
+      "name": "code-editor",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/OpenKnots/code-editor"
+    },
+    {
+      "slug": "opgginc-opencode-bar",
+      "name": "opencode-bar",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/opgginc/opencode-bar"
+    },
+    {
+      "slug": "othmanadi-planning-with-files",
+      "name": "planning-with-files",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/OthmanAdi/planning-with-files"
+    },
+    {
+      "slug": "ouijit-ouijit",
+      "name": "ouijit",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/ouijit/ouijit"
+    },
+    {
+      "slug": "pacificwater2-water-code",
+      "name": "water-code",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/pacificwater2/water-code"
+    },
+    {
+      "slug": "panishandsome-ai-rules-sync",
+      "name": "ai-rules-sync",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/PanisHandsome/ai-rules-sync"
+    },
+    {
+      "slug": "patrickdappollonio-dux",
+      "name": "dux",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/patrickdappollonio/dux"
+    },
+    {
+      "slug": "paulpreibisch-agentvibes",
+      "name": "AgentVibes",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/paulpreibisch/AgentVibes"
+    },
+    {
+      "slug": "peonping-peon-ping",
+      "name": "peon-ping",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/PeonPing/peon-ping"
+    },
+    {
+      "slug": "potproject-code-agent",
+      "name": "code-agent",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/potproject/code-agent"
+    },
+    {
+      "slug": "prevalentware-opencode-goal-plugin",
+      "name": "opencode-goal-plugin",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/prevalentWare/opencode-goal-plugin"
+    },
+    {
+      "slug": "quantaalpha-repomaster",
+      "name": "RepoMaster",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/QuantaAlpha/RepoMaster"
+    },
+    {
+      "slug": "rait-09-obsidian-agent-client",
+      "name": "obsidian-agent-client",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/RAIT-09/obsidian-agent-client"
+    },
+    {
+      "slug": "raizamartin-gemini-code",
+      "name": "gemini-code",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/raizamartin/gemini-code"
+    },
+    {
+      "slug": "raphaeltm-simple-agent-manager",
+      "name": "simple-agent-manager",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/raphaeltm/simple-agent-manager"
+    },
+    {
+      "slug": "raroque-vibe-security-skill",
+      "name": "vibe-security-skill",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/raroque/vibe-security-skill"
+    },
+    {
+      "slug": "rcarmo-vibes",
+      "name": "vibes",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/rcarmo/vibes"
+    },
+    {
+      "slug": "regenrek-peky",
+      "name": "peky",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/regenrek/peky"
+    },
+    {
+      "slug": "regent-vcs-re-gent",
+      "name": "re_gent",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/regent-vcs/re_gent"
+    },
+    {
+      "slug": "rivet-dev-agentos",
+      "name": "agentos",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/rivet-dev/agentos"
+    },
+    {
+      "slug": "rizwan3d-nanoagent",
+      "name": "NanoAgent",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/rizwan3d/NanoAgent"
+    },
+    {
+      "slug": "robinebers-openusage",
+      "name": "openusage",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/robinebers/openusage"
+    },
+    {
+      "slug": "robzilla1738-supergoal",
+      "name": "supergoal",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/robzilla1738/supergoal"
+    },
+    {
+      "slug": "rohitg00-agentmemory",
+      "name": "agentmemory",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/rohitg00/agentmemory"
+    },
+    {
+      "slug": "rsrohan99-tig",
+      "name": "tig",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/rsrohan99/tig"
+    },
+    {
+      "slug": "rullerzhou-afk-clawd-on-desk",
+      "name": "clawd-on-desk",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/rullerzhou-afk/clawd-on-desk"
+    },
+    {
+      "slug": "rynfar-meridian",
+      "name": "meridian",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/rynfar/meridian"
+    },
+    {
+      "slug": "saadnvd1-agent-os",
+      "name": "agent-os",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/saadnvd1/agent-os"
+    },
+    {
+      "slug": "sailresearch-ai-teammates-in-se3",
+      "name": "AI_Teammates_in_SE3",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/SAILResearch/AI_Teammates_in_SE3"
+    },
+    {
+      "slug": "saladday-cc-switch-cli",
+      "name": "cc-switch-cli",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/SaladDay/cc-switch-cli"
+    },
+    {
+      "slug": "samarth777-claude-code-copilot",
+      "name": "claude-code-copilot",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/samarth777/claude-code-copilot"
+    },
+    {
+      "slug": "samuraigpt-llm-wiki-agent",
+      "name": "llm-wiki-agent",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/SamurAIGPT/llm-wiki-agent"
+    },
+    {
+      "slug": "sanbuphy-learn-coding-agent",
+      "name": "learn-coding-agent",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/sanbuphy/learn-coding-agent"
+    },
+    {
+      "slug": "sculptdotfun-viberank",
+      "name": "viberank",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/sculptdotfun/viberank"
+    },
+    {
+      "slug": "seemseam-claude-codex-bridge",
+      "name": "claude_codex_bridge",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/SeemSeam/claude_codex_bridge"
+    },
+    {
+      "slug": "sendbird-cc-plugin-codex",
+      "name": "cc-plugin-codex",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/sendbird/cc-plugin-codex"
+    },
+    {
+      "slug": "severity1-custom-amazon-bedrock-agent-action",
+      "name": "custom-amazon-bedrock-agent-action",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/severity1/custom-amazon-bedrock-agent-action"
+    },
+    {
+      "slug": "shanraisshan-codex-cli-best-practice",
+      "name": "codex-cli-best-practice",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/shanraisshan/codex-cli-best-practice"
+    },
+    {
+      "slug": "shanraisshan-gemini-cli-best-practice",
+      "name": "gemini-cli-best-practice",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/shanraisshan/gemini-cli-best-practice"
+    },
+    {
+      "slug": "shellishack-vibebud",
+      "name": "vibebud",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Shellishack/vibebud"
+    },
+    {
+      "slug": "shrijayan-itwillsync",
+      "name": "itwillsync",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/shrijayan/itwillsync"
+    },
+    {
+      "slug": "shunmeicho-cc-clip",
+      "name": "cc-clip",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/ShunmeiCho/cc-clip"
+    },
+    {
+      "slug": "skibidiskib-ai-codex",
+      "name": "ai-codex",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/skibidiskib/ai-codex"
+    },
+    {
+      "slug": "sma1lboy-kobe",
+      "name": "kobe",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Sma1lboy/kobe"
+    },
+    {
+      "slug": "smallmain-vscode-unify-chat-provider",
+      "name": "vscode-unify-chat-provider",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/smallmain/vscode-unify-chat-provider"
+    },
+    {
+      "slug": "smtg-ai-claude-squad",
+      "name": "claude-squad",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/smtg-ai/claude-squad"
+    },
+    {
+      "slug": "spacehendrix-clauder",
+      "name": "clauder",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/spacehendrix/clauder"
+    },
+    {
+      "slug": "spring-ai-community-agent-client",
+      "name": "agent-client",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/spring-ai-community/agent-client"
+    },
+    {
+      "slug": "sstraus-tuicommander",
+      "name": "tuicommander",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/sstraus/tuicommander"
+    },
+    {
+      "slug": "stablyai-orca",
+      "name": "orca",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/stablyai/orca"
+    },
+    {
+      "slug": "stagewise-io-stagewise",
+      "name": "stagewise",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/stagewise-io/stagewise"
+    },
+    {
+      "slug": "startuphakk-openmonoagent-ai",
+      "name": "OpenMonoAgent.ai",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/StartupHakk/OpenMonoAgent.ai"
+    },
+    {
+      "slug": "steipete-agent-rules",
+      "name": "agent-rules",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/steipete/agent-rules"
+    },
+    {
+      "slug": "stellarlinkco-myclaude",
+      "name": "myclaude",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/stellarlinkco/myclaude"
+    },
+    {
+      "slug": "stravu-crystal",
+      "name": "crystal",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/stravu/crystal"
+    },
+    {
+      "slug": "subinium-agf",
+      "name": "agf",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/subinium/agf"
+    },
+    {
+      "slug": "sudokar-openspec-plus",
+      "name": "openspec-plus",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/sudokar/openspec-plus"
+    },
+    {
+      "slug": "sudoprivacy-sudocode",
+      "name": "sudocode",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/sudoprivacy/sudocode"
+    },
+    {
+      "slug": "sunrain520-spec-first",
+      "name": "spec-first",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/sunrain520/spec-first"
+    },
+    {
+      "slug": "superagent-ai-vibekit",
+      "name": "vibekit",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/superagent-ai/vibekit"
+    },
+    {
+      "slug": "swayyyyy-vibebridge",
+      "name": "VibeBridge",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Swayyyyy/VibeBridge"
+    },
+    {
+      "slug": "swe-agent-mini-swe-agent",
+      "name": "mini-swe-agent",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/SWE-agent/mini-swe-agent"
+    },
+    {
+      "slug": "syscalldev-llmcode",
+      "name": "LLMCode",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/syscalldev/LLMCode"
+    },
+    {
+      "slug": "talkcody-talkcody",
+      "name": "talkcody",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/talkcody/talkcody"
+    },
+    {
+      "slug": "talsraviv-from-thinking-to-coding",
+      "name": "from-thinking-to-coding",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/talsraviv/from-thinking-to-coding"
+    },
+    {
+      "slug": "termly-dev-termly-cli",
+      "name": "termly-cli",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/termly-dev/termly-cli"
+    },
+    {
+      "slug": "the-open-engine-zeroshot",
+      "name": "zeroshot",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/the-open-engine/zeroshot"
+    },
+    {
+      "slug": "the-vibe-company-companion",
+      "name": "companion",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/The-Vibe-Company/companion"
+    },
+    {
+      "slug": "theblixguy-xcode-copilot-server",
+      "name": "xcode-copilot-server",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/theblixguy/xcode-copilot-server"
+    },
+    {
+      "slug": "thu-team-eureka-eurekagent",
+      "name": "EurekAgent",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/THU-Team-Eureka/EurekAgent"
+    },
+    {
+      "slug": "tiann-hapi",
+      "name": "hapi",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/tiann/hapi"
+    },
+    {
+      "slug": "timkosters-agent-yolo-build",
+      "name": "agent-yolo-build",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/timkosters/agent-yolo-build"
+    },
+    {
+      "slug": "tmdgusya-roach-code",
+      "name": "roach-code",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/tmdgusya/roach-code"
+    },
+    {
+      "slug": "tony1223-better-agent-terminal",
+      "name": "better-agent-terminal",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/tony1223/better-agent-terminal"
+    },
+    {
+      "slug": "tt-a1i-hive",
+      "name": "hive",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/tt-a1i/hive"
+    },
+    {
+      "slug": "ultraworkers-claw-code",
+      "name": "claw-code",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/ultraworkers/claw-code"
+    },
+    {
+      "slug": "umacloud-umadev",
+      "name": "umadev",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/umacloud/umadev"
+    },
+    {
+      "slug": "vdaubry-bottega",
+      "name": "bottega",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/vdaubry/bottega"
+    },
+    {
+      "slug": "vibe-cy-cycode",
+      "name": "CyCode",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/vibe-cy/CyCode"
+    },
+    {
+      "slug": "vibe-motion-auto-motion",
+      "name": "auto-motion",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/vibe-motion/auto-motion"
+    },
+    {
+      "slug": "video-db-pair-programmer",
+      "name": "pair-programmer",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/video-db/pair-programmer"
+    },
+    {
+      "slug": "virtengine-bosun",
+      "name": "bosun",
+      "category": "Cloud agent",
+      "sourceUrl": "https://github.com/virtengine/bosun"
+    },
+    {
+      "slug": "w4n9h-mangopi-cli",
+      "name": "mangopi-cli",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/w4n9H/mangopi-cli"
+    },
+    {
+      "slug": "wesm-vibepulse",
+      "name": "vibepulse",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/wesm/vibepulse"
+    },
+    {
+      "slug": "winfunc-opcode",
+      "name": "opcode",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/winfunc/opcode"
+    },
+    {
+      "slug": "woodx9-build-your-claude-code-from-scratch",
+      "name": "build-your-claude-code-from-scratch",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/woodx9/build-your-claude-code-from-scratch"
+    },
+    {
+      "slug": "wrongstack-wrongstack",
+      "name": "WrongStack",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/WrongStack/WrongStack"
+    },
+    {
+      "slug": "xcodinglab-xcoding",
+      "name": "XCoding",
+      "category": "IDE-attached",
+      "sourceUrl": "https://github.com/XCodingLab/XCoding"
+    },
+    {
+      "slug": "xichan96-dinotty",
+      "name": "dinotty",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/xichan96/dinotty"
+    },
+    {
+      "slug": "xintaofei-codeg",
+      "name": "codeg",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/xintaofei/codeg"
+    },
+    {
+      "slug": "xxnuo-vibego",
+      "name": "VibeGo",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/xxnuo/VibeGo"
+    },
+    {
+      "slug": "y49-tlive",
+      "name": "tlive",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/y49/tlive"
+    },
+    {
+      "slug": "yangshun-teenycode",
+      "name": "teenycode",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/yangshun/teenycode"
+    },
+    {
+      "slug": "yeachan-heo-oh-my-claudecode",
+      "name": "oh-my-claudecode",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Yeachan-Heo/oh-my-claudecode"
+    },
+    {
+      "slug": "yeachan-heo-oh-my-codex",
+      "name": "oh-my-codex",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/Yeachan-Heo/oh-my-codex"
+    },
+    {
+      "slug": "yohey-w-multi-agent-shogun",
+      "name": "multi-agent-shogun",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/yohey-w/multi-agent-shogun"
+    },
+    {
+      "slug": "yologdev-yoyo-evolve",
+      "name": "yoyo-evolve",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/yologdev/yoyo-evolve"
+    },
+    {
+      "slug": "yushui2022-easy-coding-agents",
+      "name": "easy-coding-agents",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/yushui2022/easy-coding-agents"
+    },
+    {
+      "slug": "yzfly-tokencode",
+      "name": "TokenCode",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/yzfly/TokenCode"
+    },
+    {
+      "slug": "zai-org-glm-5",
+      "name": "GLM-5",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/zai-org/GLM-5"
+    },
+    {
+      "slug": "zarazhangrui-lark-coding-agent-bridge",
+      "name": "lark-coding-agent-bridge",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/zarazhangrui/lark-coding-agent-bridge"
+    },
+    {
+      "slug": "zubair-trabzada-geo-seo-claude",
+      "name": "geo-seo-claude",
+      "category": "CLI-native",
+      "sourceUrl": "https://github.com/zubair-trabzada/geo-seo-claude"
+    }
+  ]
 }

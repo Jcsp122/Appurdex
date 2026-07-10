@@ -1,0 +1,57 @@
+services:
+  - type: web
+    name: appurdex-api
+    env: node
+    plan: starter
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    disk:
+      name: appurdex-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: APPURDEX_DATA_DIR
+        value: /opt/render/project/src/data
+      - key: APPURDEX_DB_PATH
+        value: /opt/render/project/src/data/appurdex-auth.sqlite
+      - key: APPURDEX_CATALOG_DB_PATH
+        value: /opt/render/project/src/data/appurdex-db.json
+      - key: APPURDEX_ENABLE_BILLING
+        value: true
+      - key: APP_BASE_URL
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: APPURDEX_CRON_SECRET
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: STRIPE_PRICE_STARTER_MONTHLY
+        sync: false
+      - key: STRIPE_PRICE_STARTER_ANNUAL
+        sync: false
+      - key: STRIPE_PRICE_PRO_MONTHLY
+        sync: false
+      - key: STRIPE_PRICE_PRO_ANNUAL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: APPURDEX_AI_MODEL
+        sync: false
+      - key: APPURDEX_TELEGRAM_BOT_USERNAME
+        sync: false
+      - key: APPURDEX_TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: APPURDEX_TELEGRAM_WEBHOOK_SECRET
+        sync: false

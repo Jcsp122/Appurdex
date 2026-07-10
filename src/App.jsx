@@ -48,12 +48,14 @@ import {
   useCaseSearchText as taxonomyUseCaseSearchText,
 } from "./data/useCaseTaxonomy";
 import {
+  AGENT_LIFECYCLE_STATUSES,
   agentMatchesMonthlyBudget,
   apiPlans,
   buildStaticState,
   freshness,
   languageFromPath,
   normalizeAgent,
+  normalizeAgentLifecycleStatus,
   relativeTime,
   slugify,
   standardizePricingAmount,
@@ -83,6 +85,7 @@ import {
   updateReviewItem,
 } from "./lib/appurdexApi";
 import { initAnalytics, trackEvent, trackPageView, trackSearch } from "./lib/analytics";
+import { rankModels } from "./lib/modelRanking";
 
 const configuredAiProvider = import.meta.env.VITE_AI_PROVIDER || "OpenAI";
 const configuredAiModel = import.meta.env.VITE_OPENAI_MODEL || import.meta.env.VITE_AI_MODEL || "";
@@ -92,7 +95,6 @@ const APPURDEX_AI_WRITING_STYLE_OPTIONS = ["Default", "Journalist", "Storytellin
 
 const navItems = [
   { label: "Overview", icon: Home, path: "/" },
-  { label: "Agents", icon: Code2, path: "/agents" },
   { label: "Learn", icon: BookOpen, path: "/learn" },  { label: "Compare", icon: SlidersHorizontal, path: "/compare" },
   { label: "Use Cases", icon: Tags, path: "/use-cases" },
   { label: "Appurdex AI", icon: Bot, path: "/assistant" },
@@ -129,11 +131,57 @@ const categoryClass = {
   "MCP server": "green",
 };
 
-const APPURDEX_USE_CASE_GROUP = "coding_specific";
+const AGENT_TYPE_TABS = [
+  { value: "build", label: "Build Agents" },
+  { value: "review", label: "Review Agents" },
+];
+
+const OVERVIEW_VIEW_TABS = [
+  { value: "companies", label: "Companies" },
+  { value: "agents", label: "Agents" },
+  { value: "llms", label: "LLMs" },
+];
+
+function agentTypeFor(agent) {
+  return agent?.agent_type === "review" ? "review" : "build";
+}
+
+function agentTypeLabel(value) {
+  return value === "review" ? "Review Agent" : "Build Agent";
+}
+
+const AGENT_LIFECYCLE_STATUS_OPTIONS = AGENT_LIFECYCLE_STATUSES.map((value) => value.charAt(0).toUpperCase() + value.slice(1));
+
+function agentLifecycleStatus(agent) {
+  return normalizeAgentLifecycleStatus(agent?.lifecycle_status || agent?.lifecycleStatus);
+}
+
+function agentLifecycleStatusLabel(agentOrStatus) {
+  const value = typeof agentOrStatus === "string" ? normalizeAgentLifecycleStatus(agentOrStatus) : agentLifecycleStatus(agentOrStatus);
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function agentMatchesLifecycleFilter(agent, lifecycleStatus) {
+  return lifecycleStatus === "All" || agentLifecycleStatusLabel(agent) === lifecycleStatus;
+}
+
+function categoryOptionsForAgents(agents) {
+  const categoryOptions = uniqueValues(agents, (agent) => agent.displayCategory);
+  return agents.some((agent) => agentTypeFor(agent) === "review") ? ["Review Agent", ...categoryOptions] : categoryOptions;
+}
+
+function agentMatchesCategoryFilter(agent, category) {
+  if (category === "All") return true;
+  if (category === "Review Agent") return agentTypeFor(agent) === "review";
+  if (category === "Build Agent") return agentTypeFor(agent) === "build";
+  return agent.displayCategory === category;
+}
+
+const APPURDEX_USE_CASE_GROUP = "all";
 const APPURDEX_USE_CASES = useCasesForGroup(APPURDEX_USE_CASE_GROUP);
 const USE_CASE_OPTIONS = APPURDEX_USE_CASES.map((useCase) => useCase.label);
 
-const DEFAULT_FILTERS = { query: "", ecosystem: "All", category: "All", priceBudget: { min: "", max: "" }, access: "All", useCase: "All", modelFlex: "All", publicRepo: "All", sortBy: "Newest" };
+const DEFAULT_FILTERS = { query: "", ecosystem: "All", category: "All", lifecycleStatus: "Active", priceBudget: { min: "", max: "" }, access: "All", useCase: "All", modelFlex: "All", publicRepo: "All", sortBy: "Newest" };
 const WATCHLIST_ALERT_OPTIONS = [
   { id: "pricing", label: "Pricing", icon: CircleDollarSign },
   { id: "access", label: "Access/Availability", icon: KeyRound },
@@ -567,7 +615,7 @@ function Sidebar({ navigate, path }) {
   const activePath = cleanPath(path === "/en" ? "/" : path);
   return (
     <aside className="sidebar">
-      <button className="brand-block brand-button" type="button" onClick={() => navigate("/")}>
+      <button className="brand-block brand-button" type="button" aria-label="Appurdex overview" title="Appurdex overview" onClick={() => navigate("/")}>
         <img className="brand-icon" src={appurdexLogoUrl} alt="" />
         <strong>Appurdex</strong>
         <span>BETA</span>
@@ -578,7 +626,7 @@ function Sidebar({ navigate, path }) {
           const count = item.count;
           const active = item.path === "/" ? activePath === "/" || activePath === "/vendors" || activePath.startsWith("/vendors/") || activePath === "/ai" || activePath.startsWith("/ai/") : activePath === item.path || activePath.startsWith(item.path + "/");
           return (
-            <button className={active ? "active" : ""} key={item.label} type="button" onClick={() => navigate(item.path)}>
+            <button className={active ? "active" : ""} key={item.label} type="button" aria-label={item.label} title={item.label} onClick={() => navigate(item.path)}>
               <Icon size={18} />
               <span>{item.label}</span>
               {typeof count === "number" ? <b>{count}</b> : null}
@@ -590,7 +638,7 @@ function Sidebar({ navigate, path }) {
         {lowerNav.map((item) => {
           const Icon = item.icon;
           return (
-            <button key={item.label} type="button" onClick={() => navigate(item.path)}>
+            <button key={item.label} type="button" aria-label={item.label} title={item.label} onClick={() => navigate(item.path)}>
               <Icon size={18} />
               <span>{item.label}</span>
             </button>
@@ -916,7 +964,7 @@ function Topbar({ agents, vendors = [], modelPricing = [], navigate, setFilters,
               setOpen(true);
             }}
             onFocus={() => setOpen(true)}
-            placeholder="Search vendors, agents, models, use cases..."
+            placeholder="Search a task, vendor, agent, or model..."
             aria-label="Search vendors, AI agents, models, and use cases"
           />
           <kbd>/</kbd>
@@ -1230,6 +1278,8 @@ function searchableTextForAgent(agent, useCases = useCasesForAgent(agent)) {
     agent.ecosystem,
     agent.displayCategory,
     agent.category,
+    agentTypeLabel(agentTypeFor(agent)),
+    agentLifecycleStatusLabel(agent),
     agent.price,
     agent.access,
     agent.hosting,
@@ -1347,7 +1397,8 @@ function FilterRail({ agents, filters, setFilters, showEcosystem = true, sortOpt
   const [openFilter, setOpenFilter] = useState(null);
   const options = useMemo(() => ({
     ecosystem: uniqueValues(agents, (agent) => agent.ecosystem),
-    category: uniqueValues(agents, (agent) => agent.displayCategory),
+    category: categoryOptionsForAgents(agents),
+    lifecycleStatus: AGENT_LIFECYCLE_STATUS_OPTIONS,
     access: uniqueValues(agents, (agent) => agent.access),
     useCase: USE_CASE_OPTIONS,
     modelFlex: ["Single-model", "Multi-model", "Provider-locked"],
@@ -1363,6 +1414,7 @@ function FilterRail({ agents, filters, setFilters, showEcosystem = true, sortOpt
     filters.query.trim(),
     showEcosystem && filters.ecosystem !== "All",
     filters.category !== "All",
+    filters.lifecycleStatus !== DEFAULT_FILTERS.lifecycleStatus,
     priceBudgetActive,
     filters.access !== "All",
     filters.useCase !== "All",
@@ -1372,11 +1424,13 @@ function FilterRail({ agents, filters, setFilters, showEcosystem = true, sortOpt
   ].filter(Boolean).length;
   return (
     <div className={showEcosystem ? "filter-rail" : "filter-rail compact"}>
-      {showEcosystem ? <FilterSelect label="Ecosystem" value={filters.ecosystem} options={options.ecosystem} onChange={(value) => setFilter("ecosystem", value)} {...dropdownProps("ecosystem")} /> : null}
-      <FilterSelect label="Category" value={filters.category} options={options.category} onChange={(value) => setFilter("category", value)} {...dropdownProps("category")} />
-      <PriceRangeFilter value={filters.priceBudget} onChange={(value) => setFilter("priceBudget", value)} {...dropdownProps("priceBudget")} />
-      <FilterSelect label="Access" value={filters.access} options={options.access} onChange={(value) => setFilter("access", value)} {...dropdownProps("access")} />
+      <p className="filter-guidance"><strong>Find your fit.</strong> Start with use case and budget. Add technical filters only when they matter to your setup.</p>
       <FilterSelect label="Use case" value={filters.useCase} options={options.useCase} onChange={(value) => setFilter("useCase", value)} {...dropdownProps("useCase")} />
+      <FilterSelect label="Category" value={filters.category} options={options.category} onChange={(value) => setFilter("category", value)} {...dropdownProps("category")} />
+      <FilterSelect label="Lifecycle status" value={filters.lifecycleStatus} options={options.lifecycleStatus} onChange={(value) => setFilter("lifecycleStatus", value)} {...dropdownProps("lifecycleStatus")} />
+      <PriceRangeFilter value={filters.priceBudget} onChange={(value) => setFilter("priceBudget", value)} {...dropdownProps("priceBudget")} />
+      {showEcosystem ? <FilterSelect label="Ecosystem" value={filters.ecosystem} options={options.ecosystem} onChange={(value) => setFilter("ecosystem", value)} {...dropdownProps("ecosystem")} /> : null}
+      <FilterSelect label="Access" value={filters.access} options={options.access} onChange={(value) => setFilter("access", value)} {...dropdownProps("access")} />
       <FilterSelect label="Model flexibility" value={filters.modelFlex} options={options.modelFlex} onChange={(value) => setFilter("modelFlex", value)} {...dropdownProps("modelFlex")} />
       <FilterSelect label="Has public repo" value={filters.publicRepo} options={options.publicRepo} onChange={(value) => setFilter("publicRepo", value)} {...dropdownProps("publicRepo")} />
       <FilterSelect label="Sort by" value={filters.sortBy} options={options.sortBy} onChange={(value) => setFilter("sortBy", value)} {...dropdownProps("sortBy")} />
@@ -1421,14 +1475,14 @@ function AgentRow({ agent, navigate, showTrend = true, showVendor = false }) {
   const websiteUrl = websiteUrlFor(agent);
   return (
     <tr>
-      <td><div className="agent-cell"><AgentLogo agent={agent} /><div><div className="agent-title"><button className="agent-name-button" type="button" onClick={() => navigate(agent.publicPath)}>{agent.name}</button><DirectorySocialLinks agent={agent} /></div><p>{agent.description}</p></div></div></td>
-      <td><span className={"category-pill " + (categoryClass[agent.category] || "blue")}>{agent.displayCategory}</span></td>
-      {showVendor ? <td><VendorCell agent={agent} navigate={navigate} /></td> : null}
-      <td><PricingCell agent={agent} /></td>
-      <td>{agent.access}</td><td>{agent.hosting}</td>
-      <td><div className="repo-docs source-actions">{websiteUrl ? <a href={websiteUrl} target="_blank" rel="noreferrer" aria-label={agent.name + " website"} title="Website"><ExternalLink size={15} /><span>Website</span></a> : null}{agent.githubRepo ? <a href={"https://github.com/" + agent.githubRepo} target="_blank" rel="noreferrer" aria-label={agent.name + " repository"} title="Repository"><Code2 size={15} /><span>Repo</span></a> : null}{!websiteUrl && !agent.githubRepo ? <span className="metric-na">Unknown</span> : null}</div></td><td className={fresh.tone === "muted" ? "danger-time" : ""}><span className={"fresh-pill sync-badge " + fresh.tone}>{fresh.label}</span></td>
-      <td>{typeof agent.freshnessScore === "number" ? agent.freshnessScore.toFixed(1) : <span className="metric-na">N/A</span>}</td>
-      {showTrend ? <td>{agent.hasPublicRepo ? <MiniTrend value={agent.githubMetric?.trend7dPct} /> : <span className="metric-na">N/A</span>}</td> : null}
+      <td data-label="Product"><div className="agent-cell"><AgentLogo agent={agent} /><div><div className="agent-title"><button className="agent-name-button" type="button" onClick={() => navigate(agent.publicPath)}>{agent.name}</button><DirectorySocialLinks agent={agent} /></div><p>{agent.description}</p></div></div></td>
+      <td data-label="Category"><div className="agent-classification"><span className={"category-pill " + (categoryClass[agent.category] || "blue")}>{agent.displayCategory}</span><span className={"lifecycle-pill " + agentLifecycleStatus(agent)}>{agentLifecycleStatusLabel(agent)}</span></div></td>
+      {showVendor ? <td data-label="Vendor"><VendorCell agent={agent} navigate={navigate} /></td> : null}
+      <td data-label="Pricing"><PricingCell agent={agent} /></td>
+      <td data-label="Access">{agent.access}</td><td data-label="Hosting">{agent.hosting}</td>
+      <td data-label="Website and repo"><div className="repo-docs source-actions">{websiteUrl ? <a href={websiteUrl} target="_blank" rel="noreferrer" aria-label={agent.name + " website"} title="Website"><ExternalLink size={15} /><span>Website</span></a> : null}{agent.githubRepo ? <a href={"https://github.com/" + agent.githubRepo} target="_blank" rel="noreferrer" aria-label={agent.name + " repository"} title="Repository"><Code2 size={15} /><span>Repo</span></a> : null}{!websiteUrl && !agent.githubRepo ? <span className="metric-na">Unknown</span> : null}</div></td><td data-label="Last updated" className={fresh.tone === "muted" ? "danger-time" : ""}><span className={"fresh-pill sync-badge " + fresh.tone}>{fresh.label}</span></td>
+      <td data-label="Freshness">{typeof agent.freshnessScore === "number" ? agent.freshnessScore.toFixed(1) : <span className="metric-na">N/A</span>}</td>
+      {showTrend ? <td data-label="Trend 7d">{agent.hasPublicRepo ? <MiniTrend value={agent.githubMetric?.trend7dPct} /> : <span className="metric-na">N/A</span>}</td> : null}
     </tr>
   );
 }
@@ -1455,7 +1509,7 @@ function DirectoryPage({ agents, filters, setFilters, navigate, backendAvailable
     const useCases = useCasesForAgent(agent);
     const haystack = searchableTextForAgent(agent, useCases).toLowerCase();
     const publicRepoMatches = filters.publicRepo === "All" || (filters.publicRepo === "Yes" ? agent.hasPublicRepo : !agent.hasPublicRepo);
-    return (!normalized || haystack.includes(normalized)) && (scopeEcosystem || filters.ecosystem === "All" || agent.ecosystem === filters.ecosystem) && (filters.category === "All" || agent.displayCategory === filters.category) && agentMatchesMonthlyBudget(agent, filters.priceBudget) && (filters.access === "All" || agent.access === filters.access) && (filters.useCase === "All" || useCases.includes(filters.useCase)) && (filters.modelFlex === "All" || modelFlex === filters.modelFlex) && publicRepoMatches;
+    return (!normalized || haystack.includes(normalized)) && (scopeEcosystem || filters.ecosystem === "All" || agent.ecosystem === filters.ecosystem) && agentMatchesCategoryFilter(agent, filters.category) && agentMatchesLifecycleFilter(agent, filters.lifecycleStatus) && agentMatchesMonthlyBudget(agent, filters.priceBudget) && (filters.access === "All" || agent.access === filters.access) && (filters.useCase === "All" || useCases.includes(filters.useCase)) && (filters.modelFlex === "All" || modelFlex === filters.modelFlex) && publicRepoMatches;
   }), currentSortBy), [currentSortBy, directoryAgents, filters, normalized, scopeEcosystem]);
   const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
   const safePage = Math.min(page, totalPages);
@@ -1485,8 +1539,9 @@ function DirectoryPage({ agents, filters, setFilters, navigate, backendAvailable
   );
 }
 
-function UseCaseProductCard({ agent, navigate }) {
+function UseCaseProductCard({ agent, navigate, currentUseCase }) {
   const websiteUrl = websiteUrlFor(agent);
+  const visibleUseCases = [...new Set([currentUseCase?.label, ...useCasesForAgent(agent)].filter(Boolean))].slice(0, 4);
   return (
     <article className="use-case-product-card">
       <div>
@@ -1497,6 +1552,7 @@ function UseCaseProductCard({ agent, navigate }) {
         <span className={"category-pill " + (categoryClass[agent.category] || "blue")}>{agent.displayCategory || agent.category}</span>
         <PricingCell agent={agent} />
       </div>
+      {visibleUseCases.length ? <div className="use-case-tag-list compact" aria-label="Top use cases">{visibleUseCases.map((useCase) => <span key={useCase}>{useCase}</span>)}</div> : null}
       <div className="use-case-product-actions">
         <button type="button" onClick={() => navigate(agent.publicPath || "/ai/" + agent.slug)}>View details</button>
         {websiteUrl ? <a href={websiteUrl} target="_blank" rel="noreferrer"><ExternalLink size={15} />Website</a> : null}
@@ -1508,12 +1564,19 @@ function UseCaseProductCard({ agent, navigate }) {
 function UseCasesIndexPage({ agents, navigate }) {
   const sourceBackedAgents = useMemo(() => agents.filter(hasDirectoryData), [agents]);
   const useCases = useMemo(() => populatedUseCases(sourceBackedAgents, APPURDEX_USE_CASE_GROUP, 3), [sourceBackedAgents]);
+  const groupedUseCases = [
+    { group: "coding_specific", label: "Coding-specific", items: useCases.filter((useCase) => useCase.group === "coding_specific") },
+    { group: "general_purpose", label: "General-purpose", items: useCases.filter((useCase) => useCase.group === "general_purpose") },
+  ].filter((section) => section.items.length);
   return (
-    <main className="content"><div className="page-head directory-head"><div><h1>Use Cases</h1><p>Browse source-backed AI coding products by the job they support.</p></div><div className="page-head-meta"><span>{useCases.length} populated</span><span>{sourceBackedAgents.length} products tagged</span></div></div>
+    <main className="content"><div className="page-head directory-head"><div><h1>Use Cases</h1><p>Choose the task you want help with. A use case appears after at least 3 source-backed products are tagged to it.</p></div><div className="page-head-meta"><span>{useCases.length} populated</span><span>{sourceBackedAgents.length} products tracked</span></div></div>
       <section className="table-card use-case-index-card">
-        <div className="use-case-index-grid">
-          {useCases.map((useCase) => <button type="button" className="use-case-pill-card" key={useCase.slug} onClick={() => navigate("/use-cases/" + useCase.slug)}><strong>{useCase.label}</strong><span>{useCase.description}</span><small>{useCase.count} products</small></button>)}
-        </div>
+        {groupedUseCases.map((section) => <section className="use-case-index-section" key={section.group} aria-labelledby={"use-case-group-" + section.group}>
+          <div className="use-case-index-section-head"><h2 id={"use-case-group-" + section.group}>{section.label}</h2><span>{section.items.length} populated</span></div>
+          <div className="use-case-index-grid">
+            {section.items.map((useCase) => <button type="button" className="use-case-pill-card" key={useCase.slug} onClick={() => navigate("/use-cases/" + useCase.slug)}><strong>{useCase.label}</strong><span>{useCase.description}</span><small>{useCase.count} products</small></button>)}
+          </div>
+        </section>)}
       </section>
     </main>
   );
@@ -1522,12 +1585,12 @@ function UseCasesIndexPage({ agents, navigate }) {
 function UseCaseDetailPage({ agents, navigate, slug }) {
   const sourceBackedAgents = useMemo(() => agents.filter(hasDirectoryData), [agents]);
   const result = useMemo(() => productsForUseCase(sourceBackedAgents, slug, APPURDEX_USE_CASE_GROUP, 3), [sourceBackedAgents, slug]);
-  if (!result.useCase) return <PlaceholderPage title="Use case not found" navigate={navigate}>This use case is not published because it is invalid, outside Appurdex coding scope, or has fewer than 3 tagged products.</PlaceholderPage>;
+  if (!result.useCase) return <PlaceholderPage title="Use case not found" navigate={navigate}>This use case is not published because it is invalid or has fewer than 3 tagged products.</PlaceholderPage>;
   const products = sortRows(result.products, "Newest");
   return (
-    <main className="content"><div className="page-head directory-head"><div><h1>{result.useCase.label}</h1><p>{result.useCase.description}</p></div><div className="page-head-meta"><span>{products.length} matching products</span><span>Coding-specific</span></div></div>
+    <main className="content"><div className="page-head directory-head"><div><h1>{result.useCase.label}</h1><p>{result.useCase.description}</p></div><div className="page-head-meta"><span>{products.length} matching products</span><span>{result.useCase.group === "general_purpose" ? "General-purpose" : "Coding-specific"}</span></div></div>
       <section className="use-case-product-grid">
-        {products.map((agent) => <UseCaseProductCard key={agent.slug || agent.id || agent.name} agent={agent} navigate={navigate} />)}
+        {products.map((agent) => <UseCaseProductCard key={agent.slug || agent.id || agent.name} agent={agent} navigate={navigate} currentUseCase={result.useCase} />)}
       </section>
     </main>
   );
@@ -1580,11 +1643,12 @@ function VendorOverviewCell({ vendor, navigate }) {
   );
 }
 
-function VendorOverviewFilters({ vendors, filters, setFilters }) {
+function VendorOverviewFilters({ vendors, filters, setFilters, agentType }) {
   const [openFilter, setOpenFilter] = useState(null);
   const categoryOptions = useMemo(() => {
-    return [...new Set(vendors.flatMap((vendor) => vendor.categories || []).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-  }, [vendors]);
+    const subTags = [...new Set(vendors.flatMap((vendor) => vendor.categories || []).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+    return [agentTypeLabel(agentType), ...subTags];
+  }, [agentType, vendors]);
   const activeFilterCount = filters.category !== "All" ? 1 : 0;
   function setFilter(key, value) { setFilters((current) => ({ ...current, [key]: value })); }
   function resetFilters() { setOpenFilter(null); setFilters({ category: "All" }); }
@@ -1598,15 +1662,137 @@ function VendorOverviewFilters({ vendors, filters, setFilters }) {
   );
 }
 
+function overviewViewFromLocation() {
+  const view = new URLSearchParams(window.location.search).get("view");
+  return OVERVIEW_VIEW_TABS.some((item) => item.value === view) ? view : "companies";
+}
+
+function CompanyRankingsView({ agents, navigate }) {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(DEFAULT_DIRECTORY_PAGE_SIZE);
+  const [filters, setFilters] = useState({ category: "All" });
+  const buildAgents = useMemo(() => agents.filter((agent) => agentTypeFor(agent) === "build"), [agents]);
+  const companies = useMemo(() => buildVendorRows(buildAgents), [buildAgents]);
+  const filteredCompanies = useMemo(() => filters.category === "All" || filters.category === agentTypeLabel("build") ? companies : companies.filter((company) => company.categories.includes(filters.category)), [companies, filters.category]);
+  const totalPages = Math.max(1, Math.ceil(filteredCompanies.length / pageSize));
+  const safePage = Math.min(page, totalPages);
+  const startIndex = (safePage - 1) * pageSize;
+  const visibleCompanies = filteredCompanies.slice(startIndex, startIndex + pageSize);
+  const pageItems = paginationItems(safePage, totalPages);
+
+  useEffect(() => { setPage(1); }, [filters.category, companies.length, pageSize]);
+  useEffect(() => { if (page > totalPages) setPage(totalPages); }, [page, totalPages]);
+
+  return <>
+    {companies.length ? <VendorOverviewFilters vendors={companies} filters={filters} setFilters={setFilters} agentType="build" /> : null}
+    {filteredCompanies.length ? <div className="agent-table-wrap"><table className="agent-table vendor-table"><thead><tr><th>Rank #</th><th>Company</th><th>Tracked products</th><th>Ecosystems</th><th>Categories</th><th>Last updated</th><th>Source</th></tr></thead><tbody>{visibleCompanies.map((company, index) => (
+      <tr key={company.id}>
+        <td data-label="Rank"><strong>{startIndex + index + 1}</strong></td>
+        <td data-label="Company"><VendorOverviewCell vendor={company} navigate={navigate} /></td>
+        <td data-label="Tracked products">{company.agents.length}</td>
+        <td data-label="Ecosystems">{company.ecosystems.join(", ")}</td>
+        <td data-label="Categories">{company.categories.join(", ")}</td>
+        <td data-label="Last updated">{relativeTime(company.latestSyncedAt)}</td>
+        <td data-label="Source">{company.sourceUrl ? <a href={company.sourceUrl} target="_blank" rel="noreferrer">{cleanSourceLabel(company.sourceLabel, "Official source")}</a> : "N/A"}</td>
+      </tr>
+    ))}</tbody></table></div> : <section className="empty-state"><h1>{companies.length ? "No companies match this category" : "No build-agent companies yet"}</h1><p>{companies.length ? "Clear the category filter to see all company records." : "Company rows appear after products include source-backed company metadata."}</p></section>}
+    {filteredCompanies.length ? <div className="table-pagination"><span className="pagination-summary">Showing {startIndex + 1} to {Math.min(startIndex + pageSize, filteredCompanies.length)} of {filteredCompanies.length} results</span><nav className="pagination-pages" aria-label="Company pagination"><button className="pagination-arrow" type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={safePage <= 1} aria-label="Previous page">&lsaquo;</button>{pageItems.map((item) => typeof item === "number" ? <button className={item === safePage ? "pagination-page active" : "pagination-page"} type="button" key={item} onClick={() => setPage(item)} aria-current={item === safePage ? "page" : undefined}>{item}</button> : <span className="pagination-ellipsis" key={item}>...</span>)}<button className="pagination-arrow" type="button" onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={safePage >= totalPages} aria-label="Next page">&rsaquo;</button></nav><label className="pagination-size"><span>Rows</span><select value={pageSize} onChange={(event) => { setPageSize(Number(event.target.value)); setPage(1); }}>{DIRECTORY_PAGE_SIZE_OPTIONS.map((size) => <option value={size} key={size}>{size}</option>)}</select></label></div> : null}
+  </>;
+}
+
+function AgentRankingsView({ agents, navigate }) {
+  const rankedAgents = useMemo(() => withCategoryRanks(agents.filter((agent) => agentTypeFor(agent) === "build" && hasDirectoryData(agent))), [agents]);
+  return rankedAgents.length ? <div className="agent-table-wrap"><table className="agent-table performance-table ranking-table"><thead><tr><th>Rank #</th><th>Agent</th><th>Company</th><th>Category</th><th>Score</th><th>Confidence</th><th>Stars</th><th>Trend 7d</th><th>Commits 30d</th><th>Last updated</th></tr></thead><tbody>{rankedAgents.map((agent, index) => <tr key={(agent.slug || agent.id || agent.name) + "-overview-ranking-" + index}>
+    <td data-label="Rank"><strong>{index + 1}</strong></td>
+    <td data-label="Agent"><button className="agent-cell agent-link" type="button" onClick={() => navigate(agent.publicPath)}><AgentLogo agent={agent} /><div><div className="agent-title">{agent.name}</div><p>{agent.description}</p></div></button></td>
+    <td data-label="Company"><VendorCell agent={agent} navigate={navigate} /></td>
+    <td data-label="Category"><span className={"category-pill " + (categoryClass[agent.category] || "blue")}>{agent.displayCategory}</span></td>
+    <td data-label="Score"><strong>{agent.ranking.score}</strong></td>
+    <td data-label="Confidence">{agent.ranking.confidence}%</td>
+    <td data-label="Stars">{performanceMetric(agent, "stars")}</td>
+    <td data-label="Trend 7d">{performanceMetric(agent, "trend")}</td>
+    <td data-label="Commits 30d">{performanceMetric(agent, "commits")}</td>
+    <td data-label="Last updated">{relativeTime(agent.lastSyncedAt || agent.last_synced_at || agent.verifiedAt)}</td>
+  </tr>)}</tbody></table></div> : <section className="empty-state"><h1>No ranked build agents yet</h1><p>Agent rankings appear only after source-backed product records are available.</p></section>;
+}
+
+function contextWindowLabel(value) {
+  const tokens = Number(value);
+  return value !== null && value !== undefined && Number.isFinite(tokens) && tokens > 0 ? formatNumber(tokens) + " tokens" : "Not sourced";
+}
+
+function LlmRankingsView({ models }) {
+  const rankedCount = models.filter((model) => model.ranking).length;
+  return <>
+    <section className="ranking-methodology" aria-label="LLM ranking methodology">
+      <div><span className="ranking-kicker">Coding-first methodology</span><h3>Appurdex LLM Score</h3><p>50% LiveBench coding percentile, 20% general capability, 20% standard API price efficiency, and 10% sourced context and availability.</p></div>
+      <dl><div><dt>Release</dt><dd>LiveBench 2026-06-25</dd></div><div><dt>Exact matches</dt><dd>{rankedCount} of {models.length}</dd></div><div><dt>Missing data</dt><dd>Shown as Not ranked</dd></div></dl>
+    </section>
+    <div className="agent-table-wrap"><table className="agent-table llm-ranking-table ranking-table"><thead><tr><th>Rank #</th><th>Model</th><th>Provider</th><th>Appurdex Score</th><th>Coding</th><th>General</th><th>Price efficiency</th><th>Context</th><th>Last verified</th><th>Sources</th></tr></thead><tbody>{models.map((model) => {
+      const ranking = model.ranking;
+      return <tr className={ranking ? "" : "unranked-row"} key={model.id}>
+        <td data-label="Rank"><strong>{ranking?.rank || "-"}</strong></td>
+        <td data-label="Model"><div className="agent-cell"><ModelLogo model={model} /><div><div className="agent-title">{model.model}</div><p>{ranking ? "Eligible exact benchmark match" : model.rankingEligibilityReason}</p></div></div></td>
+        <td data-label="Provider">{model.provider}</td>
+        <td data-label="Appurdex Score">{ranking ? <strong>{ranking.score}</strong> : <span className="fresh-pill muted">Not ranked</span>}</td>
+        <td data-label="Coding">{ranking ? ranking.components.coding.toFixed(2) + "%" : "N/A"}</td>
+        <td data-label="General">{ranking ? ranking.components.general.toFixed(2) + "%" : "N/A"}</td>
+        <td data-label="Price efficiency">{ranking ? ranking.components.priceEfficiency.toFixed(2) + "%" : "N/A"}</td>
+        <td data-label="Context">{contextWindowLabel(model.contextWindowTokens)}</td>
+        <td data-label="Last verified">{ranking?.verifiedAt || "Not verified"}</td>
+        <td data-label="Sources"><div className="repo-docs source-actions">{model.benchmarkScores?.sourceUrl ? <a href={model.benchmarkScores.sourceUrl} target="_blank" rel="noreferrer">Benchmark</a> : null}{model.sourceUrl ? <a href={model.sourceUrl} target="_blank" rel="noreferrer">Pricing</a> : null}{model.contextSourceUrl ? <a href={model.contextSourceUrl} target="_blank" rel="noreferrer">Context</a> : null}{!model.benchmarkScores?.sourceUrl && !model.sourceUrl && !model.contextSourceUrl ? <span className="metric-na">No sources</span> : null}</div></td>
+      </tr>;
+    })}</tbody></table></div>
+  </>;
+}
+
+function OverviewRankingsPage({ agents, modelPricing, navigate }) {
+  const [activeView, setActiveView] = useState(overviewViewFromLocation);
+  const rankedModels = useMemo(() => rankModels(modelPricing), [modelPricing]);
+  const descriptions = {
+    companies: "Company rankings built from source-backed build-agent products.",
+    agents: "Individual build-agent rankings using Appurdex performance signals.",
+    llms: "Coding-first model rankings with exact benchmark matches and transparent missing-data states.",
+  };
+
+  useEffect(() => {
+    const onPop = () => setActiveView(overviewViewFromLocation());
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  function selectView(view) {
+    const url = new URL(window.location.href);
+    url.pathname = "/";
+    url.searchParams.set("view", view);
+    window.history.pushState(null, "", url.pathname + url.search);
+    setActiveView(view);
+    scrollRouteToTop();
+  }
+
+  return <main className="content vendor-content overview-rankings-content">
+    <div className="page-head"><div><h1>Overview</h1><p>{descriptions[activeView]}</p></div></div>
+    <section className="table-card vendor-overview-card">
+      <div className="ranking-intro"><div><span className="ranking-kicker">Source-backed rankings</span><h2>{OVERVIEW_VIEW_TABS.find((item) => item.value === activeView)?.label}</h2><p>Switch between company coverage, individual coding agents, and underlying language models.</p></div><div className="ranking-intro-actions"><button type="button" onClick={() => navigate("/use-cases")}><Tags size={16} />Browse by use case</button><button type="button" onClick={() => navigate("/learn")}><BookOpen size={16} />Learn the basics</button></div></div>
+      <div className="compare-mode-tabs overview-view-tabs" role="tablist" aria-label="Overview ranking view">{OVERVIEW_VIEW_TABS.map((tab) => <button id={"overview-tab-" + tab.value} type="button" role="tab" aria-controls="overview-ranking-panel" aria-selected={activeView === tab.value} className={activeView === tab.value ? "active" : ""} key={tab.value} onClick={() => selectView(tab.value)}>{tab.label}</button>)}</div>
+      <div id="overview-ranking-panel" role="tabpanel" aria-labelledby={"overview-tab-" + activeView}>
+        {activeView === "companies" ? <CompanyRankingsView agents={agents} navigate={navigate} /> : activeView === "agents" ? <AgentRankingsView agents={agents} navigate={navigate} /> : <LlmRankingsView models={rankedModels} />}
+      </div>
+    </section>
+  </main>;
+}
+
 function VendorOverviewPage({ agents, navigate, title = "Overview" }) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(DEFAULT_DIRECTORY_PAGE_SIZE);
   const [filters, setFilters] = useState({ category: "All" });
-  const vendors = useMemo(() => buildVendorRows(agents), [agents]);
+  const [activeAgentType, setActiveAgentType] = useState("build");
+  const typedAgents = useMemo(() => agents.filter((agent) => agentTypeFor(agent) === activeAgentType), [activeAgentType, agents]);
+  const vendors = useMemo(() => buildVendorRows(typedAgents), [typedAgents]);
   const filteredVendors = useMemo(() => {
-    if (filters.category === "All") return vendors;
+    if (filters.category === "All" || filters.category === agentTypeLabel(activeAgentType)) return vendors;
     return vendors.filter((vendor) => vendor.categories.includes(filters.category));
-  }, [vendors, filters.category]);
+  }, [activeAgentType, vendors, filters.category]);
   const totalPages = Math.max(1, Math.ceil(filteredVendors.length / pageSize));
   const safePage = Math.min(page, totalPages);
   const vendorStartIndex = (safePage - 1) * pageSize;
@@ -1615,26 +1801,41 @@ function VendorOverviewPage({ agents, navigate, title = "Overview" }) {
   const pageEnd = Math.min(vendorStartIndex + pageSize, filteredVendors.length);
   const pageItems = paginationItems(safePage, totalPages);
 
-  useEffect(() => { setPage(1); }, [filters.category, vendors.length, pageSize]);
+  useEffect(() => { setPage(1); }, [activeAgentType, filters.category, vendors.length, pageSize]);
   useEffect(() => { if (page > totalPages) setPage(totalPages); }, [page, totalPages]);
+
+  function selectAgentType(value) {
+    setActiveAgentType(value);
+    setFilters({ category: "All" });
+    setPage(1);
+  }
 
   return (
     <main className="content vendor-content">
-      <div className="page-head"><div><h1>{title}</h1><p>Company-level view of source-backed AI coding agent products. Open a vendor to see its tracked ecosystem.</p></div></div>
+      <div className="page-head"><div><h1>{title}</h1><p>{activeAgentType === "build" ? "Vendor ranking for agents that autonomously write and ship code." : "Vendor ranking for agents that autonomously review, gate, or fix code written by other tools."}</p></div></div>
       <section className="table-card vendor-overview-card">
-        {vendors.length ? <VendorOverviewFilters vendors={vendors} filters={filters} setFilters={setFilters} /> : null}
+        <div className="ranking-intro">
+          <div><span className="ranking-kicker">Choose by job</span><h2>Vendor rankings</h2><p>Start with the work you need done. Build Agents create and ship code; Review Agents check or fix existing code.</p></div>
+          <div className="ranking-intro-actions"><button type="button" onClick={() => navigate("/use-cases")}><Tags size={16} />Browse by use case</button><button type="button" onClick={() => navigate("/learn")}><BookOpen size={16} />Learn the basics</button></div>
+        </div>
+        <div className="compare-mode-tabs agent-type-tabs" role="tablist" aria-label="Agent ranking type">
+          {AGENT_TYPE_TABS.map((tab) => <button id={"agent-tab-" + tab.value} type="button" role="tab" aria-controls="agent-ranking-panel" aria-selected={activeAgentType === tab.value} className={activeAgentType === tab.value ? "active" : ""} key={tab.value} onClick={() => selectAgentType(tab.value)}>{tab.label}</button>)}
+        </div>
+        <div id="agent-ranking-panel" role="tabpanel" aria-labelledby={"agent-tab-" + activeAgentType}>
+        {vendors.length ? <VendorOverviewFilters vendors={vendors} filters={filters} setFilters={setFilters} agentType={activeAgentType} /> : null}
         {filteredVendors.length ? <div className="agent-table-wrap"><table className="agent-table vendor-table"><thead><tr><th>Rank #</th><th>Vendor</th><th>Tracked products</th><th>Ecosystems</th><th>Categories</th><th>Last updated</th><th>Source</th></tr></thead><tbody>{visibleVendors.map((vendor, index) => (
           <tr key={vendor.id}>
-            <td><strong>{vendorStartIndex + index + 1}</strong></td>
-            <td><VendorOverviewCell vendor={vendor} navigate={navigate} /></td>
-            <td>{vendor.agents.length}</td>
-            <td>{vendor.ecosystems.join(', ')}</td>
-            <td>{vendor.categories.join(', ')}</td>
-            <td>{relativeTime(vendor.latestSyncedAt)}</td>
-            <td>{vendor.sourceUrl ? <a href={vendor.sourceUrl} target="_blank" rel="noreferrer">{cleanSourceLabel(vendor.sourceLabel, 'Official source')}</a> : 'N/A'}</td>
+            <td data-label="Rank"><strong>{vendorStartIndex + index + 1}</strong></td>
+            <td data-label="Vendor"><VendorOverviewCell vendor={vendor} navigate={navigate} /></td>
+            <td data-label="Tracked products">{vendor.agents.length}</td>
+            <td data-label="Ecosystems">{vendor.ecosystems.join(', ')}</td>
+            <td data-label="Categories">{vendor.categories.join(', ')}</td>
+            <td data-label="Last updated">{relativeTime(vendor.latestSyncedAt)}</td>
+            <td data-label="Source">{vendor.sourceUrl ? <a href={vendor.sourceUrl} target="_blank" rel="noreferrer">{cleanSourceLabel(vendor.sourceLabel, 'Official source')}</a> : 'N/A'}</td>
           </tr>
-        ))}</tbody></table></div> : <section className="empty-state"><h1>{vendors.length ? "No vendors match this category" : "No vendor records yet"}</h1><p>{vendors.length ? "Clear the category filter to see all vendor records." : "Vendor rows appear after product records include source-backed vendor metadata."}</p></section>}
+        ))}</tbody></table></div> : <section className="empty-state"><h1>{vendors.length ? "No vendors match this category" : activeAgentType === "review" ? "No review-agent vendors yet" : "No build-agent vendors yet"}</h1><p>{vendors.length ? "Clear the category filter to see all vendor records." : "Vendor rows appear after product records include source-backed vendor metadata."}</p></section>}
         {filteredVendors.length ? <div className="table-pagination"><span className="pagination-summary">Showing {pageStart} to {pageEnd} of {filteredVendors.length} results</span><nav className="pagination-pages" aria-label="Vendor pagination"><button className="pagination-arrow" type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={safePage <= 1} aria-label="Previous page">&lsaquo;</button>{pageItems.map((item) => typeof item === "number" ? <button className={item === safePage ? "pagination-page active" : "pagination-page"} type="button" key={item} onClick={() => setPage(item)} aria-current={item === safePage ? "page" : undefined}>{item}</button> : <span className="pagination-ellipsis" key={item}>...</span>)}<button className="pagination-arrow" type="button" onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={safePage >= totalPages} aria-label="Next page">&rsaquo;</button></nav><label className="pagination-size"><span>Rows</span><select value={pageSize} onChange={(event) => { setPageSize(Number(event.target.value)); setPage(1); }}>{DIRECTORY_PAGE_SIZE_OPTIONS.map((size) => <option value={size} key={size}>{size}</option>)}</select></label></div> : null}
+        </div>
       </section>
     </main>
   );
@@ -2457,12 +2658,13 @@ function AppurdexAiPage({ backendAvailable, viewer }) {
 }
 function LearnPage({ navigate }) {
   const categories = [
-    ['IDE Assistant', 'Editor-attached tools for inline suggestions, codebase chat, and assisted edits.'],
-    ['CLI Agent', 'Terminal-first agents that read files, plan changes, edit code, and run commands.'],
-    ['Autonomous Agent', 'Task-oriented agents that can work through issues or larger coding jobs with less step-by-step prompting.'],
+    ['IDE-attached', 'Editor-attached tools for inline suggestions, codebase chat, and assisted edits.'],
+    ['CLI-native', 'Terminal-first agents that read files, plan changes, edit code, and run commands.'],
+    ['Cloud agent', 'Hosted agents that can work through issues or larger coding jobs with less step-by-step prompting.'],
     ['App Builder', 'Prompt-to-app tools focused on creating and iterating runnable products.'],
+    ['MCP Server', 'Tools that expose capabilities and context through the Model Context Protocol.'],
   ];
-  return <main className="content learn-content"><div className="page-head"><div><h1>Learn</h1><p>Research guide for choosing AI coding agents, not general AI tools.</p></div></div><section className="learn-grid"><article><h2>Ecosystem overview</h2>{categories.map(([title, body]) => <p key={title}><strong>{title}</strong><span>{body}</span></p>)}</article><article><h2>Pricing models</h2><p><strong>Usage-based</strong><span>Costs change with requests, credits, or tokens.</span></p><p><strong>Seat-based</strong><span>Predictable per-user plans for teams.</span></p><p><strong>Enterprise</strong><span>Custom contracts when public pricing is not available.</span></p></article><article><h2>Access and hosting</h2><p><strong>Open source vs closed</strong><span>Open repos expose GitHub activity; closed tools need other verified sources.</span></p><p><strong>Cloud, local, self-hosted</strong><span>Hosting affects privacy, setup, control, and team operations.</span></p></article><article><h2>Reading Appurdex data</h2><p><strong>Last updated</strong><span>How recently Appurdex synced the listing data.</span></p><p><strong>Freshness</strong><span>A server-computed recency score, not an accuracy guarantee.</span></p><p><strong>Trend</strong><span>Calculated from Appurdex snapshots, never pulled from an external trend API.</span></p></article></section></main>;
+  return <main className="content learn-content"><div className="page-head"><div><h1>Learn</h1><p>A plain-language guide to choosing an AI product for the job you want done.</p></div></div><section className="learn-grid"><article><h2>Reading the Overview</h2><p><span>Companies groups products by maker, Agents ranks individual build agents, and LLMs ranks exact model IDs only when every required source is available.</span></p></article><article><h2>Quick glossary</h2><p><strong>Company</strong><span>The company or organization behind one or more AI products.</span></p><p><strong>Agent</strong><span>A tool that takes action toward a goal.</span></p><p><strong>Model</strong><span>The underlying AI that powers a product.</span></p><p><strong>Use case</strong><span>The job you want help completing.</span></p></article><article><h2>Jobs and delivery formats</h2><p><span>Build or Review describes the job an agent does. CLI-native, Cloud agent, IDE-attached, App Builder, and MCP Server describe how the product is delivered.</span></p></article><article><h2>Ecosystem overview</h2>{categories.map(([title, body]) => <p key={title}><strong>{title}</strong><span>{body}</span></p>)}</article><article><h2>Pricing models</h2><p><strong>Usage-based</strong><span>Costs change with requests, credits, or tokens.</span></p><p><strong>Seat-based</strong><span>Predictable per-user plans for teams.</span></p><p><strong>Enterprise</strong><span>Custom contracts when public pricing is not available.</span></p></article><article><h2>Access and hosting</h2><p><strong>Open source vs closed</strong><span>Open repos expose GitHub activity; closed tools need other verified sources.</span></p><p><strong>Cloud, local, self-hosted</strong><span>Hosting affects privacy, setup, control, and team operations.</span></p></article><article><h2>Reading Appurdex data</h2><p><strong>Last updated</strong><span>How recently Appurdex synced the listing data.</span></p><p><strong>Freshness</strong><span>A server-computed recency score, not an accuracy guarantee.</span></p><p><strong>Trend</strong><span>Calculated from Appurdex snapshots, never pulled from an external trend API.</span></p></article></section></main>;
 }
 
 function PlaceholderPage({ title, children, navigate }) {
@@ -3434,11 +3636,12 @@ function AgentDetailPage({ agent, navigate, modelPricing = [] }) {
   const accessChange = latestChangeFor(agent, "access", ["access"]);
   const modelFlexibilityChange = latestChangeFor(agent, "access", ["modelSupport"]);
   const modelFlexibility = modelSupportText(agent) || "Unknown";
+  const detailUseCases = useCasesForAgent(agent);
   return (
     <main className="content detail-content"><button className="back-button" type="button" onClick={() => navigate("/")}>Back to overview</button><section className="agent-detail">
-      <div className="agent-detail-head"><AgentLogo agent={agent} /><div><h1>{agent.name}</h1><p>{agent.description}</p><div className="badge-row"><span className={"category-pill " + (categoryClass[agent.category] || "blue")}>{agent.displayCategory}</span><span className={"fresh-pill " + fresh.tone}>{fresh.label}</span></div>{socials.length ? <div className="social-link-row">{socials.map((link) => { const Icon = link.icon || ExternalLink; return <a key={link.url} href={link.url} target="_blank" rel="noreferrer" title={link.label} aria-label={link.label}><Icon size={16} /><span>{link.label}</span></a>; })}</div> : null}</div><div className="detail-actions">{websiteUrl ? <a href={websiteUrl} target="_blank" rel="noreferrer"><ExternalLink size={16} />Website</a> : null}<button type="button" onClick={() => setShowUpdateModal(true)}>Request update</button></div></div>
+      <div className="agent-detail-head"><AgentLogo agent={agent} /><div><h1>{agent.name}</h1><p>{agent.description}</p><div className="badge-row"><span className={"category-pill " + (categoryClass[agent.category] || "blue")}>{agent.displayCategory}</span><span className={"lifecycle-pill " + agentLifecycleStatus(agent)}>{agentLifecycleStatusLabel(agent)}</span><span className={"fresh-pill " + fresh.tone}>{fresh.label}</span></div>{socials.length ? <div className="social-link-row">{socials.map((link) => { const Icon = link.icon || ExternalLink; return <a key={link.url} href={link.url} target="_blank" rel="noreferrer" title={link.label} aria-label={link.label}><Icon size={16} /><span>{link.label}</span></a>; })}</div> : null}</div><div className="detail-actions">{websiteUrl ? <a href={websiteUrl} target="_blank" rel="noreferrer"><ExternalLink size={16} />Website</a> : null}<button type="button" onClick={() => setShowUpdateModal(true)}>Request update</button></div></div>
       <div className="detail-source-strip" aria-label="Source and provenance summary"><span><CheckCircle2 size={14} />Source-backed record</span>{websiteUrl ? <a href={websiteUrl} target="_blank" rel="noreferrer"><ExternalLink size={14} />Website</a> : <span>Website unknown</span>}{primarySource?.url ? <a href={primarySource.url} target="_blank" rel="noreferrer"><BookOpen size={14} />{cleanSourceLabel(primarySource.label, "Primary source")}</a> : <span>Primary source unknown</span>}{pricingSource?.url ? <a href={pricingSource.url} target="_blank" rel="noreferrer"><CircleDollarSign size={14} />Pricing source</a> : <span>Pricing source unknown</span>}<span className={"fresh-pill sync-badge " + fresh.tone}>{fresh.label}</span></div>
-      <div className="detail-grid"><article><h2>Verified metrics</h2>{rows.length ? <dl>{rows.map(([label, value]) => <Fragment key={label}><dt>{label}</dt><dd>{value}</dd></Fragment>)}</dl> : <p>No additional metrics are tracked for this agent yet.</p>}</article><article>{pricingPlans.length ? <div className="directory-pricing-tiers"><h2>Pricing tiers</h2><PricingPlanList plans={pricingPlans} /></div> : null}<TokenUsagePricingTable rows={tokenPricingRows} /><div className="directory-fields-block"><h2>Directory fields</h2><dl><dt>Pricing</dt><dd>{agent.price}</dd><dt>Access</dt><dd><span>{agent.access}</span><HistoryIndicator change={accessChange} /></dd><dt>Model Flexibility</dt><dd><span>{modelFlexibility}</span><HistoryIndicator change={modelFlexibilityChange} /></dd><dt>Hosting</dt><dd>{agent.hosting}</dd><dt>Last synced</dt><dd>{agent.syncAgeLabel || "Not synced"}</dd></dl></div></article><article className="detail-analytics-card"><h2>Analytics</h2><AgentAnalyticsChart agent={agent} /><dl>{analytics.map(([label, value]) => <Fragment key={label}><dt>{label}</dt><dd>{value}</dd></Fragment>)}</dl></article></div>
+      <div className="detail-grid"><article><h2>Verified metrics</h2>{rows.length ? <dl>{rows.map(([label, value]) => <Fragment key={label}><dt>{label}</dt><dd>{value}</dd></Fragment>)}</dl> : <p>No additional metrics are tracked for this agent yet.</p>}</article><article>{pricingPlans.length ? <div className="directory-pricing-tiers"><h2>Pricing tiers</h2><PricingPlanList plans={pricingPlans} /></div> : null}<TokenUsagePricingTable rows={tokenPricingRows} /><div className="directory-fields-block"><h2>Directory fields</h2><dl><dt>Pricing</dt><dd>{agent.price}</dd><dt>Access</dt><dd><span>{agent.access}</span><HistoryIndicator change={accessChange} /></dd><dt>Lifecycle status</dt><dd>{agentLifecycleStatusLabel(agent)}</dd><dt>Model Flexibility</dt><dd><span>{modelFlexibility}</span><HistoryIndicator change={modelFlexibilityChange} /></dd><dt>Use cases</dt><dd>{detailUseCases.length ? <div className="use-case-tag-list">{detailUseCases.map((useCase) => <span key={useCase}>{useCase}</span>)}</div> : "None tagged"}</dd><dt>Hosting</dt><dd>{agent.hosting}</dd><dt>Last synced</dt><dd>{agent.syncAgeLabel || "Not synced"}</dd></dl></div></article><article className="detail-analytics-card"><h2>Analytics</h2><AgentAnalyticsChart agent={agent} /><dl>{analytics.map(([label, value]) => <Fragment key={label}><dt>{label}</dt><dd>{value}</dd></Fragment>)}</dl></article></div>
       <section className="detail-review-note"><h2>Need to update this listing?</h2><button type="button" onClick={() => setShowUpdateModal(true)}><UploadCloud size={16} />Send for review</button></section>
     </section>{showUpdateModal ? <UpdateRequestGate agent={agent} updateType="details" navigate={navigate} onClose={() => setShowUpdateModal(false)} /> : null}</main>
   );
@@ -3927,6 +4130,7 @@ function AdminAgentEditor({ agent, navigate, reload, backendAvailable }) {
         </div>
         <form className="editor-form" onSubmit={save}>
           <label>Category<input value={draft.category || ""} onChange={(event) => setDraft({ ...draft, category: event.target.value })} /></label>
+          <label>Lifecycle status<select value={normalizeAgentLifecycleStatus(draft.lifecycle_status || draft.lifecycleStatus)} onChange={(event) => setDraft({ ...draft, lifecycle_status: event.target.value })}>{AGENT_LIFECYCLE_STATUS_OPTIONS.map((status) => <option key={status} value={status.toLowerCase()}>{status}</option>)}</select></label>
           <label>Pricing tier<input value={draft.pricingTier || ""} onChange={(event) => setDraft({ ...draft, pricingTier: event.target.value })} /></label>
           <label>Website<input value={draft.website || ""} onChange={(event) => setDraft({ ...draft, website: event.target.value })} /></label>
           <label>Source URL<input value={draft.sourceUrl || ""} onChange={(event) => setDraft({ ...draft, sourceUrl: event.target.value })} /></label>
@@ -3977,7 +4181,7 @@ export default function App() {
   useEffect(() => { scrollRouteToTop(); }, [path]);
   useEffect(() => { trackPageView(path); }, [path]);
   useEffect(() => { trackSearch(filters.query); }, [filters.query]);
-  useEffect(() => { trackEvent("filter_used", { category: filters.category, priceBudget: filters.priceBudget, access: filters.access, useCase: filters.useCase, modelFlex: filters.modelFlex, publicRepo: filters.publicRepo, sortBy: filters.sortBy }); }, [filters.category, filters.priceBudget, filters.access, filters.useCase, filters.modelFlex, filters.publicRepo, filters.sortBy]);
+  useEffect(() => { trackEvent("filter_used", { category: filters.category, lifecycleStatus: filters.lifecycleStatus, priceBudget: filters.priceBudget, access: filters.access, useCase: filters.useCase, modelFlex: filters.modelFlex, publicRepo: filters.publicRepo, sortBy: filters.sortBy }); }, [filters.category, filters.lifecycleStatus, filters.priceBudget, filters.access, filters.useCase, filters.modelFlex, filters.publicRepo, filters.sortBy]);
 
   const reloadViewer = async () => {
     try {
@@ -4010,6 +4214,9 @@ export default function App() {
   useEffect(() => {
     if (path === "/en") {
       window.history.replaceState(null, "", "/");
+      setPath("/");
+    } else if (path === "/agents") {
+      window.history.replaceState(null, "", "/?view=agents");
       setPath("/");
     }
   }, [path]);
@@ -4054,7 +4261,7 @@ export default function App() {
     const url = new URL(anchor.href, window.location.href);
     if (url.origin !== window.location.origin || !isInternalAppRoute(url.pathname)) return;
     event.preventDefault();
-    navigate(url.pathname);
+    navigate(url.pathname + url.search);
   }
 
   function toggleTheme() {
@@ -4122,9 +4329,9 @@ export default function App() {
         ) : route.slug ? (
           <AgentDetailPage agent={selectedAgent} navigate={navigate} modelPricing={state.modelPricing || []} />
         ) : route.page === "agents" ? (
-          <DirectoryPage agents={agents} backendAvailable={backendAvailable} filters={filters} navigate={navigate} setFilters={setFilters} title="AI Agents" description="Agent-only view for coding agents, IDE assistants, CLI agents, and autonomous cloud agents." scopeEcosystem="Agents" />
+          <main className="content"><section className="empty-state"><p>Opening agent rankings...</p></section></main>
         ) : (
-          <VendorOverviewPage agents={agents} navigate={navigate} />
+          <OverviewRankingsPage agents={agents} modelPricing={state.modelPricing || []} navigate={navigate} />
         )}
         <footer className="bottom-footer">
           <nav><button type="button" onClick={() => navigate("/")}>Overview</button><a href="/docs/data-sourcing.md">Data policy</a><a>Privacy</a><a>Terms</a></nav>

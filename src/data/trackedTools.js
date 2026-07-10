@@ -550,6 +550,7 @@ export const trackedTools = [
   {
     id: "coderabbit",
     name: "CodeRabbit",
+    agent_type: "review",
     category: "IDE-attached",
     description: "AI code review agent for pull requests, IDE reviews, and CLI review workflows.",
     pricingTier: "Paid",

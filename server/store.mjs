@@ -5,7 +5,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { trackedTools } from "../src/data/trackedTools.js";
 import { modelPricingCatalog, modelPricingRefsForAgent, modelPricingSources } from "../src/data/modelPricing.js";
-import { apiPlans, buildSourceUrls, logoUrlForTool, normalizePricing, slugify } from '../src/lib/agentModel.js';
+import { rankModels } from "../src/lib/modelRanking.js";
+import { apiPlans, buildSourceUrls, logoUrlForTool, normalizeAgentLifecycleStatus, normalizeAgentType, normalizePricing, slugify } from '../src/lib/agentModel.js';
 import { fieldDataPolicies, freeDataSources } from '../src/data/sourceCatalog.js';
 import { productUseCaseTags } from '../src/data/useCaseProductTags.js';
 import { assertValidUseCases, normalizeUseCases } from '../src/data/useCaseTaxonomy.js';
@@ -40,6 +41,8 @@ function seedAgent(tool) {
     ...tool,
     slug,
     hasPublicRepo: tool.hasPublicRepo ?? Boolean(tool.githubRepo),
+    agent_type: normalizeAgentType(tool.agent_type || tool.agentType),
+    lifecycle_status: normalizeAgentLifecycleStatus(tool.lifecycle_status || tool.lifecycleStatus),
     use_cases: useCasesForStoredAgent({ ...tool, slug }),
     sync_tier: inferSyncTier(tool),
     last_synced_at: tool.last_synced_at || tool.lastSyncedAt || tool.lastCuratedAt || tool.discovery?.discoveredAt || tool.discoveredAt || null,
@@ -86,10 +89,11 @@ function mergeModelPricing(db) {
 }
 
 export function publicModelPricingEntry(entry, db) {
-  const sourceCheck = db.modelPricingSourceChecks?.[entry.sourceId] || null;
-  const lastSyncedAt = sourceCheck?.last_synced_at || sourceCheck?.lastSyncedAt || entry.last_synced_at || null;
+  const rankedEntry = rankModels(db.modelPricing || []).find((model) => model.id === entry.id) || entry;
+  const sourceCheck = db.modelPricingSourceChecks?.[rankedEntry.sourceId] || null;
+  const lastSyncedAt = sourceCheck?.last_synced_at || sourceCheck?.lastSyncedAt || rankedEntry.last_synced_at || null;
   return {
-    ...entry,
+    ...rankedEntry,
     last_synced_at: lastSyncedAt,
     lastSyncedAt,
     sync_age_label: syncAgeLabel(lastSyncedAt),
@@ -185,7 +189,7 @@ export async function writeDb(db) {
     ? db.agents.map((agent) => {
       const { modelPricingSourceRefs, modelPricingCoverage, ...storedAgent } = agent;
       const explicitUseCases = Array.isArray(storedAgent.use_cases) && storedAgent.use_cases.length ? assertValidUseCases(storedAgent.use_cases) : useCasesForStoredAgent(storedAgent);
-      return { ...storedAgent, use_cases: explicitUseCases, logoUrl: storedAgent.logoUrl || logoUrlForTool(storedAgent) };
+      return { ...storedAgent, lifecycle_status: normalizeAgentLifecycleStatus(storedAgent.lifecycle_status || storedAgent.lifecycleStatus), use_cases: explicitUseCases, logoUrl: storedAgent.logoUrl || logoUrlForTool(storedAgent) };
     })
     : [];
   const next = { ...db, agents, updatedAt: now() };
@@ -328,6 +332,8 @@ export function publicAgent(agent, db) {
     searchKeywords: searchKeywordsForAgent(freshAgent),
     useCaseWeight: useCaseWeightForAgent(freshAgent),
     use_cases: useCasesForStoredAgent(freshAgent),
+    agent_type: normalizeAgentType(freshAgent.agent_type || freshAgent.agentType),
+    lifecycle_status: normalizeAgentLifecycleStatus(freshAgent.lifecycle_status || freshAgent.lifecycleStatus),
     name: freshAgent.name,
     category: freshAgent.category,
     ecosystem: freshAgent.ecosystem,
