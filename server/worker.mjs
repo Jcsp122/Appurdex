@@ -4,6 +4,7 @@ import { readDb, writeDb, makeReviewItem } from "./store.mjs";
 import { MODEL_PRICING_SYNC_INTERVAL_MS, modelPricingSources } from "../src/data/modelPricing.js";
 import { applyFreshnessToDb, inferSyncTier, nextSyncAt, normalizeSyncTier } from "./freshness.mjs";
 import { getSyncStates, upsertSyncState } from "./customer-store.mjs";
+import { syncOfficialModelCatalog } from "./model-catalog-sync.mjs";
 
 function now() {
   return new Date().toISOString();
@@ -255,9 +256,10 @@ function sourceHash(value) {
 
 async function syncModelPricingSources(db) {
   db.modelPricingSourceChecks = db.modelPricingSourceChecks || {};
-  const results = [];
+  const results = await syncOfficialModelCatalog(db);
 
   for (const source of modelPricingSources) {
+    if (["OpenAI", "Anthropic", "Google"].includes(source.provider)) continue;
     const previous = db.modelPricingSourceChecks[source.id] || null;
     if (!sourceCheckDue(previous)) continue;
 
